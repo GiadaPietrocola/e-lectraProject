@@ -111,7 +111,7 @@
                                                             <children>
                                                                <HBox prefHeight="35.0" prefWidth="298.0">
                                                                   <children>
-                                                                     <ToggleSwitch fx:id="forwardReverseSwitch"  text="Forward" />
+                                                                     <ToggleSwitch fx:id="forwardReverseSwitch" text="Forward" />
                                                                      <Label text="    Reverse">
                                                                         <opaqueInsets>
                                                                            <Insets />
@@ -188,7 +188,10 @@
                                                          <HBox prefHeight="39.0" prefWidth="439.0">
                                                             <children>
                                                                <Label text="Tensione" />
-                                                               <Slider prefHeight="24.0" prefWidth="231.0" />
+                                                               <Slider prefHeight="24.0" prefWidth="242.0">
+                                                         <padding>
+                                                            <Insets left="7.0" />
+                                                         </padding></Slider>
                                                                <Label text="Volt" />
                                                             </children>
                                                          </HBox>
@@ -217,7 +220,10 @@
                                                          <VBox layoutX="14.0" layoutY="14.0" prefHeight="62.0" prefWidth="173.0">
                                                             <children>
                                                                <ToggleSwitch selected="true" text="Contattore 1" />
-                                                               <ToggleSwitch prefHeight="31.0" prefWidth="130.0" selected="true" text="Contattore 2" />
+                                                               <ToggleSwitch selected="true" text="Contattore 2">
+                                                         <padding>
+                                                            <Insets top="10.0" />
+                                                         </padding></ToggleSwitch>
                                                             </children>
                                                          </VBox>
                                                       </children>
@@ -228,7 +234,7 @@
                                                <content>
                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                       <children>
-                                                         <Button layoutX="92.0" layoutY="34.0" mnemonicParsing="false" style="-fx-background-color: red;" text="STOP" />
+                                                         <Button layoutX="92.0" layoutY="34.0" mnemonicParsing="false" style="-fx-background-color: red;" text="STOP" textFill="WHITE" />
                                                       </children>
                                                    </AnchorPane>
                                                </content>
@@ -290,7 +296,6 @@
                                                          <VBox prefHeight="176.0" prefWidth="139.0">
                                                             <children>
                                                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="139.0" text="SOC" textAlignment="CENTER" />
-                                                               <Gauge />
                                                             </children>
                                                          </VBox>
                                                       </children>
