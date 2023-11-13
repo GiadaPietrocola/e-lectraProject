@@ -15,7 +15,7 @@ public class MainApplication extends Application {
            System.exit(0);
         });
         MainApplication.stage = stage;
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("file.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("MainView.fxml")); //Dentro MainView c'è il riferimento al controller e vengono istanziate tutte le variabili del controller
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("CANbus DEMO");
         stage.setScene(scene);

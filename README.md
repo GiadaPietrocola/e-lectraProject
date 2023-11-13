@@ -1,8 +1,4 @@
 # CanbusDEMO
-## IMPORTANTE
-Al fine di poter utilizzare correttamente i driver java relatica al PCAN-USB adapter, è necessario installare i driver windows disponibili o a questo [_link_](https://www.peak-system.com/Drivers.523.0.html?&L=1&gclid=EAIaIQobChMI6J7My6moggMVf5eDBx35RwaIEAAYASAAEgK8pfD_BwE) o installando l'applicativo Peak CAN View ([_link_](https://www.peak-system.com/PCAN-View.242.0.html?&L=1)).
-
-## Clone del progetto
 Clone the project with the following command:
 ```
 git clone https://github.com/E-Lectra-IT-Challenge-2024/CanbusDEMO.git

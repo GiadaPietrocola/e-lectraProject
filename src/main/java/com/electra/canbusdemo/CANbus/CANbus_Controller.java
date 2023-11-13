@@ -8,12 +8,12 @@ public class CANbus_Controller {
     private CANbusDataReader canBusDatareader;
     private Notifiable notifiable;
 
-    private CANbus_Controller(){
+    private CANbus_Controller(){ //Costruttore privato perché singleton
         protocol = new CANbus_Protocol();
         canBusDatareader = new CANbusDataReader(this, protocol.getQueue());
     }
 
-    public static synchronized CANbus_Controller getCanBusController(){
+    public static synchronized CANbus_Controller getCanBusController(){ //Crea un unica istanza di canbus controller
         if(canBusController == null){
             canBusController = new CANbus_Controller();
         }
@@ -82,5 +82,5 @@ public class CANbus_Controller {
 
     public void setNotifiable(Notifiable notifiable) {
         this.notifiable = notifiable;
-    }
+    } //notifiable è un interfaccia
 }
