@@ -296,6 +296,7 @@
                                                          <VBox prefHeight="176.0" prefWidth="139.0">
                                                             <children>
                                                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="139.0" text="SOC" textAlignment="CENTER" />
+                                     <Gauge fx:id="batteryGauge" lcdDesign="GRAY_PURPLE" maxHeight="108.0" maxMeasuredValueVisible="false" maxWidth="Infinity" minMeasuredValueVisible="false" oldValueVisible="false" prefHeight="108.0" prefWidth="165.0" skinType="battery" title="Humidity" translateX="10.0" translateY="15.0" unit="\%" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                                                             </children>
                                                          </VBox>
                                                       </children>
