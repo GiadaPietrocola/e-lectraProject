@@ -61,7 +61,29 @@ public class MainViewController implements Notifiable {
     @FXML
     private  Gauge batteryGauge;
     @FXML
+    private  Gauge tensioneCaricatore;
+    @FXML
+    private  Gauge correnteCaricatore;
+    @FXML
+    private  Gauge velocitaMotore;
+    @FXML
+    private  Gauge coppiaMotore;
+    @FXML
+    private  Gauge temperaturaMotore;
+    @FXML
+    private  Label modalitaLabel;
+    @FXML
+    private  Label statoEmergencyStop;
+    @FXML
+    private  StatusBar statusContattore1;
+    @FXML
+    private  StatusBar statusContattore2;
+    @FXML
     private Button emergencyStopButton;
+    @FXML
+    private Button saveButton;
+    @FXML
+    private TextField pathFile;
     @FXML
     private TextField data0TextField, data1TextField, data2TextField, data3TextField, data4TextField,
             data5TextField, data6TextField, data7TextField;
