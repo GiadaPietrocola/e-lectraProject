@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import org.controlsfx.control.*;
+import eu.hansolo.medusa.Gauge;
 
 import java.util.HexFormat;
 
@@ -24,17 +25,43 @@ public class MainViewController implements Notifiable {
     @FXML
     private TextArea sentTextArea;
     @FXML
-    private ToggleSwitch forwardReverseSwitch; //Aggiunto Giada
+    private ToggleSwitch forwardReverseSwitch;
     @FXML
-    private TextField coppiaTextField; //Aggiunto Giada
+    private ToggleSwitch coppiaVelocitaSwitch;
     @FXML
-    private TextField velocitaTextField; //Aggiunto Giada
+    private TextField coppiaTextField;
     @FXML
-    private RadioButton sportButton; //Aggiunto Giada
+    private TextField velocitaTextField;
     @FXML
-    private RadioButton ecoButton; //Aggiunto Giada
+    private RadioButton sportButton;
+    @FXML
+    private RadioButton ecoButton;
+    @FXML
+    private RadioButton parkingModeButton;
+    @FXML
+    private RadioButton chargingModeButton;
+    @FXML
+    private Slider correnteSlider;
+    @FXML
+    private Slider tensioneSlider;
+    @FXML
+    private ToggleSwitch caricaSwitch;
+    @FXML
+    private ToggleSwitch contattore1Switch;
+    @FXML
+    private ToggleSwitch contattore2Switch;
     @FXML
     private TextField idTextField;
+    @FXML
+    private  Gauge setVelocita;
+    @FXML
+    private  Gauge tensioneBatterie;
+    @FXML
+    private  Gauge correnteBatterie;
+    @FXML
+    private  Gauge batteryGauge;
+    @FXML
+    private Button emergencyStopButton;
     @FXML
     private TextField data0TextField, data1TextField, data2TextField, data3TextField, data4TextField,
             data5TextField, data6TextField, data7TextField;
