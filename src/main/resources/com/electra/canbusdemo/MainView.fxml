@@ -7,7 +7,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -23,18 +22,18 @@
             <children>
                <GridPane prefHeight="780.0" prefWidth="1160.0">
                  <columnConstraints>
-                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="775.0" minWidth="10.0" prefWidth="663.0" />
-                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="595.0" minWidth="10.0" prefWidth="497.0" />
+                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="775.0" minWidth="10.0" prefWidth="554.2" />
+                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="611.0000366210936" minWidth="10.0" prefWidth="605.3999999999999" />
                  </columnConstraints>
                  <rowConstraints>
                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                  </rowConstraints>
                   <children>
-                     <TitledPane animated="false" collapsible="false" prefHeight="780.0" prefWidth="637.0" text="INPUT">
+                     <TitledPane animated="false" collapsible="false" prefHeight="780.0" prefWidth="601.0" text="INPUT">
                        <content>
                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="753.0" prefWidth="639.0">
                               <children>
-                                 <GridPane layoutX="-1.0" prefHeight="754.0" prefWidth="663.0">
+                                 <GridPane layoutX="-1.0" prefHeight="754.0" prefWidth="558.0">
                                    <columnConstraints>
                                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="642.0" minWidth="10.0" prefWidth="642.0" />
                                    </columnConstraints>
@@ -49,11 +48,11 @@
                                          <content>
                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="239.0" prefWidth="556.0">
                                                 <children>
-                                          <HBox prefHeight="223.0" prefWidth="638.0">
+                                          <HBox prefHeight="223.0" prefWidth="562.0">
                                              <children>
                                                 <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                                    <children>
-                                                               <VBox layoutX="7.0" layoutY="56.0" prefHeight="111.0" prefWidth="314.0">
+                                                               <VBox layoutX="1.0" layoutY="66.0" prefHeight="111.0" prefWidth="314.0">
                                                                   <children>
                                                                      <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="409.0">
                                                                         <children>
@@ -85,9 +84,15 @@
                                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                                                   </opaqueInsets>
                                                                </VBox>
+                                                               <HBox layoutX="14.0" layoutY="22.0" prefHeight="26.0" prefWidth="200.0">
+                                                                  <children>
+                                                                     <ToggleSwitch fx:id="coppiaVelocitaSwitch" selected="true" text="Coppia" />
+                                                                     <Label text="   Velocità" />
+                                                                  </children>
+                                                               </HBox>
                                                    </children>
                                                 </AnchorPane>
-                                                         <Gauge fx:id="setVelocita" prefHeight="223.0" prefWidth="242.0" />
+                                                         <Gauge fx:id="setVelocita" prefHeight="223.0" prefWidth="253.0" translateX="-40.0" />
                                              </children>
                                           </HBox>
                                                 </children>
@@ -96,7 +101,6 @@
                                        </TitledPane>
                                        <GridPane prefHeight="67.0" prefWidth="646.0" GridPane.rowIndex="1">
                                          <columnConstraints>
-                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                          </columnConstraints>
                                          <rowConstraints>
@@ -133,26 +137,12 @@
                                                    </AnchorPane>
                                                </content>
                                              </TitledPane>
-                                             <TitledPane animated="false" collapsible="false" text="Modalità di Controllo" GridPane.columnIndex="1">
-                                               <content>
-                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="158.0" prefWidth="320.0">
-                                                      <children>
-                                                         <HBox layoutX="60.0" layoutY="57.0" prefHeight="26.0" prefWidth="200.0">
-                                                            <children>
-                                                               <ToggleSwitch fx:id="coppiaVelocitaSwitch" selected="true" text="Coppia" />
-                                                               <Label text="   Velocità" />
-                                                            </children>
-                                                         </HBox>
-                                                      </children>
-                                                   </AnchorPane>
-                                               </content>
-                                             </TitledPane>
                                           </children>
                                        </GridPane>
                                        <GridPane prefHeight="305.0" prefWidth="643.0" GridPane.rowIndex="3">
                                          <columnConstraints>
-                                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="403.0" minWidth="10.0" prefWidth="403.0" />
-                                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="274.0" minWidth="10.0" prefWidth="155.0" />
+                                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="403.0" minWidth="10.0" prefWidth="311.99998779296874" />
+                                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="330.4" minWidth="10.0" prefWidth="225.60001220703117" />
                                          </columnConstraints>
                                          <rowConstraints>
                                            <RowConstraints maxHeight="180.0" minHeight="10.0" prefHeight="180.0" vgrow="SOMETIMES" />
@@ -164,10 +154,10 @@
                                                    <VBox prefHeight="200.0" prefWidth="401.0">
                                                       <children>
                                                          <RadioButton fx:id="parkingModeButton" mnemonicParsing="false" text="Parking Mode" />
-                                                         <HBox prefHeight="45.0" prefWidth="113.0">
+                                                         <HBox prefHeight="37.0" prefWidth="263.0">
                                                             <children>
                                                                <RadioButton fx:id="chargingModeButton" mnemonicParsing="false" text="Charging Mode" />
-                                                               <HBox prefHeight="23.0" prefWidth="220.0">
+                                                               <HBox prefHeight="37.0" prefWidth="170.0">
                                                                   <children>
                                                                      <ToggleSwitch prefHeight="20.0" prefWidth="81.0" text="Grid" />
                                                                      <Label prefHeight="18.0" prefWidth="66.0" text="    Res" />
@@ -180,19 +170,24 @@
                                                          </HBox>
                                                          <HBox prefHeight="43.0" prefWidth="439.0">
                                                             <children>
-                                                               <Label prefHeight="18.0" prefWidth="55.0" text="Corrente" />
-                                                               <Slider fx:id="correnteSlider" prefHeight="24.0" prefWidth="234.0" />
-                                                               <Label prefHeight="9.0" prefWidth="47.0" text="Ampere" />
+                                                               <Label prefHeight="18.0" prefWidth="55.0" text="Corrente" translateY="4.0" />
+                                                      <TextField fx:id="correnteField" prefHeight="1.0" prefWidth="70.0">
+                                                         <HBox.margin>
+                                                            <Insets right="10.0" />
+                                                         </HBox.margin>
+                                                      </TextField>
+                                                               <Label prefHeight="9.0" prefWidth="47.0" text="Ampere" translateY="4.0" />
                                                             </children>
                                                          </HBox>
                                                          <HBox prefHeight="39.0" prefWidth="439.0">
                                                             <children>
-                                                               <Label text="Tensione" />
-                                                               <Slider fx:id="tensioneSlider" prefHeight="24.0" prefWidth="242.0">
-                                                         <padding>
-                                                            <Insets left="7.0" />
-                                                         </padding></Slider>
-                                                               <Label text="Volt" />
+                                                               <Label text="Tensione" translateY="4.0" />
+                                                      <TextField fx:id="tensioneField" prefHeight="1.0" prefWidth="70.0">
+                                                         <HBox.margin>
+                                                            <Insets left="7.0" right="10.0" />
+                                                         </HBox.margin>
+                                                      </TextField>
+                                                               <Label text="Volt" translateY="4.0" />
                                                             </children>
                                                          </HBox>
                                                       </children>
@@ -264,7 +259,7 @@
                        <content>
                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="528.0">
                               <children>
-                                 <GridPane layoutX="8.0" layoutY="10.0" prefHeight="743.0" prefWidth="480.0">
+                                 <GridPane layoutX="8.0" layoutY="10.0" prefHeight="743.0" prefWidth="587.0">
                                    <columnConstraints>
                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                    </columnConstraints>
@@ -275,11 +270,11 @@
                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                    </rowConstraints>
                                     <children>
-                                       <TitledPane animated="false" collapsible="false" prefHeight="216.0" prefWidth="249.0" text="Pacco Batterie">
+                                       <TitledPane animated="false" collapsible="false" contentDisplay="CENTER" prefHeight="216.0" prefWidth="249.0" text="Pacco Batterie">
                                          <content>
                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="162.0" prefWidth="499.0">
                                                 <children>
-                                                   <HBox alignment="CENTER" prefHeight="160.0" prefWidth="478.0">
+                                                   <HBox alignment="CENTER" prefHeight="160.0" prefWidth="585.0">
                                                       <children>
                                                          <VBox prefHeight="176.0" prefWidth="132.0">
                                                             <children>
@@ -308,11 +303,11 @@
                                              <Insets />
                                           </opaqueInsets>
                                        </TitledPane>
-                                       <TitledPane animated="false" collapsible="false" prefHeight="216.0" prefWidth="249.0" text="Caricatore" GridPane.rowIndex="1">
+                                       <TitledPane animated="false" collapsible="false" prefHeight="202.0" prefWidth="587.0" text="Caricatore" GridPane.rowIndex="1">
                                           <content>
                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="235.0">
                                                 <children>
-                                                   <HBox alignment="CENTER" layoutX="1.0" layoutY="4.0" prefHeight="151.0" prefWidth="476.0">
+                                                   <HBox alignment="CENTER" layoutX="1.0" layoutY="4.0" prefHeight="151.0" prefWidth="586.0">
                                                       <children>
                                                          <VBox prefHeight="176.0" prefWidth="132.0">
                                                             <children>
@@ -326,10 +321,10 @@
                                                                <Gauge fx:id="correnteCaricatore" />
                                                             </children>
                                                          </VBox>
-                                                         <VBox alignment="CENTER" prefHeight="176.0" prefWidth="106.0">
+                                                         <VBox alignment="TOP_CENTER" prefHeight="176.0" prefWidth="106.0">
                                                             <children>
-                                                               <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="140.0" text="Modalità" />
-                                                               <Label fx:id="modalitaLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="112.0" text="Grid" />
+                                                               <Label alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="105.0" text="Modalità" />
+                                                      <StatusBar fx:id="modalitaStatus" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="60.0" text="    Grid" translateX="2.0" translateY="50.0" />
                                                             </children>
                                                          </VBox>
                                                       </children>
@@ -338,11 +333,11 @@
                                              </AnchorPane>
                                           </content>
                                        </TitledPane>
-                                       <TitledPane animated="false" collapsible="false" prefHeight="216.0" prefWidth="249.0" text="Stato Motore" GridPane.rowIndex="2">
+                                       <TitledPane animated="false" collapsible="false" prefHeight="188.0" prefWidth="587.0" text="Stato Motore" GridPane.rowIndex="2">
                                           <content>
                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="235.0">
                                                 <children>
-                                                   <HBox alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="156.0" prefWidth="475.0">
+                                                   <HBox alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="156.0" prefWidth="579.0">
                                                       <children>
                                                          <VBox prefHeight="176.0" prefWidth="132.0">
                                                             <children>
@@ -359,7 +354,7 @@
                                                          <VBox prefHeight="176.0" prefWidth="133.0">
                                                             <children>
                                                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="135.0" text="Temperatura" textAlignment="CENTER" />
-                                                               <Gauge fx:id="temperaturaMotore" />
+                                                               <Gauge fx:id="batteryGauge" lcdDesign="GRAY_PURPLE" maxHeight="108.0" maxMeasuredValueVisible="false" maxValue="40.0" maxWidth="Infinity" minMeasuredValueVisible="false" oldValueVisible="false" prefHeight="108.0" prefWidth="165.0" skinType="dashboard" translateX="10.0" translateY="15.0" unit="°C" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                                                             </children>
                                                          </VBox>
                                                       </children>
@@ -377,30 +372,31 @@
                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                          </rowConstraints>
                                           <children>
-                                             <TitledPane animated="false" collapsible="false" text="File Log" GridPane.rowIndex="1">
+                                             <TitledPane animated="false" collapsible="false" prefHeight="82.0" prefWidth="587.0" text="File Log" translateY="-5.0" GridPane.rowIndex="1">
                                                <content>
-                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="101.0" prefWidth="478.0">
+                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="16.0" prefWidth="586.0">
                                                       <children>
-                                                         <Button fx:id="saveButton" layoutX="68.0" layoutY="21.0" mnemonicParsing="false" text="Save" />
-                                                         <TextField fx:id="pathFile" layoutX="136.0" layoutY="23.0" prefHeight="26.0" prefWidth="223.0" promptText="Directory Path" />
+                                                         <Button fx:id="saveButton" layoutX="68.0" layoutY="12.0" mnemonicParsing="false" text="Save" />
+                                                         <TextField fx:id="pathFile" layoutX="135.0" layoutY="11.0" prefHeight="26.0" prefWidth="223.0" promptText="Directory Path" />
                                                       </children>
                                                    </AnchorPane>
                                                </content>
                                              </TitledPane>
-                                             <GridPane>
+                                             <GridPane prefHeight="104.0" prefWidth="587.0">
                                                <columnConstraints>
                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                </columnConstraints>
                                                <rowConstraints>
                                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                </rowConstraints>
                                                 <children>
-                                                   <TitledPane animated="false" collapsible="false" text="Stato Contattori">
+                                                   <TitledPane animated="false" collapsible="false" prefHeight="100.0" prefWidth="294.0" text="Stato Contattori">
                                                      <content>
                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                             <children>
-                                                               <HBox alignment="CENTER" layoutX="24.0" layoutY="17.0" prefHeight="33.0" prefWidth="200.0">
+                                                               <HBox alignment="CENTER" layoutX="-3.0" layoutY="17.0" prefHeight="34.0" prefWidth="197.0">
                                                                   <children>
                                                                      <StatusBar fx:id="statusContattore1" prefHeight="63.0" prefWidth="40.0" text="   1." />
                                                                      <Separator orientation="VERTICAL" prefHeight="33.0" prefWidth="44.0" />
@@ -411,15 +407,24 @@
                                                          </AnchorPane>
                                                      </content>
                                                    </TitledPane>
-                                                   <TitledPane animated="false" collapsible="false" text="Stato Emergency Stop" GridPane.columnIndex="1">
+                                                   <TitledPane animated="false" collapsible="false" prefHeight="101.0" prefWidth="294.0" text="Stato Emergency Stop" GridPane.columnIndex="1">
                                                      <content>
                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                             <children>
-                                                               <Label fx:id="statoEmergencyStop" layoutX="109.0" layoutY="25.0" text="RUN" />
+                                                      <StatusBar fx:id="statoEmergencyStop" layoutX="75.0" layoutY="18.0" prefHeight="33.0" prefWidth="43.0" text=" RUN" />
                                                             </children>
                                                          </AnchorPane>
                                                      </content>
                                                    </TitledPane>
+                                          <TitledPane animated="false" collapsible="false" text="Modalità Trazione" GridPane.columnIndex="2">
+                                            <content>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                   <children>
+                                                      <StatusBar layoutX="70.0" layoutY="18.0" prefWidth="54.0" text="  Sport" />
+                                                   </children>
+                                                </AnchorPane>
+                                            </content>
+                                          </TitledPane>
                                                 </children>
                                              </GridPane>
                                           </children>

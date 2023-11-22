@@ -2,6 +2,7 @@ package com.electra.canbusdemo;
 
 import com.electra.canbusdemo.CANbus.CANbus_Controller;
 import com.electra.canbusdemo.CANbus.Notifiable;
+import eu.hansolo.medusa.Clock;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,9 +42,9 @@ public class MainViewController implements Notifiable {
     @FXML
     private RadioButton chargingModeButton;
     @FXML
-    private Slider correnteSlider;
+    private TextField correnteField;
     @FXML
-    private Slider tensioneSlider;
+    private TextField tensioneField;
     @FXML
     private ToggleSwitch caricaSwitch;
     @FXML
@@ -69,11 +70,11 @@ public class MainViewController implements Notifiable {
     @FXML
     private  Gauge coppiaMotore;
     @FXML
-    private  Gauge temperaturaMotore;
+    private Gauge temperaturaMotore;
     @FXML
-    private  Label modalitaLabel;
+    private  StatusBar modalitaStatus;
     @FXML
-    private  Label statoEmergencyStop;
+    private StatusBar statoEmergencyStop;
     @FXML
     private  StatusBar statusContattore1;
     @FXML
@@ -251,7 +252,33 @@ public class MainViewController implements Notifiable {
         sentTextArea.appendText("[" + sendID + "]: " + "ID: " + idTextField.getText().toUpperCase() + " data: " +   //il messaggio viene aggiunto alla text area
                 HexFormat.of().formatHex(data).toUpperCase() + "\n");
     }
+/*
+    public void send(String id) throws Exception {
 
+       switch (id) {
+           case "0x222": {
+               byte data[] =
+                       {
+                               (byte) HexFormat.fromHexDigits("0"),
+                               (byte) HexFormat.fromHexDigits(forwardReverseSwitch.isSelected() ? "0" : "1"),
+                               (byte) HexFormat.fromHexDigits(forwardReverseSwitch.isSelected() ? "1" : "0"),
+                               (byte) HexFormat.fromHexDigits(velocitaTextField.getText()),
+                               (byte) HexFormat.fromHexDigits(contattore1Switch.isSelected() ? "0" : "1"),
+                               (byte) HexFormat.fromHexDigits("0"),
+                               (byte) HexFormat.fromHexDigits("0"),
+                               (byte) HexFormat.fromHexDigits("0")
+                       };
+           }
+               break;
+           default:
+               byte data[];
+
+              break;
+       }
+      //     canBusController.sendCommand(HexFormat.fromHexDigits(id), data);
+
+    }
+*/
     private void fireAlarm(Alert.AlertType type, String title, String contentText){ //Genera una finestra di "allarme"
         Alert alert = new Alert(type); //type cambia l'icona, title il nome della finestra, contentText il testo di allarme
         alert.initOwner(MainApplication.stage); //Evita che l'utente possa interagire con l'applicazione finchè la finestra dell allarme è aperta
