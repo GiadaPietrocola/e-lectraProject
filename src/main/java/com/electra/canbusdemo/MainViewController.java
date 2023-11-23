@@ -202,6 +202,34 @@ public class MainViewController implements Notifiable {
 
         });
 
+        i_sportRadioButton.setOnMouseClicked(event -> {
+            if(i_ecoRadioButton.isSelected()) {
+                i_ecoRadioButton.setSelected(false);
+                i_sportRadioButton.setSelected(true);
+            }
+        });
+
+        i_ecoRadioButton.setOnMouseClicked(event -> {
+            if(i_sportRadioButton.isSelected()) {
+                i_sportRadioButton.setSelected(false);
+                i_ecoRadioButton.setSelected(true);
+            }
+        });
+
+        i_parkingModeRadioButton.setOnMouseClicked(event -> {
+            if(i_chargingModeRadioButton.isSelected()) {
+                i_chargingModeRadioButton.setSelected(false);
+                i_parkingModeRadioButton.setSelected(true);
+            }
+        });
+
+        i_chargingModeRadioButton.setOnMouseClicked(event -> {
+            if(i_parkingModeRadioButton.isSelected()) {
+                i_parkingModeRadioButton.setSelected(false);
+                i_chargingModeRadioButton.setSelected(true);
+
+            }
+        });
 
     }
 
