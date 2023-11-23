@@ -252,12 +252,12 @@ public class MainViewController implements Notifiable {
         sentTextArea.appendText("[" + sendID + "]: " + "ID: " + idTextField.getText().toUpperCase() + " data: " +   //il messaggio viene aggiunto alla text area
                 HexFormat.of().formatHex(data).toUpperCase() + "\n");
     }
-/*
-    public void send(String id) throws Exception {
 
+    public void send(String id) throws Exception {
+        byte[] data;
        switch (id) {
            case "0x222": {
-               byte data[] =
+               data = new byte[]
                        {
                                (byte) HexFormat.fromHexDigits("0"),
                                (byte) HexFormat.fromHexDigits(forwardReverseSwitch.isSelected() ? "0" : "1"),
@@ -271,14 +271,14 @@ public class MainViewController implements Notifiable {
            }
                break;
            default:
-               byte data[];
+               data = new byte[]{};
 
               break;
        }
-      //     canBusController.sendCommand(HexFormat.fromHexDigits(id), data);
+           canBusController.sendCommand(HexFormat.fromHexDigits(id), data);
 
     }
-*/
+
     private void fireAlarm(Alert.AlertType type, String title, String contentText){ //Genera una finestra di "allarme"
         Alert alert = new Alert(type); //type cambia l'icona, title il nome della finestra, contentText il testo di allarme
         alert.initOwner(MainApplication.stage); //Evita che l'utente possa interagire con l'applicazione finchè la finestra dell allarme è aperta
