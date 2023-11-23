@@ -1,24 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import eu.hansolo.medusa.Gauge?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import jfxtras.scene.layout.VBox?>
-<?import org.controlsfx.control.StatusBar?>
-<?import org.controlsfx.control.ToggleSwitch?>
+<?import eu.hansolo.medusa.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.controlsfx.control.*?>
 
-<AnchorPane prefHeight="789.0" prefWidth="1160.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.electra.canbusdemo.MainViewController">
+<AnchorPane prefHeight="789.0" prefWidth="1160.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.electra.canbusdemo.MainViewController">
             <children>
                <GridPane prefHeight="780.0" prefWidth="1160.0">
                  <columnConstraints>
@@ -57,7 +45,7 @@
                                                                      <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="409.0">
                                                                         <children>
                                                                            <Label prefHeight="26.0" prefWidth="98.0" text="Coppia Desiderata" />
-                                                                  <TextField fx:id="velocitaTextField" prefHeight="1.0" prefWidth="70.0" translateY="5.0">
+                                                                  <TextField fx:id="i_velocitaTextField" prefHeight="1.0" prefWidth="70.0" translateY="5.0">
                                                                      <HBox.margin>
                                                                         <Insets bottom="10.0" left="30.0" right="10.0" />
                                                                      </HBox.margin>
@@ -71,7 +59,7 @@
                                                                      <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="409.0">
                                                                         <children>
                                                                            <Label text="Velocità Desiderata" />
-                                                                  <TextField fx:id="coppiaTextField" prefHeight="1.0" prefWidth="70.0">
+                                                                  <TextField fx:id="i_coppiaTextField" prefHeight="1.0" prefWidth="70.0">
                                                                      <HBox.margin>
                                                                         <Insets left="26.0" right="10.0" />
                                                                      </HBox.margin>
@@ -86,13 +74,13 @@
                                                                </VBox>
                                                                <HBox layoutX="14.0" layoutY="22.0" prefHeight="26.0" prefWidth="200.0">
                                                                   <children>
-                                                                     <ToggleSwitch fx:id="coppiaVelocitaSwitch" selected="true" text="Coppia" />
+                                                                     <ToggleSwitch fx:id="i_coppiaVelocitaSwitch" selected="true" text="Coppia" />
                                                                      <Label text="   Velocità" />
                                                                   </children>
                                                                </HBox>
                                                    </children>
                                                 </AnchorPane>
-                                                         <Gauge fx:id="setVelocita" prefHeight="223.0" prefWidth="253.0" translateX="-40.0" />
+                                                         <Gauge fx:id="i_setVelocitaGauge" prefHeight="223.0" prefWidth="253.0" translateX="-40.0" />
                                              </children>
                                           </HBox>
                                                 </children>
@@ -115,7 +103,7 @@
                                                             <children>
                                                                <HBox prefHeight="35.0" prefWidth="298.0">
                                                                   <children>
-                                                                     <ToggleSwitch fx:id="forwardReverseSwitch" text="Forward" />
+                                                                     <ToggleSwitch fx:id="i_forwardReverseSwitchButton" text="Forward" />
                                                                      <Label text="    Reverse">
                                                                         <opaqueInsets>
                                                                            <Insets />
@@ -126,8 +114,8 @@
                                                                      <Insets bottom="10.0" />
                                                                   </padding>
                                                                </HBox>
-                                                               <RadioButton fx:id="sportButton" mnemonicParsing="false" text="Sport" />
-                                                               <RadioButton fx:id="ecoButton" mnemonicParsing="false" text="Eco" />
+                                                               <RadioButton fx:id="i_sportRadioButton" mnemonicParsing="false" text="Sport" />
+                                                               <RadioButton fx:id="i_ecoRadioButton" mnemonicParsing="false" text="Eco" />
                                                             </children>
                                                             <padding>
                                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -153,10 +141,10 @@
                                                 <content>
                                                    <VBox prefHeight="200.0" prefWidth="401.0">
                                                       <children>
-                                                         <RadioButton fx:id="parkingModeButton" mnemonicParsing="false" text="Parking Mode" />
+                                                         <RadioButton fx:id="i_parkingModeRadioButton" mnemonicParsing="false" text="Parking Mode" />
                                                          <HBox prefHeight="37.0" prefWidth="263.0">
                                                             <children>
-                                                               <RadioButton fx:id="chargingModeButton" mnemonicParsing="false" text="Charging Mode" />
+                                                               <RadioButton fx:id="i_chargingModeRadioButton" mnemonicParsing="false" text="Charging Mode" />
                                                                <HBox prefHeight="37.0" prefWidth="170.0">
                                                                   <children>
                                                                      <ToggleSwitch prefHeight="20.0" prefWidth="81.0" text="Grid" />
@@ -171,7 +159,7 @@
                                                          <HBox prefHeight="43.0" prefWidth="439.0">
                                                             <children>
                                                                <Label prefHeight="18.0" prefWidth="55.0" text="Corrente" translateY="4.0" />
-                                                      <TextField fx:id="correnteField" prefHeight="1.0" prefWidth="70.0">
+                                                      <TextField fx:id="i_correnteField" prefHeight="1.0" prefWidth="70.0">
                                                          <HBox.margin>
                                                             <Insets right="10.0" />
                                                          </HBox.margin>
@@ -182,7 +170,7 @@
                                                          <HBox prefHeight="39.0" prefWidth="439.0">
                                                             <children>
                                                                <Label text="Tensione" translateY="4.0" />
-                                                      <TextField fx:id="tensioneField" prefHeight="1.0" prefWidth="70.0">
+                                                      <TextField fx:id="i_tensioneField" prefHeight="1.0" prefWidth="70.0">
                                                          <HBox.margin>
                                                             <Insets left="7.0" right="10.0" />
                                                          </HBox.margin>
@@ -200,7 +188,7 @@
                                                       <children>
                                                          <HBox layoutX="11.0" layoutY="64.0" prefHeight="26.0" prefWidth="216.0">
                                                             <children>
-                                                               <ToggleSwitch text="Corrente Cost." />
+                                                               <ToggleSwitch fx:id="i_profiloCaricaSwitchButton" text="Corrente Cost." />
                                                                <Label prefHeight="18.0" prefWidth="66.0" text="    Custom" />
                                                             </children>
                                                          </HBox>
@@ -214,8 +202,8 @@
                                                       <children>
                                                          <VBox layoutX="14.0" layoutY="14.0" prefHeight="62.0" prefWidth="173.0">
                                                             <children>
-                                                               <ToggleSwitch fx:id="contattore1Switch" selected="true" text="Contattore 1" />
-                                                               <ToggleSwitch fx:id="contattore2Switch" selected="true" text="Contattore 2">
+                                                               <ToggleSwitch fx:id="i_contattore1SwitchButton" selected="true" text="Contattore 1" />
+                                                               <ToggleSwitch fx:id="i_contattore2SwitchButton" selected="true" text="Contattore 2">
                                                          <padding>
                                                             <Insets top="10.0" />
                                                          </padding></ToggleSwitch>
@@ -229,7 +217,7 @@
                                                <content>
                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                       <children>
-                                                         <Button fx:id="emergencyStopButton" layoutX="92.0" layoutY="34.0" mnemonicParsing="false" style="-fx-background-color: red;" text="STOP" textFill="WHITE" />
+                                                         <Button fx:id="i_emergencyStopButton" layoutX="92.0" layoutY="34.0" mnemonicParsing="false" style="-fx-background-color: red;" text="STOP" textFill="WHITE" />
                                                       </children>
                                                    </AnchorPane>
                                                </content>
@@ -279,19 +267,19 @@
                                                          <VBox prefHeight="176.0" prefWidth="132.0">
                                                             <children>
                                                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="133.0" text="Tensione" textAlignment="CENTER" />
-                                                               <Gauge fx:id="tensioneBatterie" />
+                                                               <Gauge fx:id="o_tensioneBatterieGauge" />
                                                             </children>
                                                          </VBox>
                                                          <VBox prefHeight="176.0" prefWidth="133.0">
                                                             <children>
                                                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="136.0" text="Corrente" />
-                                                               <Gauge fx:id="correnteBatterie" />
+                                                               <Gauge fx:id="o_correnteBatterieGauge" />
                                                             </children>
                                                          </VBox>
                                                          <VBox prefHeight="176.0" prefWidth="139.0">
                                                             <children>
                                                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="139.0" text="SOC" textAlignment="CENTER" />
-                                     <Gauge fx:id="batteryGauge" lcdDesign="GRAY_PURPLE" maxHeight="108.0" maxMeasuredValueVisible="false" maxWidth="Infinity" minMeasuredValueVisible="false" oldValueVisible="false" prefHeight="108.0" prefWidth="165.0" skinType="battery" title="Humidity" translateX="10.0" translateY="15.0" unit="\%" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                     <Gauge fx:id="o_socGauge" lcdDesign="GRAY_PURPLE" maxHeight="108.0" maxMeasuredValueVisible="false" maxWidth="Infinity" minMeasuredValueVisible="false" oldValueVisible="false" prefHeight="108.0" prefWidth="165.0" skinType="battery" title="Humidity" translateX="10.0" translateY="15.0" unit="\%" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                                                             </children>
                                                          </VBox>
                                                       </children>
@@ -312,19 +300,19 @@
                                                          <VBox prefHeight="176.0" prefWidth="132.0">
                                                             <children>
                                                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="134.0" text="Tensione" textAlignment="CENTER" />
-                                                               <Gauge fx:id="tensioneCaricatore" />
+                                                               <Gauge fx:id="o_tensioneCaricatoreGauge" />
                                                             </children>
                                                          </VBox>
                                                          <VBox prefHeight="176.0" prefWidth="133.0">
                                                             <children>
                                                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="136.0" text="Corrente" />
-                                                               <Gauge fx:id="correnteCaricatore" />
+                                                               <Gauge fx:id="o_correnteCaricatoreGauge" />
                                                             </children>
                                                          </VBox>
                                                          <VBox alignment="TOP_CENTER" prefHeight="176.0" prefWidth="106.0">
                                                             <children>
                                                                <Label alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="105.0" text="Modalità" />
-                                                      <StatusBar fx:id="modalitaStatus" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="60.0" text="    Grid" translateX="2.0" translateY="50.0" />
+                                                      <StatusBar fx:id="o_modalitaCaricatoreStatusButton" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="60.0" text="    Grid" translateX="2.0" translateY="50.0" />
                                                             </children>
                                                          </VBox>
                                                       </children>
@@ -342,19 +330,19 @@
                                                          <VBox prefHeight="176.0" prefWidth="132.0">
                                                             <children>
                                                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="135.0" text="Velocità" textAlignment="CENTER" />
-                                                               <Gauge fx:id="velocitaMotore" />
+                                                               <Gauge fx:id="o_velocitaMotoreGauge" />
                                                             </children>
                                                          </VBox>
                                                          <VBox prefHeight="176.0" prefWidth="133.0">
                                                             <children>
                                                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="135.0" text="Coppia" textAlignment="CENTER" />
-                                                               <Gauge fx:id="coppiaMotore" />
+                                                               <Gauge fx:id="o_coppiaMotoreGauge" />
                                                             </children>
                                                          </VBox>
                                                          <VBox prefHeight="176.0" prefWidth="133.0">
                                                             <children>
                                                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="135.0" text="Temperatura" textAlignment="CENTER" />
-                                                               <Gauge fx:id="batteryGauge" lcdDesign="GRAY_PURPLE" maxHeight="108.0" maxMeasuredValueVisible="false" maxValue="40.0" maxWidth="Infinity" minMeasuredValueVisible="false" oldValueVisible="false" prefHeight="108.0" prefWidth="165.0" skinType="dashboard" translateX="10.0" translateY="15.0" unit="°C" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                                               <Gauge fx:id="o_TemperaturaGauge" lcdDesign="GRAY_PURPLE" maxHeight="108.0" maxMeasuredValueVisible="false" maxValue="40.0" maxWidth="Infinity" minMeasuredValueVisible="false" oldValueVisible="false" prefHeight="108.0" prefWidth="165.0" skinType="dashboard" translateX="10.0" translateY="15.0" unit="°C" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                                                             </children>
                                                          </VBox>
                                                       </children>
@@ -376,7 +364,7 @@
                                                <content>
                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="16.0" prefWidth="586.0">
                                                       <children>
-                                                         <Button fx:id="saveButton" layoutX="68.0" layoutY="12.0" mnemonicParsing="false" text="Save" />
+                                                         <Button fx:id="o_saveButton" layoutX="68.0" layoutY="12.0" mnemonicParsing="false" text="Save" />
                                                          <TextField fx:id="pathFile" layoutX="135.0" layoutY="11.0" prefHeight="26.0" prefWidth="223.0" promptText="Directory Path" />
                                                       </children>
                                                    </AnchorPane>
@@ -398,9 +386,9 @@
                                                             <children>
                                                                <HBox alignment="CENTER" layoutX="-3.0" layoutY="17.0" prefHeight="34.0" prefWidth="197.0">
                                                                   <children>
-                                                                     <StatusBar fx:id="statusContattore1" prefHeight="63.0" prefWidth="40.0" text="   1." />
+                                                                     <StatusBar fx:id="o_statusButtonContattore1" prefHeight="63.0" prefWidth="40.0" text="   1." />
                                                                      <Separator orientation="VERTICAL" prefHeight="33.0" prefWidth="44.0" />
-                                                                     <StatusBar fx:id="statusContattore2" prefHeight="33.0" prefWidth="43.0" text="    2." />
+                                                                     <StatusBar fx:id="o_statusButtonContattore2" prefHeight="33.0" prefWidth="43.0" text="    2." />
                                                                   </children>
                                                                </HBox>
                                                             </children>
@@ -411,7 +399,7 @@
                                                      <content>
                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                             <children>
-                                                      <StatusBar fx:id="statoEmergencyStop" layoutX="75.0" layoutY="18.0" prefHeight="33.0" prefWidth="43.0" text=" RUN" />
+                                                      <StatusBar fx:id="o_statusButtonEmergencyStop" layoutX="75.0" layoutY="18.0" prefHeight="33.0" prefWidth="43.0" text=" RUN" />
                                                             </children>
                                                          </AnchorPane>
                                                      </content>
@@ -420,7 +408,7 @@
                                             <content>
                                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                    <children>
-                                                      <StatusBar layoutX="70.0" layoutY="18.0" prefWidth="54.0" text="  Sport" />
+                                                      <StatusBar fx:id="o_modalitaTrazioneStatusButton" layoutX="70.0" layoutY="18.0" prefWidth="54.0" text="  Sport" />
                                                    </children>
                                                 </AnchorPane>
                                             </content>

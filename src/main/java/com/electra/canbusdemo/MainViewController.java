@@ -18,6 +18,8 @@ import static com.electra.canbusdemo.CANbus.CANbus_Controller.getCanBusControlle
 
 public class MainViewController implements Notifiable {
     @FXML
+    private TextField idTextField;
+    @FXML
     private Button connectButton;
     @FXML
     private Button sendButton;
@@ -25,66 +27,69 @@ public class MainViewController implements Notifiable {
     private TextArea receivedTextArea;
     @FXML
     private TextArea sentTextArea;
+
+    // INPUT WIDGETS -----------------------------------------------------------
     @FXML
-    private ToggleSwitch forwardReverseSwitch;
+    private ToggleSwitch i_forwardReverseSwitchButton;
     @FXML
-    private ToggleSwitch coppiaVelocitaSwitch;
+    private ToggleSwitch i_coppiaVelocitaSwitchButton;
     @FXML
-    private TextField coppiaTextField;
+    private TextField i_coppiaTextField;
     @FXML
-    private TextField velocitaTextField;
+    private TextField i_velocitaTextField;
     @FXML
-    private RadioButton sportButton;
+    private RadioButton i_sportRadioButton;
     @FXML
-    private RadioButton ecoButton;
+    private RadioButton i_ecoRadioButton;
     @FXML
-    private RadioButton parkingModeButton;
+    private RadioButton i_parkingModeRadioButton;
     @FXML
-    private RadioButton chargingModeButton;
+    private RadioButton i_chargingModeRadioButton;
     @FXML
-    private TextField correnteField;
+    private TextField i_correnteTextField;
     @FXML
-    private TextField tensioneField;
+    private TextField i_tensioneTextField;
     @FXML
-    private ToggleSwitch caricaSwitch;
+    private ToggleSwitch i_caricaSwitchButton;
     @FXML
-    private ToggleSwitch contattore1Switch;
+    private ToggleSwitch i_contattore1SwitchButton;
     @FXML
-    private ToggleSwitch contattore2Switch;
+    private ToggleSwitch i_contattore2SwitchButton;
     @FXML
-    private TextField idTextField;
+    private  Gauge i_velocitaGauge;
+
+
+    // OUTPUT WIDGETS -----------------------------------------------------------
     @FXML
-    private  Gauge setVelocita;
+    private  Gauge o_tensioneBatterieGauge;
     @FXML
-    private  Gauge tensioneBatterie;
+    private  Gauge o_correnteBatterieGauge;
     @FXML
-    private  Gauge correnteBatterie;
+    private  Gauge o_batteryGauge;
     @FXML
-    private  Gauge batteryGauge;
+    private  Gauge o_tensioneCaricatoreGauge;
     @FXML
-    private  Gauge tensioneCaricatore;
+    private  Gauge o_correnteCaricatoreGauge;
     @FXML
-    private  Gauge correnteCaricatore;
+    private  Gauge o_velocitaMotoreGauge;
     @FXML
-    private  Gauge velocitaMotore;
+    private  Gauge o_coppiaMotoreGauge;
     @FXML
-    private  Gauge coppiaMotore;
+    private Gauge o_temperaturaMotoreGauge;
     @FXML
-    private Gauge temperaturaMotore;
+    private  StatusBar o_modalitaStatusButton;
     @FXML
-    private  StatusBar modalitaStatus;
+    private StatusBar o_statusButtonEmergencyStop;
     @FXML
-    private StatusBar statoEmergencyStop;
+    private  StatusBar o_statusButtonContattore1;
     @FXML
-    private  StatusBar statusContattore1;
+    private  StatusBar o_statusButtonContattore2;
     @FXML
-    private  StatusBar statusContattore2;
+    private Button o_emergencyStopButton;
     @FXML
-    private Button emergencyStopButton;
+    private Button o_saveButton;
     @FXML
-    private Button saveButton;
-    @FXML
-    private TextField pathFile;
+    private TextField o_pathFileTextFied;
     @FXML
     private TextField data0TextField, data1TextField, data2TextField, data3TextField, data4TextField,
             data5TextField, data6TextField, data7TextField;
@@ -126,12 +131,12 @@ public class MainViewController implements Notifiable {
         canBusController.setNotifiable(this); //Se succede qualcosa notificalo a quest'oggetto
 
         //Aggiunto Giada
-        velocitaTextField.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
-            checkNumberFieldInput(keyEvent, velocitaTextField);
+        i_velocitaTextField.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
+            checkNumberFieldInput(keyEvent, i_velocitaTextField);
         });
 
-        coppiaTextField.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
-            checkNumberFieldInput(keyEvent, coppiaTextField);
+        i_coppiaTextField.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
+            checkNumberFieldInput(keyEvent, i_coppiaTextField);
         });
 
         /*
@@ -173,21 +178,17 @@ public class MainViewController implements Notifiable {
         });
 
         //Aggiunto gGiada
-        forwardReverseSwitch.setOnMouseClicked(event -> {
-            if(forwardReverseSwitch.isSelected()){
-                sportButton.setDisable(true);
-                ecoButton.setDisable(true);
+        i_forwardReverseSwitchButton.setOnMouseClicked(event -> {
+            if(i_forwardReverseSwitchButton.isSelected()){
+                i_sportRadioButton.setDisable(true);
+                i_ecoRadioButton.setDisable(true);
             }
             else{
-                sportButton.setDisable(false);
-                ecoButton.setDisable(false);
+                i_sportRadioButton.setDisable(false);
+                i_ecoRadioButton.setDisable(false);
             }
 
         });
-
-
-
-
     }
 
     @FXML
@@ -260,10 +261,10 @@ public class MainViewController implements Notifiable {
                data = new byte[]
                        {
                                (byte) HexFormat.fromHexDigits("0"),
-                               (byte) HexFormat.fromHexDigits(forwardReverseSwitch.isSelected() ? "0" : "1"),
-                               (byte) HexFormat.fromHexDigits(forwardReverseSwitch.isSelected() ? "1" : "0"),
-                               (byte) HexFormat.fromHexDigits(velocitaTextField.getText()),
-                               (byte) HexFormat.fromHexDigits(contattore1Switch.isSelected() ? "0" : "1"),
+                               (byte) HexFormat.fromHexDigits(i_forwardReverseSwitchButton.isSelected() ? "0" : "1"),
+                               (byte) HexFormat.fromHexDigits(i_forwardReverseSwitchButton.isSelected() ? "1" : "0"),
+                               (byte) HexFormat.fromHexDigits(i_velocitaTextField.getText()),
+                               (byte) HexFormat.fromHexDigits(i_contattore1SwitchButton.isSelected() ? "0" : "1"),
                                (byte) HexFormat.fromHexDigits("0"),
                                (byte) HexFormat.fromHexDigits("0"),
                                (byte) HexFormat.fromHexDigits("0")
