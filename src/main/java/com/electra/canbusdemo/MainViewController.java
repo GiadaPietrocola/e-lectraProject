@@ -177,7 +177,7 @@ public class MainViewController implements Notifiable {
             canBusDevice_List.addAll(canBusController.getAvailableHandlers()); //aggiorna la lista con i dispositivi disponibili
         });
 
-        //Aggiunto gGiada
+
         i_forwardReverseSwitchButton.setOnMouseClicked(event -> {
             if(i_forwardReverseSwitchButton.isSelected()){
                 i_sportRadioButton.setDisable(true);
@@ -189,6 +189,20 @@ public class MainViewController implements Notifiable {
             }
 
         });
+
+        i_coppiaVelocitaSwitchButton.setOnMouseClicked(event -> {
+            if(i_coppiaVelocitaSwitchButton.isSelected()){
+                i_coppiaTextField.setDisable(true);
+                i_velocitaTextField.setDisable(false);
+            }
+            else{
+                i_coppiaTextField.setDisable(false);
+                i_velocitaTextField.setDisable(true);
+            }
+
+        });
+
+
     }
 
     @FXML

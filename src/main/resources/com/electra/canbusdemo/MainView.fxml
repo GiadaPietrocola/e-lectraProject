@@ -74,7 +74,7 @@
                                                                </VBox>
                                                                <HBox layoutX="14.0" layoutY="22.0" prefHeight="26.0" prefWidth="200.0">
                                                                   <children>
-                                                                     <ToggleSwitch fx:id="i_coppiaVelocitaSwitch" selected="true" text="Coppia" />
+                                                                     <ToggleSwitch fx:id="i_coppiaVelocitaSwitchButton" selected="true" text="Coppia" />
                                                                      <Label text="   Velocità" />
                                                                   </children>
                                                                </HBox>
