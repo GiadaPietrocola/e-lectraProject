@@ -210,12 +210,12 @@ public class MainViewController implements Notifiable {
 
         i_coppiaVelocitaSwitchButton.setOnMouseClicked(event -> {
             if(i_coppiaVelocitaSwitchButton.isSelected()){
-                i_coppiaTextField.setDisable(true);
-                i_velocitaTextField.setDisable(false);
-            }
-            else{
                 i_coppiaTextField.setDisable(false);
                 i_velocitaTextField.setDisable(true);
+            }
+            else{
+                i_coppiaTextField.setDisable(true);
+                i_velocitaTextField.setDisable(false);
             }
             Timer timer = new Timer();
             timer.scheduleAtFixedRate(new TimerTask() {
