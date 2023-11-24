@@ -2,7 +2,6 @@ package com.electra.canbusdemo;
 
 import com.electra.canbusdemo.CANbus.CANbus_Controller;
 import com.electra.canbusdemo.CANbus.Notifiable;
-import eu.hansolo.medusa.Clock;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,8 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import org.controlsfx.control.*;
 import eu.hansolo.medusa.Gauge;
-
 import java.util.HexFormat;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.electra.canbusdemo.CANbus.CANbus_Controller.getCanBusController;
 
@@ -37,6 +37,8 @@ public class MainViewController implements Notifiable {
     private TextField i_coppiaTextField;
     @FXML
     private TextField i_velocitaTextField;
+
+
     @FXML
     private RadioButton i_sportRadioButton;
     @FXML
@@ -50,13 +52,21 @@ public class MainViewController implements Notifiable {
     @FXML
     private TextField i_tensioneTextField;
     @FXML
+    private ToggleSwitch i_profiloCaricaSwitchButton;
+    @FXML
     private ToggleSwitch i_caricaSwitchButton;
+    @FXML
+    private ToggleSwitch i_gridResSwitchButton;
+    @FXML
+    private Label i_customLabel;
+    @FXML
+    private Label i_resLabel;
     @FXML
     private ToggleSwitch i_contattore1SwitchButton;
     @FXML
     private ToggleSwitch i_contattore2SwitchButton;
     @FXML
-    private  Gauge i_velocitaGauge;
+    private  Gauge i_setVelocitaGauge;
 
 
     // OUTPUT WIDGETS -----------------------------------------------------------
@@ -65,7 +75,7 @@ public class MainViewController implements Notifiable {
     @FXML
     private  Gauge o_correnteBatterieGauge;
     @FXML
-    private  Gauge o_batteryGauge;
+    private  Gauge o_socGauge;
     @FXML
     private  Gauge o_tensioneCaricatoreGauge;
     @FXML
@@ -139,6 +149,14 @@ public class MainViewController implements Notifiable {
             checkNumberFieldInput(keyEvent, i_coppiaTextField);
         });
 
+        ToggleGroup sportEco = new ToggleGroup();
+        ToggleGroup parkingCharging = new ToggleGroup();
+
+        i_sportRadioButton.setToggleGroup(sportEco);
+        i_ecoRadioButton.setToggleGroup(sportEco);
+
+        i_parkingModeRadioButton.setToggleGroup(parkingCharging);
+        i_chargingModeRadioButton.setToggleGroup(parkingCharging);
         /*
         data0TextField.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> { //Invocato ogni volta che viene premuto un tasto in quella casella di testo
            checkTextFieldInput(keyEvent, data0TextField);  //evita di scrivere lettere oltre 0123456789abcdef
@@ -199,37 +217,38 @@ public class MainViewController implements Notifiable {
                 i_coppiaTextField.setDisable(false);
                 i_velocitaTextField.setDisable(true);
             }
+            Timer timer = new Timer();
+            timer.scheduleAtFixedRate(new TimerTask() {
+                public void run() {
+                    try {
 
-        });
 
-        i_sportRadioButton.setOnMouseClicked(event -> {
-            if(i_ecoRadioButton.isSelected()) {
-                i_ecoRadioButton.setSelected(false);
-                i_sportRadioButton.setSelected(true);
-            }
-        });
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }, 0, 1000);
 
-        i_ecoRadioButton.setOnMouseClicked(event -> {
-            if(i_sportRadioButton.isSelected()) {
-                i_sportRadioButton.setSelected(false);
-                i_ecoRadioButton.setSelected(true);
-            }
         });
 
         i_parkingModeRadioButton.setOnMouseClicked(event -> {
-            if(i_chargingModeRadioButton.isSelected()) {
-                i_chargingModeRadioButton.setSelected(false);
-                i_parkingModeRadioButton.setSelected(true);
-            }
+            i_gridResSwitchButton.setDisable(true);
+            i_profiloCaricaSwitchButton.setDisable(true);
+            i_customLabel.setDisable(true);
+            i_resLabel.setDisable(true);
+            i_tensioneTextField.setDisable(true);
+            i_correnteTextField.setDisable(true);
         });
 
         i_chargingModeRadioButton.setOnMouseClicked(event -> {
-            if(i_parkingModeRadioButton.isSelected()) {
-                i_parkingModeRadioButton.setSelected(false);
-                i_chargingModeRadioButton.setSelected(true);
-
-            }
+            i_gridResSwitchButton.setDisable(false);
+            i_profiloCaricaSwitchButton.setDisable(false);
+            i_customLabel.setDisable(false);
+            i_resLabel.setDisable(false);
+            i_tensioneTextField.setDisable(false);
+            i_correnteTextField.setDisable(false);
         });
+
 
     }
 
@@ -297,7 +316,7 @@ public class MainViewController implements Notifiable {
     }
 
     public void send(String id) throws Exception {
-        byte[] data;
+       byte[] data;
        switch (id) {
            case "0x222": {
                data = new byte[]
@@ -315,13 +334,23 @@ public class MainViewController implements Notifiable {
                break;
            default:
                data = new byte[]{};
-
               break;
        }
            canBusController.sendCommand(HexFormat.fromHexDigits(id), data);
-
     }
+    public void handleReceivedMessages(int id, String data) throws Exception {
 
+
+        switch (id){
+            case 519: //207h
+                for(int i = 0; i<data.length(); i++){
+
+                }
+            break;
+            default:
+            break;
+        }
+    }
     private void fireAlarm(Alert.AlertType type, String title, String contentText){ //Genera una finestra di "allarme"
         Alert alert = new Alert(type); //type cambia l'icona, title il nome della finestra, contentText il testo di allarme
         alert.initOwner(MainApplication.stage); //Evita che l'utente possa interagire con l'applicazione finchè la finestra dell allarme è aperta
@@ -340,6 +369,11 @@ public class MainViewController implements Notifiable {
                 receivedTextArea.clear();
             }
             receivedTextArea.appendText("[" + receiveID + "]: " + data + "\n"); //ID e data da utilizzare
+            try {
+                handleReceivedMessages(receiveID, data);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 }

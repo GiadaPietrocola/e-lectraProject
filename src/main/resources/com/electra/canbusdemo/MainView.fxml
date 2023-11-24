@@ -147,8 +147,8 @@
                                                                <RadioButton fx:id="i_chargingModeRadioButton" mnemonicParsing="false" text="Charging Mode" />
                                                                <HBox prefHeight="37.0" prefWidth="170.0">
                                                                   <children>
-                                                                     <ToggleSwitch prefHeight="20.0" prefWidth="81.0" text="Grid" />
-                                                                     <Label prefHeight="18.0" prefWidth="66.0" text="    Res" />
+                                                                     <ToggleSwitch fx:id="i_gridResSwitchButton" prefHeight="20.0" prefWidth="81.0" text="Grid" />
+                                                                     <Label fx:id="i_resLabel" prefHeight="18.0" prefWidth="66.0" text="    Res" />
                                                                   </children>
                                                                   <padding>
                                                                      <Insets left="20.0" />
@@ -159,7 +159,7 @@
                                                          <HBox prefHeight="43.0" prefWidth="439.0">
                                                             <children>
                                                                <Label prefHeight="18.0" prefWidth="55.0" text="Corrente" translateY="4.0" />
-                                                      <TextField fx:id="i_correnteField" prefHeight="1.0" prefWidth="70.0">
+                                                      <TextField fx:id="i_correnteTextField" prefHeight="1.0" prefWidth="70.0">
                                                          <HBox.margin>
                                                             <Insets right="10.0" />
                                                          </HBox.margin>
@@ -170,7 +170,7 @@
                                                          <HBox prefHeight="39.0" prefWidth="439.0">
                                                             <children>
                                                                <Label text="Tensione" translateY="4.0" />
-                                                      <TextField fx:id="i_tensioneField" prefHeight="1.0" prefWidth="70.0">
+                                                      <TextField fx:id="i_tensioneTextField" prefHeight="1.0" prefWidth="70.0">
                                                          <HBox.margin>
                                                             <Insets left="7.0" right="10.0" />
                                                          </HBox.margin>
@@ -189,7 +189,7 @@
                                                          <HBox layoutX="11.0" layoutY="64.0" prefHeight="26.0" prefWidth="216.0">
                                                             <children>
                                                                <ToggleSwitch fx:id="i_profiloCaricaSwitchButton" text="Corrente Cost." />
-                                                               <Label prefHeight="18.0" prefWidth="66.0" text="    Custom" />
+                                                               <Label fx:id="i_customLabel" prefHeight="18.0" prefWidth="66.0" text="    Custom" />
                                                             </children>
                                                          </HBox>
                                                       </children>
