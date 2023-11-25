@@ -157,6 +157,28 @@ public class MainViewController implements Notifiable {
 
         i_parkingModeRadioButton.setToggleGroup(parkingCharging);
         i_chargingModeRadioButton.setToggleGroup(parkingCharging);
+
+        // Initialize Gauges
+
+//        o_tensioneBatterieGauge = new Gauge();
+//        o_socGauge = new Gauge();
+//        o_coppiaMotoreGauge = new Gauge();
+        o_temperaturaMotoreGauge = new Gauge();
+//        o_velocitaMotoreGauge = new Gauge();
+//        o_correnteCaricatoreGauge = new Gauge();
+//        o_tensioneCaricatoreGauge = new Gauge();
+
+        o_correnteBatterieGauge.setAnimated(true);
+        o_tensioneBatterieGauge.setAnimated(true);
+//        o_socGauge.setAnimated(true);
+        o_coppiaMotoreGauge.setAnimated(true);
+        o_temperaturaMotoreGauge.setAnimated(true);
+        o_velocitaMotoreGauge.setAnimated(true);
+        o_correnteCaricatoreGauge.setAnimated(true);
+        o_tensioneCaricatoreGauge.setAnimated(true);
+
+        i_setVelocitaGauge.setAnimated(true);
+
         /*
         data0TextField.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> { //Invocato ogni volta che viene premuto un tasto in quella casella di testo
            checkTextFieldInput(keyEvent, data0TextField);  //evita di scrivere lettere oltre 0123456789abcdef
@@ -217,17 +239,7 @@ public class MainViewController implements Notifiable {
                 i_coppiaTextField.setDisable(true);
                 i_velocitaTextField.setDisable(false);
             }
-            Timer timer = new Timer();
-            timer.scheduleAtFixedRate(new TimerTask() {
-                public void run() {
-                    try {
 
-
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }, 0, 1000);
 
         });
 
@@ -375,5 +387,34 @@ public class MainViewController implements Notifiable {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    // Funzione di esempio, triggerata dall'emergency stop, per verificare l'animazione delle gauge
+    @FXML
+    public void updateGauge(){
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                try {
+                    double randomArray [] = {0,0,0,0,0,0,0,0,0};
+                    for(int i = 0; i< 9;i++){
+                        randomArray[i]= 10 + (Math.random() * (100 - 10));
+                    }
+
+                    o_correnteBatterieGauge.setValue(randomArray[0]);
+                    o_tensioneBatterieGauge.setValue(randomArray[1]);
+//                    o_socGauge.setValue(randomArray[2]);
+                    o_coppiaMotoreGauge.setValue(randomArray[3]);
+                    o_temperaturaMotoreGauge.setValue(randomArray[4]);
+                    o_velocitaMotoreGauge.setValue(randomArray[5]);
+                    o_correnteCaricatoreGauge.setValue(randomArray[6]);
+                    o_tensioneCaricatoreGauge.setValue(randomArray[7]);
+
+                    i_setVelocitaGauge.setValue(randomArray[8]);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }, 0, 1000);
     }
 }
