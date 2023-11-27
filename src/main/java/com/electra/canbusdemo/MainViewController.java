@@ -127,7 +127,7 @@ public class MainViewController implements Notifiable {
         String newChar = keyEvent.getCharacter().toUpperCase();
         String keyFilter = "0123456789";
 
-        if (!keyFilter.contains(newChar)) { //Verifica che non ci siano più di due caratteri
+        if (!keyFilter.contains(newChar) || (textField.getText().length() > 1 && !(textField.getText().equals("10") && newChar.equals("0")))  ) { //Verifica che non ci siano più di due caratteri
             keyEvent.consume(); //elimina il carattere
         }
     }
@@ -140,7 +140,7 @@ public class MainViewController implements Notifiable {
         canBusController = getCanBusController();  //CanBUS viene inizializzata come singleton
         canBusController.setNotifiable(this); //Se succede qualcosa notificalo a quest'oggetto
 
-        //Aggiunto Giada
+
         i_velocitaTextField.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
             checkNumberFieldInput(keyEvent, i_velocitaTextField);
         });
@@ -227,7 +227,12 @@ public class MainViewController implements Notifiable {
                 i_sportRadioButton.setDisable(false);
                 i_ecoRadioButton.setDisable(false);
             }
-
+            try {
+                send("222");
+                handleReceivedMessages(519, "00000000000001000000000000000000"); //per testing
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         });
 
         i_coppiaVelocitaSwitchButton.setOnMouseClicked(event -> {
@@ -240,7 +245,11 @@ public class MainViewController implements Notifiable {
                 i_velocitaTextField.setDisable(false);
             }
 
-
+            try {
+                send("308");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         });
 
         i_parkingModeRadioButton.setOnMouseClicked(event -> {
@@ -328,9 +337,9 @@ public class MainViewController implements Notifiable {
     }
 
     public void send(String id) throws Exception {
-       byte[] data;
+       byte[] data={};
        switch (id) {
-           case "0x222": {
+           case "222": {
                data = new byte[]
                        {
                                (byte) HexFormat.fromHexDigits("0"),
@@ -344,8 +353,22 @@ public class MainViewController implements Notifiable {
                        };
            }
                break;
+           case "308": {
+               data = new byte[]
+                       {
+                               (byte) HexFormat.fromHexDigits(i_coppiaTextField.getText()),
+                               (byte) HexFormat.fromHexDigits("0"),
+                               (byte) HexFormat.fromHexDigits("0"),
+                               (byte) HexFormat.fromHexDigits("0"),
+                               (byte) HexFormat.fromHexDigits("0"),
+                               (byte) HexFormat.fromHexDigits("0"),
+                               (byte) HexFormat.fromHexDigits("0"),
+                               (byte) HexFormat.fromHexDigits("0")
+                       };
+           }
+           break;
            default:
-               data = new byte[]{};
+               System.err.println("Id errato");
               break;
        }
            canBusController.sendCommand(HexFormat.fromHexDigits(id), data);
@@ -355,10 +378,17 @@ public class MainViewController implements Notifiable {
 
         switch (id){
             case 519: //207h
-                for(int i = 0; i<data.length(); i++){
-
-                }
+                o_socGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(8,15)));
             break;
+            case 187:
+                o_correnteCaricatoreGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(0,7)));
+                o_tensioneCaricatoreGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(8,23)));
+                break;
+            case 288:
+                o_temperaturaMotoreGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(8,15)));
+                o_correnteBatterieGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(40,47)));
+                o_tensioneBatterieGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(48,56)));
+                break;
             default:
             break;
         }
@@ -382,7 +412,7 @@ public class MainViewController implements Notifiable {
             }
             receivedTextArea.appendText("[" + receiveID + "]: " + data + "\n"); //ID e data da utilizzare
             try {
-                handleReceivedMessages(receiveID, data);
+              handleReceivedMessages(receiveID, data);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
