@@ -5,8 +5,10 @@ import com.electra.canbusdemo.CANbus.Notifiable;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.controlsfx.control.*;
 import eu.hansolo.medusa.Gauge;
@@ -85,7 +87,7 @@ public class MainViewController implements Notifiable {
     @FXML
     private  Gauge o_coppiaMotoreGauge;
     @FXML
-    private Gauge o_temperaturaMotoreGauge;
+    private Gauge o_temperaturaGauge;
     @FXML
     private  StatusBar o_modalitaStatusButton;
     @FXML
@@ -163,16 +165,16 @@ public class MainViewController implements Notifiable {
 //        o_tensioneBatterieGauge = new Gauge();
 //        o_socGauge = new Gauge();
 //        o_coppiaMotoreGauge = new Gauge();
-        o_temperaturaMotoreGauge = new Gauge();
+        o_temperaturaGauge = new Gauge();
 //        o_velocitaMotoreGauge = new Gauge();
 //        o_correnteCaricatoreGauge = new Gauge();
 //        o_tensioneCaricatoreGauge = new Gauge();
 
         o_correnteBatterieGauge.setAnimated(true);
         o_tensioneBatterieGauge.setAnimated(true);
-//        o_socGauge.setAnimated(true);
+        o_socGauge.setAnimated(true);
         o_coppiaMotoreGauge.setAnimated(true);
-        o_temperaturaMotoreGauge.setAnimated(true);
+        o_temperaturaGauge.setAnimated(true);
         o_velocitaMotoreGauge.setAnimated(true);
         o_correnteCaricatoreGauge.setAnimated(true);
         o_tensioneCaricatoreGauge.setAnimated(true);
@@ -229,7 +231,7 @@ public class MainViewController implements Notifiable {
             }
             try {
                 send("222");
-                handleReceivedMessages(519, "00000000000001000000000000000000"); //per testing
+              //  handleReceivedMessages(519, "00000000000001000000000000000000"); //per testing
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -244,11 +246,17 @@ public class MainViewController implements Notifiable {
                 i_coppiaTextField.setDisable(true);
                 i_velocitaTextField.setDisable(false);
             }
+        });
 
-            try {
-                send("308");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+        i_coppiaTextField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                try {
+                    send("308");
+                    System.out.println("a");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                event.consume(); // Consuma l'evento per evitare che altri gestori lo ricevano.
             }
         });
 
@@ -332,8 +340,8 @@ public class MainViewController implements Notifiable {
             sendCycle++;
             sentTextArea.clear();
         }
-        sentTextArea.appendText("[" + sendID + "]: " + "ID: " + idTextField.getText().toUpperCase() + " data: " +   //il messaggio viene aggiunto alla text area
-                HexFormat.of().formatHex(data).toUpperCase() + "\n");
+       // sentTextArea.appendText("[" + sendID + "]: " + "ID: " + idTextField.getText().toUpperCase() + " data: " +   //il messaggio viene aggiunto alla text area
+       //         HexFormat.of().formatHex(data).toUpperCase() + "\n");
     }
 
     public void send(String id) throws Exception {
@@ -365,6 +373,7 @@ public class MainViewController implements Notifiable {
                                (byte) HexFormat.fromHexDigits("0"),
                                (byte) HexFormat.fromHexDigits("0")
                        };
+               System.out.println(i_coppiaTextField.getText());
            }
            break;
            default:
@@ -385,7 +394,7 @@ public class MainViewController implements Notifiable {
                 o_tensioneCaricatoreGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(8,23)));
                 break;
             case 288:
-                o_temperaturaMotoreGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(8,15)));
+                o_temperaturaGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(8,15)));
                 o_correnteBatterieGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(40,47)));
                 o_tensioneBatterieGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(48,56)));
                 break;
@@ -410,7 +419,7 @@ public class MainViewController implements Notifiable {
                 receiveCycle++;
                 receivedTextArea.clear();
             }
-            receivedTextArea.appendText("[" + receiveID + "]: " + data + "\n"); //ID e data da utilizzare
+          //  receivedTextArea.appendText("[" + receiveID + "]: " + data + "\n"); //ID e data da utilizzare
             try {
               handleReceivedMessages(receiveID, data);
             } catch (Exception e) {
@@ -433,9 +442,9 @@ public class MainViewController implements Notifiable {
 
                     o_correnteBatterieGauge.setValue(randomArray[0]);
                     o_tensioneBatterieGauge.setValue(randomArray[1]);
-//                    o_socGauge.setValue(randomArray[2]);
+                    o_socGauge.setValue(randomArray[2]);
                     o_coppiaMotoreGauge.setValue(randomArray[3]);
-                    o_temperaturaMotoreGauge.setValue(randomArray[4]);
+                    o_temperaturaGauge.setValue(randomArray[4]);
                     o_velocitaMotoreGauge.setValue(randomArray[5]);
                     o_correnteCaricatoreGauge.setValue(randomArray[6]);
                     o_tensioneCaricatoreGauge.setValue(randomArray[7]);

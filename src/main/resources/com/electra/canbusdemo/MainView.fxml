@@ -45,7 +45,7 @@
                                                                      <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="409.0">
                                                                         <children>
                                                                            <Label prefHeight="26.0" prefWidth="98.0" text="Coppia Desiderata" />
-                                                                  <TextField fx:id="i_velocitaTextField" prefHeight="1.0" prefWidth="70.0" translateY="5.0">
+                                                                  <TextField fx:id="i_coppiaTextField" prefHeight="1.0" prefWidth="70.0" translateY="5.0">
                                                                      <HBox.margin>
                                                                         <Insets bottom="10.0" left="30.0" right="10.0" />
                                                                      </HBox.margin>
@@ -59,7 +59,7 @@
                                                                      <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="409.0">
                                                                         <children>
                                                                            <Label text="Velocità Desiderata" />
-                                                                  <TextField fx:id="i_coppiaTextField" prefHeight="1.0" prefWidth="70.0">
+                                                                  <TextField fx:id="i_velocitaTextField" prefHeight="1.0" prefWidth="70.0">
                                                                      <HBox.margin>
                                                                         <Insets left="26.0" right="10.0" />
                                                                      </HBox.margin>
@@ -279,7 +279,7 @@
                                                          <VBox prefHeight="176.0" prefWidth="139.0">
                                                             <children>
                                                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="139.0" text="SOC" textAlignment="CENTER" />
-                                     <Gauge fx:id="o_socGauge" lcdDesign="GRAY_PURPLE" maxHeight="108.0" maxMeasuredValueVisible="false" maxWidth="Infinity" minMeasuredValueVisible="false" oldValueVisible="false" prefHeight="108.0" prefWidth="165.0" skinType="battery" title="Humidity" translateX="10.0" translateY="15.0" unit="\%" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                     <Gauge fx:id="o_socGauge" lcdDesign="BLUE" maxHeight="108.0" maxMeasuredValueVisible="false" maxWidth="Infinity" minMeasuredValueVisible="false" oldValueVisible="false" prefHeight="108.0" prefWidth="165.0" skinType="battery"  translateX="10.0" translateY="15.0" unit="\%" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                                                             </children>
                                                          </VBox>
                                                       </children>
