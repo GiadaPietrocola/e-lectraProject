@@ -2,6 +2,8 @@ package com.electra.canbusdemo;
 
 import com.electra.canbusdemo.CANbus.CANbus_Controller;
 import com.electra.canbusdemo.CANbus.Notifiable;
+import eu.hansolo.medusa.GaugeBuilder;
+import eu.hansolo.medusa.Section;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import org.controlsfx.control.*;
 import eu.hansolo.medusa.Gauge;
 import java.util.HexFormat;
@@ -165,10 +168,11 @@ public class MainViewController implements Notifiable {
 //        o_tensioneBatterieGauge = new Gauge();
 //        o_socGauge = new Gauge();
 //        o_coppiaMotoreGauge = new Gauge();
-        o_temperaturaGauge = new Gauge();
+ //       o_temperaturaGauge = new Gauge();
 //        o_velocitaMotoreGauge = new Gauge();
 //        o_correnteCaricatoreGauge = new Gauge();
 //        o_tensioneCaricatoreGauge = new Gauge();
+
 
         o_correnteBatterieGauge.setAnimated(true);
         o_tensioneBatterieGauge.setAnimated(true);
@@ -229,12 +233,19 @@ public class MainViewController implements Notifiable {
                 i_sportRadioButton.setDisable(false);
                 i_ecoRadioButton.setDisable(false);
             }
-            try {
-                send("222");
-              //  handleReceivedMessages(519, "00000000000001000000000000000000"); //per testing
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            if(connectButton.getText().equals("Connect")){
+                fireAlarm(Alert.AlertType.ERROR, "Warning", "Please select a valid CAN bus adapter Device.");
             }
+            else{
+                try {
+                    send("222");
+
+                    //  handleReceivedMessages(519, "00000000000001000000000000000000"); //per testing
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
         });
 
         i_coppiaVelocitaSwitchButton.setOnMouseClicked(event -> {
@@ -250,11 +261,16 @@ public class MainViewController implements Notifiable {
 
         i_coppiaTextField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                try {
-                    send("308");
-                    System.out.println("a");
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+                if(connectButton.getText().equals("Connect")){
+                    fireAlarm(Alert.AlertType.ERROR, "Warning", "Please select a valid CAN bus adapter Device.");
+                }
+                else{
+                    try {
+                        send("308");
+                        System.out.println("a");
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 }
                 event.consume(); // Consuma l'evento per evitare che altri gestori lo ricevano.
             }
@@ -382,21 +398,22 @@ public class MainViewController implements Notifiable {
        }
            canBusController.sendCommand(HexFormat.fromHexDigits(id), data);
     }
-    public void handleReceivedMessages(int id, String data) throws Exception {
+    public void handleReceivedMessages(String id, String data) throws Exception {
 
+        System.out.println(data);
 
         switch (id){
-            case 519: //207h
-                o_socGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(8,15)));
+            case "519": //207h
+                o_socGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(2,3)));
             break;
-            case 187:
-                o_correnteCaricatoreGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(0,7)));
-                o_tensioneCaricatoreGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(8,23)));
+            case "187":
+                o_correnteCaricatoreGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(0,1)));
+                o_tensioneCaricatoreGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(2,5)));
                 break;
-            case 288:
-                o_temperaturaGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(8,15)));
-                o_correnteBatterieGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(40,47)));
-                o_tensioneBatterieGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(48,56)));
+            case "288":
+                o_temperaturaGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(2,3)));
+                o_correnteBatterieGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(5,6)));
+                o_tensioneBatterieGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(7,8)));
                 break;
             default:
             break;
@@ -419,9 +436,10 @@ public class MainViewController implements Notifiable {
                 receiveCycle++;
                 receivedTextArea.clear();
             }
-          //  receivedTextArea.appendText("[" + receiveID + "]: " + data + "\n"); //ID e data da utilizzare
+            //  receivedTextArea.appendText("[" + receiveID + "]: " + data + "\n");
+           String[] data1=data.split(" ");
             try {
-              handleReceivedMessages(receiveID, data);
+                handleReceivedMessages(data1[1], data1[3]);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

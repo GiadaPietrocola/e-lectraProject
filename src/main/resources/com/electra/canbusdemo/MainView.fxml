@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import eu.hansolo.medusa.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import org.controlsfx.control.*?>
+<?import eu.hansolo.medusa.Gauge?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import org.controlsfx.control.StatusBar?>
+<?import org.controlsfx.control.ToggleSwitch?>
 
-<AnchorPane prefHeight="789.0" prefWidth="1160.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.electra.canbusdemo.MainViewController">
+<AnchorPane prefHeight="789.0" prefWidth="1160.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.electra.canbusdemo.MainViewController">
             <children>
                <GridPane prefHeight="780.0" prefWidth="1160.0">
                  <columnConstraints>
@@ -279,7 +292,10 @@
                                                          <VBox prefHeight="176.0" prefWidth="139.0">
                                                             <children>
                                                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="139.0" text="SOC" textAlignment="CENTER" />
-                                     <Gauge fx:id="o_socGauge" lcdDesign="BLUE" maxHeight="108.0" maxMeasuredValueVisible="false" maxWidth="Infinity" minMeasuredValueVisible="false" oldValueVisible="false" prefHeight="108.0" prefWidth="165.0" skinType="battery"  translateX="10.0" translateY="15.0" unit="\%" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                     <Gauge fx:id="o_socGauge" barColor="#34c0eb" maxHeight="108.0" maxMeasuredValueVisible="false" maxWidth="Infinity" minMeasuredValueVisible="false" oldValueVisible="false" prefHeight="108.0" prefWidth="165.0" sectionsVisible="true" skinType="battery" translateX="10.0" translateY="15.0" unit="\%" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                                         <barBackgroundColor>
+                                                            <Color red="0.4736842215061188" green="0.47017544507980347" blue="0.47017544507980347" />
+                                                         </barBackgroundColor></Gauge>
                                                             </children>
                                                          </VBox>
                                                       </children>
@@ -342,7 +358,7 @@
                                                          <VBox prefHeight="176.0" prefWidth="133.0">
                                                             <children>
                                                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="135.0" text="Temperatura" textAlignment="CENTER" />
-                                                               <Gauge fx:id="o_TemperaturaGauge" lcdDesign="GRAY_PURPLE" maxHeight="108.0" maxMeasuredValueVisible="false" maxValue="40.0" maxWidth="Infinity" minMeasuredValueVisible="false" oldValueVisible="false" prefHeight="108.0" prefWidth="165.0" skinType="dashboard" translateX="10.0" translateY="15.0" unit="°C" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                                               <Gauge fx:id="o_temperaturaGauge" barColor="#34c0eb" maxHeight="108.0" maxMeasuredValueVisible="false" maxValue="100.0" maxWidth="Infinity" minMeasuredValueVisible="false" oldValueVisible="false" prefHeight="108.0" prefWidth="165.0" skinType="dashboard" translateX="10.0" translateY="15.0" unit="°C" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                                                             </children>
                                                          </VBox>
                                                       </children>
