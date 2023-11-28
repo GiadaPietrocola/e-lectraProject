@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 import org.controlsfx.control.*;
 import eu.hansolo.medusa.Gauge;
@@ -26,6 +27,8 @@ public class MainViewController implements Notifiable {
     private TextField idTextField;
     @FXML
     private Button connectButton;
+    @FXML
+    private Button i_emergencyStopButton;
     @FXML
     private Button sendButton;
     @FXML
@@ -172,7 +175,7 @@ public class MainViewController implements Notifiable {
 //        o_velocitaMotoreGauge = new Gauge();
 //        o_correnteCaricatoreGauge = new Gauge();
 //        o_tensioneCaricatoreGauge = new Gauge();
-
+        i_caricaSwitchButton = new ToggleSwitch();
 
         o_correnteBatterieGauge.setAnimated(true);
         o_tensioneBatterieGauge.setAnimated(true);
@@ -449,7 +452,18 @@ public class MainViewController implements Notifiable {
     // Funzione di esempio, triggerata dall'emergency stop, per verificare l'animazione delle gauge
     @FXML
     public void updateGauge(){
-        Timer timer = new Timer();
+        if (i_emergencyStopButton.getText().equals("STOP")) {
+            i_emergencyStopButton.setText("RUN");
+            i_emergencyStopButton.setStyle("-fx-background-color: green;");
+            setDisableWidgets(true);
+
+        } else {
+            i_emergencyStopButton.setText("STOP");
+            i_emergencyStopButton.setStyle("-fx-background-color: red;");
+            setDisableWidgets(false);
+        }
+
+        /*Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 try {
@@ -472,6 +486,24 @@ public class MainViewController implements Notifiable {
                     throw new RuntimeException(e);
                 }
             }
-        }, 0, 1000);
+        }, 0, 1000);*/
+    }
+
+    public void setDisableWidgets(boolean disable){
+        i_coppiaTextField.setDisable(disable);
+        i_ecoRadioButton.setDisable(disable);
+        i_chargingModeRadioButton.setDisable(disable);
+        i_parkingModeRadioButton.setDisable(disable);
+        i_sportRadioButton.setDisable(disable);
+        i_correnteTextField.setDisable(disable);
+        i_tensioneTextField.setDisable(disable);
+        i_caricaSwitchButton.setDisable(disable);
+        i_velocitaTextField.setDisable(disable);
+        i_coppiaVelocitaSwitchButton.setDisable(disable);
+        i_contattore1SwitchButton.setDisable(disable);
+        i_contattore2SwitchButton.setDisable(disable);
+        i_forwardReverseSwitchButton.setDisable(disable);
+        i_gridResSwitchButton.setDisable(disable);
+        i_profiloCaricaSwitchButton.setDisable(disable);
     }
 }
