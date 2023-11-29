@@ -471,7 +471,7 @@ public class MainViewController implements Notifiable {
 
     // Funzione di esempio, triggerata dall'emergency stop, per verificare l'animazione delle gauge
     @FXML
-    public void updateGauge(){
+    public void EmercencyStopAction(){
         if (i_emergencyStopButton.getText().equals("STOP")) {
             i_emergencyStopButton.setText("RUN");
             i_emergencyStopButton.setStyle("-fx-background-color: green;");

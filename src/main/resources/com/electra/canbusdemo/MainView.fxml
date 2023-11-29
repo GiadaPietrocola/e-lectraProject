@@ -230,7 +230,7 @@
                                                <content>
                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                       <children>
-                                                         <Button fx:id="i_emergencyStopButton" layoutX="92.0" layoutY="34.0" mnemonicParsing="false" onAction="#updateGauge" style="-fx-background-color: red;" text="STOP" textFill="WHITE" />
+                                                         <Button fx:id="i_emergencyStopButton" layoutX="92.0" layoutY="34.0" mnemonicParsing="false" onAction="#EmercencyStopAction" style="-fx-background-color: red;" text="STOP" textFill="WHITE" />
                                                       </children>
                                                    </AnchorPane>
                                                </content>
