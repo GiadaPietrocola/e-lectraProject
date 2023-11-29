@@ -57,13 +57,13 @@
                                                                   <children>
                                                                      <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="409.0">
                                                                         <children>
-                                                                           <Label prefHeight="26.0" prefWidth="98.0" text="Coppia Desiderata" />
+                                                                           <Label fx:id="i_coppiaDesiderataLabel" prefHeight="26.0" prefWidth="98.0" text="Coppia Desiderata" />
                                                                   <TextField fx:id="i_coppiaTextField" prefHeight="1.0" prefWidth="70.0" translateY="5.0">
                                                                      <HBox.margin>
                                                                         <Insets bottom="10.0" left="30.0" right="10.0" />
                                                                      </HBox.margin>
                                                                   </TextField>
-                                                                           <Label prefHeight="31.0" prefWidth="20.0" text="Nm" />
+                                                                           <Label fx:id="i_nmLabel" prefHeight="31.0" prefWidth="20.0" text="\% Nm" />
                                                                         </children>
                                                                <opaqueInsets>
                                                                   <Insets />
@@ -71,13 +71,13 @@
                                                                      </HBox>
                                                                      <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="409.0">
                                                                         <children>
-                                                                           <Label text="Velocità Desiderata" />
+                                                                           <Label fx:id="i_velocitaDesiderataLabel" text="Velocità Desiderata" />
                                                                   <TextField fx:id="i_velocitaTextField" prefHeight="1.0" prefWidth="70.0">
                                                                      <HBox.margin>
                                                                         <Insets left="26.0" right="10.0" />
                                                                      </HBox.margin>
                                                                   </TextField>
-                                                                           <Label prefHeight="18.0" prefWidth="60.0" text="km/h" />
+                                                                           <Label fx:id="i_kmLabel" prefHeight="18.0" prefWidth="60.0" text="\% km/h" />
                                                                         </children>
                                                                      </HBox>
                                                                   </children>
@@ -88,7 +88,7 @@
                                                                <HBox layoutX="14.0" layoutY="22.0" prefHeight="26.0" prefWidth="200.0">
                                                                   <children>
                                                                      <ToggleSwitch fx:id="i_coppiaVelocitaSwitchButton" selected="true" text="Coppia" />
-                                                                     <Label text="   Velocità" />
+                                                                     <Label fx:id="i_velocitaLabel" text="   Velocità" />
                                                                   </children>
                                                                </HBox>
                                                    </children>
@@ -117,7 +117,7 @@
                                                                <HBox prefHeight="35.0" prefWidth="298.0">
                                                                   <children>
                                                                      <ToggleSwitch fx:id="i_forwardReverseSwitchButton" text="Forward" />
-                                                                     <Label text="    Reverse">
+                                                                     <Label fx:id="i_reverseLabel" text="    Reverse">
                                                                         <opaqueInsets>
                                                                            <Insets />
                                                                         </opaqueInsets>
@@ -171,24 +171,24 @@
                                                          </HBox>
                                                          <HBox prefHeight="43.0" prefWidth="439.0">
                                                             <children>
-                                                               <Label prefHeight="18.0" prefWidth="55.0" text="Corrente" translateY="4.0" />
+                                                               <Label fx:id="i_correnteLabel" prefHeight="18.0" prefWidth="55.0" text="Corrente" translateY="4.0" />
                                                       <TextField fx:id="i_correnteTextField" prefHeight="1.0" prefWidth="70.0">
                                                          <HBox.margin>
                                                             <Insets right="10.0" />
                                                          </HBox.margin>
                                                       </TextField>
-                                                               <Label prefHeight="9.0" prefWidth="47.0" text="Ampere" translateY="4.0" />
+                                                               <Label fx:id="i_ampereLabel" prefHeight="9.0" prefWidth="47.0" text="Ampere" translateY="4.0" />
                                                             </children>
                                                          </HBox>
                                                          <HBox prefHeight="39.0" prefWidth="439.0">
                                                             <children>
-                                                               <Label text="Tensione" translateY="4.0" />
+                                                               <Label fx:id="i_tensioneLabel" text="Tensione" translateY="4.0" />
                                                       <TextField fx:id="i_tensioneTextField" prefHeight="1.0" prefWidth="70.0">
                                                          <HBox.margin>
                                                             <Insets left="7.0" right="10.0" />
                                                          </HBox.margin>
                                                       </TextField>
-                                                               <Label text="Volt" translateY="4.0" />
+                                                               <Label fx:id="i_voltLabel" text="Volt" translateY="4.0" />
                                                             </children>
                                                          </HBox>
                                                       </children>
@@ -209,7 +209,7 @@
                                                    </AnchorPane>
                                                </content>
                                              </TitledPane>
-                                             <TitledPane animated="false" collapsible="false" prefWidth="403.0" text="Connettori" GridPane.rowIndex="1">
+                                             <TitledPane animated="false" collapsible="false" prefWidth="403.0" text="Contattori" GridPane.rowIndex="1">
                                                <content>
                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                       <children>

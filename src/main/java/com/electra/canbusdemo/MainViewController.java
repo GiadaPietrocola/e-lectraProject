@@ -30,6 +30,26 @@ public class MainViewController implements Notifiable {
     @FXML
     private Button i_emergencyStopButton;
     @FXML
+    private Label i_reverseLabel;
+    @FXML
+    private Label i_velocitaDesiderataLabel;
+    @FXML
+    private Label i_coppiaDesiderataLabel;
+    @FXML
+    private Label i_nmLabel;
+    @FXML
+    private Label i_ampereLabel;
+    @FXML
+    private Label i_voltLabel;
+    @FXML
+    private Label i_kmLabel;
+    @FXML
+    private Label i_correnteLabel;
+    @FXML
+    private Label i_tensioneLabel;
+    @FXML
+    private Label i_velocitaLabel;
+    @FXML
     private Button sendButton;
     @FXML
     private TextArea receivedTextArea;
@@ -505,5 +525,17 @@ public class MainViewController implements Notifiable {
         i_forwardReverseSwitchButton.setDisable(disable);
         i_gridResSwitchButton.setDisable(disable);
         i_profiloCaricaSwitchButton.setDisable(disable);
+        i_customLabel.setDisable(disable);
+        i_resLabel.setDisable(disable);
+        i_reverseLabel.setDisable(disable);
+        i_coppiaDesiderataLabel.setDisable(disable);
+        i_velocitaDesiderataLabel.setDisable(disable);
+        i_nmLabel.setDisable(disable);
+        i_kmLabel.setDisable(disable);
+        i_ampereLabel.setDisable(disable);
+        i_voltLabel.setDisable(disable);
+        i_correnteLabel.setDisable(disable);
+        i_velocitaLabel.setDisable(disable);
+        i_tensioneLabel.setDisable(disable);
     }
 }
