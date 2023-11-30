@@ -32,6 +32,7 @@ import java.util.TimerTask;
 
 import static com.electra.canbusdemo.CANbus.CANbus_Controller.getCanBusController;
 import static com.electra.canbusdemo.DeviceId.*;
+import static java.lang.Integer.parseInt;
 
 public class MainViewController implements Notifiable {
     @FXML
@@ -105,7 +106,7 @@ public class MainViewController implements Notifiable {
     @FXML
     private ToggleSwitch i_contattore2SwitchButton;
     @FXML
-    private  Gauge i_setVelocitaGauge;
+    private  Gauge i_setVelocitaCoppiaGauge;
     @FXML
     private ToggleGroup sportEco;
     @FXML
@@ -223,7 +224,7 @@ public class MainViewController implements Notifiable {
         o_correnteCaricatoreGauge.setAnimated(true);
         o_tensioneCaricatoreGauge.setAnimated(true);
 
-        i_setVelocitaGauge.setAnimated(true);
+        i_setVelocitaCoppiaGauge.setAnimated(true);
 
         i_emergencyStopButton.getStyleClass().add("button-red");
 
@@ -256,21 +257,47 @@ public class MainViewController implements Notifiable {
         });
         i_coppiaVelocitaSwitchButton.setOnMouseClicked(event -> {
             if(i_coppiaVelocitaSwitchButton.isSelected()){
-                i_coppiaTextField.setDisable(false);
-                i_velocitaTextField.setDisable(true);
-                i_velocitaTextField.setText("0");
-            }
-            else{
                 i_coppiaTextField.setText("0");
                 i_coppiaTextField.setDisable(true);
                 i_velocitaTextField.setDisable(false);
+            }
+            else{
+                i_coppiaTextField.setDisable(false);
+                i_velocitaTextField.setDisable(true);
+                i_velocitaTextField.setText("0");
             }
         });
 
         i_coppiaTextField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER) {
+                i_setVelocitaCoppiaGauge.setValue(parseInt(i_coppiaTextField.getText()));
                 try {
                     send(VCU_Pair);
+                    System.out.println("a");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                event.consume(); // Consuma l'evento per evitare che altri gestori lo ricevano.
+            }
+        });
+
+        i_correnteTextField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                i_setVelocitaCoppiaGauge.setValue(parseInt(i_velocitaTextField.getText()));
+                try {
+                    send(VCU_Charging);
+                    System.out.println("a");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                event.consume(); // Consuma l'evento per evitare che altri gestori lo ricevano.
+            }
+        });
+
+        i_tensioneTextField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                try {
+                    send(VCU_Charging);
                     System.out.println("a");
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -286,9 +313,13 @@ public class MainViewController implements Notifiable {
             i_resLabel.setDisable(true);
             i_tensioneTextField.setDisable(true);
             i_correnteTextField.setDisable(true);
+            i_ampereLabel.setDisable(true);
+            i_voltLabel.setDisable(true);
+            i_correnteLabel.setDisable(true);
+            i_tensioneLabel.setDisable(true);
             try {
                 send(VCU_Charging);
-                System.out.println("a");
+                send(VCU_Velocity);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -301,12 +332,52 @@ public class MainViewController implements Notifiable {
             i_resLabel.setDisable(false);
             i_tensioneTextField.setDisable(false);
             i_correnteTextField.setDisable(false);
+            i_ampereLabel.setDisable(false);
+            i_voltLabel.setDisable(false);
+            i_correnteLabel.setDisable(false);
+            i_tensioneLabel.setDisable(false);
             try {
                 send(VCU_Charging);
+                send(VCU_Velocity);
                 System.out.println("a");
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+        });
+
+        i_gridResSwitchButton.setOnMouseClicked(event -> {
+            try {
+                send(VCU_Charging);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+        });
+
+        i_profiloCaricaSwitchButton.setOnMouseClicked(event -> {
+            try {
+                send(VCU_Charging);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+        });
+
+        i_contattore1SwitchButton.setOnMouseClicked(event -> {
+            try {
+                send(VCU_Velocity);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        i_contattore2SwitchButton.setOnMouseClicked(event -> {
+            try {
+                send(VCU_Pair);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
         });
 
     }
@@ -340,6 +411,7 @@ public class MainViewController implements Notifiable {
          //   sendButton.setDisable(true);
             connectButton.setText("Connect");
         }
+
 
     }
 
@@ -380,46 +452,122 @@ public class MainViewController implements Notifiable {
         byte[] data={};
         switch (id) {
             case VCU_Velocity: {
-                data = new byte[]
-                        {
-                                (byte) HexFormat.fromHexDigits(i_forwardReverseSwitchButton.isSelected() ? "0" : "1"),
-                                (byte) HexFormat.fromHexDigits(i_forwardReverseSwitchButton.isSelected() ? "0" : "1"),
-                                (byte) HexFormat.fromHexDigits(i_forwardReverseSwitchButton.isSelected() ? "1" : "0"),
-                                (byte) HexFormat.fromHexDigits(i_velocitaTextField.getText()),
-                                (byte) HexFormat.fromHexDigits(i_contattore1SwitchButton.isSelected() ? "1" : "0"),
-                                (byte) HexFormat.fromHexDigits("0"),
-                                (byte) HexFormat.fromHexDigits("0"),
-                                (byte) HexFormat.fromHexDigits("0")
-                        };
+                if(i_forwardReverseSwitchButton.isDisabled()){
+                    data = new byte[]
+                            {
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits(i_contattore1SwitchButton.isSelected() ? "1" : "0"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits("0")
+                            };
+                }
+                else {
+                    data = new byte[]
+                            {
+                                    (byte) HexFormat.fromHexDigits(i_forwardReverseSwitchButton.isSelected() ? "0" : "1"),
+                                    (byte) HexFormat.fromHexDigits(i_forwardReverseSwitchButton.isSelected() ? "0" : "1"),
+                                    (byte) HexFormat.fromHexDigits(i_forwardReverseSwitchButton.isSelected() ? "1" : "0"),
+                                    (byte) HexFormat.fromHexDigits(i_velocitaTextField.getText()),
+                                    (byte) HexFormat.fromHexDigits(i_contattore1SwitchButton.isSelected() ? "1" : "0"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits("0")
+                            };
+                    if(data[3]>(byte)100){
+                        fireAlarm(Alert.AlertType.ERROR, "Warning", "Please insert a valid input for velocity.");
+                        return;
+                    }
+                    else if(data[1]==(byte)1&&data[2]==(byte)1){
+                        fireAlarm(Alert.AlertType.ERROR, "Warning", "Forward and Reverse modes cannot be activated at the same time");
+                        return;
+                    }
+
+                }
             }
             break;
             case VCU_Pair: {
-                data = new byte[]
-                        {
-                                (byte) HexFormat.fromHexDigits(i_coppiaTextField.getText()),
-                                (byte) HexFormat.fromHexDigits(i_contattore2SwitchButton.isSelected() ? "1" : "0"),
-                                (byte) HexFormat.fromHexDigits(i_emergencyStopButton.getText().equals("STOP") ? "0" : "1"),
-                                (byte) HexFormat.fromHexDigits(i_sportRadioButton.isSelected() ? "1" : "0"),
-                                (byte) HexFormat.fromHexDigits(i_ecoRadioButton.isSelected() ? "1" : "0"),
-                                (byte) HexFormat.fromHexDigits("0"),
-                                (byte) HexFormat.fromHexDigits("0"),
-                                (byte) HexFormat.fromHexDigits("0")
-                        };
-                System.out.println(i_coppiaTextField.getText());
+                if(i_forwardReverseSwitchButton.isDisabled()){
+                    data = new byte[]
+                            {
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits(i_contattore2SwitchButton.isSelected() ? "1" : "0"),
+                                    (byte) HexFormat.fromHexDigits(i_emergencyStopButton.getText().equals("STOP") ? "0" : "1"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits("0")
+                            };
+                }
+                else {
+                    data = new byte[]
+                            {
+                                    (byte) HexFormat.fromHexDigits(i_coppiaTextField.getText()),
+                                    (byte) HexFormat.fromHexDigits(i_contattore2SwitchButton.isSelected() ? "1" : "0"),
+                                    (byte) HexFormat.fromHexDigits(i_emergencyStopButton.getText().equals("STOP") ? "0" : "1"),
+                                    (byte) HexFormat.fromHexDigits(i_sportRadioButton.isSelected() ? "1" : "0"),
+                                    (byte) HexFormat.fromHexDigits(i_ecoRadioButton.isSelected() ? "1" : "0"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits("0")
+                            };
+
+                    if(data[0]>(byte)100){
+                        fireAlarm(Alert.AlertType.ERROR, "Warning", "Please insert a valid input for pair.");
+                        return;
+                    }
+                    else if(data[3]==(byte)1&&data[4]==(byte)1){
+                        fireAlarm(Alert.AlertType.ERROR, "Warning", "Sport and Eco modes cannot be activated at the same time");
+                        return;
+                    }
+                }
             }
             case VCU_Charging: {
-                data = new byte[]
-                        {
-                                (byte) HexFormat.fromHexDigits(i_parkingModeRadioButton.isSelected() ? "1" : "0"),
-                                (byte) HexFormat.fromHexDigits(i_chargingModeRadioButton.isSelected() ? "1" : "0"),
-                                (byte) HexFormat.fromHexDigits(i_gridResSwitchButton.isSelected() ? "0" : "1"),
-                                (byte) HexFormat.fromHexDigits(i_gridResSwitchButton.isSelected() ? "1" : "0"),
-                                (byte) HexFormat.fromHexDigits(i_correnteTextField.getText()),
-                                (byte) HexFormat.fromHexDigits(i_tensioneTextField.getText()),
-                                (byte) HexFormat.fromHexDigits(i_profiloCaricaSwitchButton.isSelected() ? "0" : "1"),
-                                (byte) HexFormat.fromHexDigits(i_profiloCaricaSwitchButton.isSelected() ? "1" : "0"),
-                        };
-                System.out.println(i_coppiaTextField.getText());
+                if(i_gridResSwitchButton.isDisabled()){
+                    data = new byte[]
+                            {
+                                    (byte) HexFormat.fromHexDigits(i_parkingModeRadioButton.isSelected() ? "1" : "0"),
+                                    (byte) HexFormat.fromHexDigits(i_chargingModeRadioButton.isSelected() ? "1" : "0"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) HexFormat.fromHexDigits("0"),
+                            };
+                }
+                else{
+                    data = new byte[]
+                            {
+                                    (byte) HexFormat.fromHexDigits(i_parkingModeRadioButton.isSelected() ? "1" : "0"),
+                                    (byte) HexFormat.fromHexDigits(i_chargingModeRadioButton.isSelected() ? "1" : "0"),
+                                    (byte) HexFormat.fromHexDigits(i_gridResSwitchButton.isSelected() ? "0" : "1"),
+                                    (byte) HexFormat.fromHexDigits(i_gridResSwitchButton.isSelected() ? "1" : "0"),
+                                    (byte) HexFormat.fromHexDigits(i_correnteTextField.getText()),
+                                    (byte) HexFormat.fromHexDigits(i_tensioneTextField.getText()),
+                                    (byte) HexFormat.fromHexDigits(i_profiloCaricaSwitchButton.isSelected() ? "0" : "1"),
+                                    (byte) HexFormat.fromHexDigits(i_profiloCaricaSwitchButton.isSelected() ? "1" : "0"),
+                            };
+
+                   if(data[0]==(byte)1&&data[1]==(byte)1) {
+                       fireAlarm(Alert.AlertType.ERROR, "Warning", "Parking and Charging modes cannot be activated at the same time");
+                       return;
+                   }
+                   else if(data[2]==(byte)1&&data[3]==(byte)1) {
+                       fireAlarm(Alert.AlertType.ERROR, "Warning", "Grid and Res modes cannot be activated at the same time");
+                       return;
+                   }
+                   else if(data[6]==(byte)1&&data[7]==(byte)1) {
+                       fireAlarm(Alert.AlertType.ERROR, "Warning", "Cost and Custom modes cannot be activated at the same time");
+                       return;
+                   }
+
+                }
+
             }
             break;
             default:
@@ -519,7 +667,16 @@ public class MainViewController implements Notifiable {
             i_emergencyStopButton.getStyleClass().remove("button-red");
             i_emergencyStopButton.setText("RUN");
             i_emergencyStopButton.getStyleClass().add("button-green");
+            i_contattore1SwitchButton.setSelected(false);
+            i_contattore2SwitchButton.setSelected(false);
             setDisableWidgets(true);
+            try{
+                send(VCU_Pair);
+                send(VCU_Velocity);
+                send(VCU_Charging);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
 
         } else {
             i_emergencyStopButton.getStyleClass().remove("button-green");
@@ -546,7 +703,7 @@ public class MainViewController implements Notifiable {
                     o_correnteCaricatoreGauge.setValue(randomArray[6]);
                     o_tensioneCaricatoreGauge.setValue(randomArray[7]);
 
-                    i_setVelocitaGauge.setValue(randomArray[8]);
+                    i_setVelocitaCoppiaGauge.setValue(randomArray[8]);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -598,6 +755,12 @@ public class MainViewController implements Notifiable {
             // Seleziona il RadioButton corrente
             lastSelectedSportEco = currentRadioButton;
         }
+
+        try {
+            send(VCU_Pair);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
@@ -613,6 +776,12 @@ public class MainViewController implements Notifiable {
         } else {
             // Seleziona il RadioButton corrente
             lastSelectedParkingCharging = currentRadioButton;
+        }
+
+        try {
+            send(VCU_Charging);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

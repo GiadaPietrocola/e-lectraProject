@@ -99,7 +99,7 @@
                                                                </HBox>
                                                    </children>
                                                 </AnchorPane>
-                                                         <Gauge fx:id="i_setVelocitaGauge" prefHeight="223.0" prefWidth="253.0" translateX="-40.0" />
+                                                         <Gauge fx:id="i_setVelocitaCoppiaGauge" prefHeight="223.0" prefWidth="253.0" translateX="-40.0" />
                                              </children>
                                           </HBox>
                                                 </children>
@@ -163,10 +163,13 @@
                                                 <content>
                                                    <VBox prefHeight="200.0" prefWidth="401.0">
                                                       <children>
-                                                         <RadioButton fx:id="i_parkingModeRadioButton" mnemonicParsing="false" text="Parking Mode" onMouseClicked="#handleRadioButtonParkingCharging"/>
+                                                          <fx:define>
+                                                              <ToggleGroup fx:id="parkingCharging" />
+                                                          </fx:define>
+                                                         <RadioButton fx:id="i_parkingModeRadioButton" mnemonicParsing="false" text="Parking Mode" toggleGroup="$parkingCharging" onMouseClicked="#handleRadioButtonParkingCharging"/>
                                                          <HBox prefHeight="37.0" prefWidth="263.0">
                                                             <children>
-                                                               <RadioButton fx:id="i_chargingModeRadioButton" mnemonicParsing="false" text="Charging Mode" onMouseClicked="#handleRadioButtonParkingCharging"/>
+                                                               <RadioButton fx:id="i_chargingModeRadioButton" mnemonicParsing="false" text="Charging Mode" toggleGroup="$parkingCharging" onMouseClicked="#handleRadioButtonParkingCharging"/>
                                                                <HBox prefHeight="37.0" prefWidth="170.0">
                                                                   <children>
                                                                      <ToggleSwitch fx:id="i_gridResSwitchButton" prefHeight="20.0" prefWidth="81.0" text="Grid" />
