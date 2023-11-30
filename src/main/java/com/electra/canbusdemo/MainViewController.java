@@ -5,22 +5,33 @@ import com.electra.canbusdemo.CANbus.Notifiable;
 import eu.hansolo.medusa.GaugeBuilder;
 import eu.hansolo.medusa.Section;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import org.controlsfx.control.*;
 import eu.hansolo.medusa.Gauge;
+
+import java.text.ChoiceFormat;
 import java.util.HexFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import static com.electra.canbusdemo.CANbus.CANbus_Controller.getCanBusController;
+import static com.electra.canbusdemo.DeviceId.*;
 
 public class MainViewController implements Notifiable {
     @FXML
@@ -95,8 +106,10 @@ public class MainViewController implements Notifiable {
     private ToggleSwitch i_contattore2SwitchButton;
     @FXML
     private  Gauge i_setVelocitaGauge;
-
-
+    @FXML
+    private ToggleGroup sportEco;
+    @FXML
+    private ToggleGroup parkingCharging;
     // OUTPUT WIDGETS -----------------------------------------------------------
     @FXML
     private  Gauge o_tensioneBatterieGauge;
@@ -115,7 +128,9 @@ public class MainViewController implements Notifiable {
     @FXML
     private Gauge o_temperaturaGauge;
     @FXML
-    private  StatusBar o_modalitaStatusButton;
+    private  StatusBar o_modalitaCaricatoreStatusButton;
+    @FXML
+    private  StatusBar o_modalitaTrazioneStatusButton;
     @FXML
     private StatusBar o_statusButtonEmergencyStop;
     @FXML
@@ -131,6 +146,10 @@ public class MainViewController implements Notifiable {
     @FXML
     private TextField data0TextField, data1TextField, data2TextField, data3TextField, data4TextField,
             data5TextField, data6TextField, data7TextField;
+
+    private RadioButton lastSelectedSportEco;
+
+    private RadioButton lastSelectedParkingCharging;
     @FXML
     private ComboBox<String> deviceComboBox;
 
@@ -177,8 +196,6 @@ public class MainViewController implements Notifiable {
             checkNumberFieldInput(keyEvent, i_coppiaTextField);
         });
 
-        ToggleGroup sportEco = new ToggleGroup();
-        ToggleGroup parkingCharging = new ToggleGroup();
 
         i_sportRadioButton.setToggleGroup(sportEco);
         i_ecoRadioButton.setToggleGroup(sportEco);
@@ -208,44 +225,12 @@ public class MainViewController implements Notifiable {
 
         i_setVelocitaGauge.setAnimated(true);
 
-        /*
-        data0TextField.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> { //Invocato ogni volta che viene premuto un tasto in quella casella di testo
-           checkTextFieldInput(keyEvent, data0TextField);  //evita di scrivere lettere oltre 0123456789abcdef
-        });
+        i_emergencyStopButton.getStyleClass().add("button-red");
 
-        data1TextField.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
-            checkTextFieldInput(keyEvent, data1TextField);
-        });
-
-        data2TextField.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
-            checkTextFieldInput(keyEvent, data2TextField);
-        });
-
-        data3TextField.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
-            checkTextFieldInput(keyEvent, data3TextField);
-        });
-
-        data4TextField.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
-            checkTextFieldInput(keyEvent, data4TextField);
-        });
-
-        data5TextField.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
-            checkTextFieldInput(keyEvent, data5TextField);
-        });
-
-        data6TextField.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
-            checkTextFieldInput(keyEvent, data6TextField);
-        });
-
-        data7TextField.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> {
-            checkTextFieldInput(keyEvent, data7TextField);
-        });
-*/
         deviceComboBox.setOnMouseClicked(event -> { //set = solo un listener per l'evento
             canBusDevice_List.removeAll(canBusDevice_List); //Pulisce la lista  (menu in alto a sinistra
             canBusDevice_List.addAll(canBusController.getAvailableHandlers()); //aggiorna la lista con i dispositivi disponibili
         });
-
 
         i_forwardReverseSwitchButton.setOnMouseClicked(event -> {
             if(i_forwardReverseSwitchButton.isSelected()){
@@ -256,27 +241,27 @@ public class MainViewController implements Notifiable {
                 i_sportRadioButton.setDisable(false);
                 i_ecoRadioButton.setDisable(false);
             }
-            if(connectButton.getText().equals("Connect")){
-                fireAlarm(Alert.AlertType.ERROR, "Warning", "Please select a valid CAN bus adapter Device.");
-            }
-            else{
+           // if(connectButton.getText().equals("Connect")){
+           //     fireAlarm(Alert.AlertType.ERROR, "Warning", "Please select a valid CAN bus adapter Device.");
+           // }
+           // else{
                 try {
-                    send("222");
-
-                    //  handleReceivedMessages(519, "00000000000001000000000000000000"); //per testing
+                    //send(VCU_Velocity);
+                    handleReceivedMessages(Inverter, "0000000001000000"); //per testing
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-            }
+          //  }
 
         });
-
         i_coppiaVelocitaSwitchButton.setOnMouseClicked(event -> {
             if(i_coppiaVelocitaSwitchButton.isSelected()){
                 i_coppiaTextField.setDisable(false);
                 i_velocitaTextField.setDisable(true);
+                i_velocitaTextField.setText("0");
             }
             else{
+                i_coppiaTextField.setText("0");
                 i_coppiaTextField.setDisable(true);
                 i_velocitaTextField.setDisable(false);
             }
@@ -284,16 +269,11 @@ public class MainViewController implements Notifiable {
 
         i_coppiaTextField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                if(connectButton.getText().equals("Connect")){
-                    fireAlarm(Alert.AlertType.ERROR, "Warning", "Please select a valid CAN bus adapter Device.");
-                }
-                else{
-                    try {
-                        send("308");
-                        System.out.println("a");
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+                try {
+                    send(VCU_Pair);
+                    System.out.println("a");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
                 event.consume(); // Consuma l'evento per evitare che altri gestori lo ricevano.
             }
@@ -306,6 +286,12 @@ public class MainViewController implements Notifiable {
             i_resLabel.setDisable(true);
             i_tensioneTextField.setDisable(true);
             i_correnteTextField.setDisable(true);
+            try {
+                send(VCU_Charging);
+                System.out.println("a");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         });
 
         i_chargingModeRadioButton.setOnMouseClicked(event -> {
@@ -315,8 +301,13 @@ public class MainViewController implements Notifiable {
             i_resLabel.setDisable(false);
             i_tensioneTextField.setDisable(false);
             i_correnteTextField.setDisable(false);
+            try {
+                send(VCU_Charging);
+                System.out.println("a");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         });
-
 
     }
 
@@ -352,13 +343,15 @@ public class MainViewController implements Notifiable {
 
     }
 
+    /*
     @FXML
     public void clearAllButtonAction(){ //Azione del pulsante clear all
         receiveID = receiveCycle = sendID = sendCycle = 0; //reinizializza tutte le variabili
         receivedTextArea.clear(); //pulisce le text area
         sentTextArea.clear();
     }
-
+*/
+    /*
     @FXML
     public void sendButtonAction() throws Exception {  // Può generare eccezioni se il parametro di fromHexDigits ha più di 8 byte o se contiene caratteri non esadecimali ma siamo sicuri che non è così quindi non serve il try catch
         byte data[] =
@@ -382,64 +375,114 @@ public class MainViewController implements Notifiable {
        // sentTextArea.appendText("[" + sendID + "]: " + "ID: " + idTextField.getText().toUpperCase() + " data: " +   //il messaggio viene aggiunto alla text area
        //         HexFormat.of().formatHex(data).toUpperCase() + "\n");
     }
-
+*/
     public void send(String id) throws Exception {
-       byte[] data={};
-       switch (id) {
-           case "222": {
-               data = new byte[]
-                       {
-                               (byte) HexFormat.fromHexDigits("0"),
-                               (byte) HexFormat.fromHexDigits(i_forwardReverseSwitchButton.isSelected() ? "0" : "1"),
-                               (byte) HexFormat.fromHexDigits(i_forwardReverseSwitchButton.isSelected() ? "1" : "0"),
-                               (byte) HexFormat.fromHexDigits(i_velocitaTextField.getText()),
-                               (byte) HexFormat.fromHexDigits(i_contattore1SwitchButton.isSelected() ? "0" : "1"),
-                               (byte) HexFormat.fromHexDigits("0"),
-                               (byte) HexFormat.fromHexDigits("0"),
-                               (byte) HexFormat.fromHexDigits("0")
-                       };
-           }
-               break;
-           case "308": {
-               data = new byte[]
-                       {
-                               (byte) HexFormat.fromHexDigits(i_coppiaTextField.getText()),
-                               (byte) HexFormat.fromHexDigits("0"),
-                               (byte) HexFormat.fromHexDigits("0"),
-                               (byte) HexFormat.fromHexDigits("0"),
-                               (byte) HexFormat.fromHexDigits("0"),
-                               (byte) HexFormat.fromHexDigits("0"),
-                               (byte) HexFormat.fromHexDigits("0"),
-                               (byte) HexFormat.fromHexDigits("0")
-                       };
-               System.out.println(i_coppiaTextField.getText());
-           }
-           break;
-           default:
-               System.err.println("Id errato");
-              break;
-       }
-           canBusController.sendCommand(HexFormat.fromHexDigits(id), data);
+        byte[] data={};
+        switch (id) {
+            case VCU_Velocity: {
+                data = new byte[]
+                        {
+                                (byte) HexFormat.fromHexDigits(i_forwardReverseSwitchButton.isSelected() ? "0" : "1"),
+                                (byte) HexFormat.fromHexDigits(i_forwardReverseSwitchButton.isSelected() ? "0" : "1"),
+                                (byte) HexFormat.fromHexDigits(i_forwardReverseSwitchButton.isSelected() ? "1" : "0"),
+                                (byte) HexFormat.fromHexDigits(i_velocitaTextField.getText()),
+                                (byte) HexFormat.fromHexDigits(i_contattore1SwitchButton.isSelected() ? "1" : "0"),
+                                (byte) HexFormat.fromHexDigits("0"),
+                                (byte) HexFormat.fromHexDigits("0"),
+                                (byte) HexFormat.fromHexDigits("0")
+                        };
+            }
+            break;
+            case VCU_Pair: {
+                data = new byte[]
+                        {
+                                (byte) HexFormat.fromHexDigits(i_coppiaTextField.getText()),
+                                (byte) HexFormat.fromHexDigits(i_contattore2SwitchButton.isSelected() ? "1" : "0"),
+                                (byte) HexFormat.fromHexDigits(i_emergencyStopButton.getText().equals("STOP") ? "0" : "1"),
+                                (byte) HexFormat.fromHexDigits(i_sportRadioButton.isSelected() ? "1" : "0"),
+                                (byte) HexFormat.fromHexDigits(i_ecoRadioButton.isSelected() ? "1" : "0"),
+                                (byte) HexFormat.fromHexDigits("0"),
+                                (byte) HexFormat.fromHexDigits("0"),
+                                (byte) HexFormat.fromHexDigits("0")
+                        };
+                System.out.println(i_coppiaTextField.getText());
+            }
+            case VCU_Charging: {
+                data = new byte[]
+                        {
+                                (byte) HexFormat.fromHexDigits(i_parkingModeRadioButton.isSelected() ? "1" : "0"),
+                                (byte) HexFormat.fromHexDigits(i_chargingModeRadioButton.isSelected() ? "1" : "0"),
+                                (byte) HexFormat.fromHexDigits(i_gridResSwitchButton.isSelected() ? "0" : "1"),
+                                (byte) HexFormat.fromHexDigits(i_gridResSwitchButton.isSelected() ? "1" : "0"),
+                                (byte) HexFormat.fromHexDigits(i_correnteTextField.getText()),
+                                (byte) HexFormat.fromHexDigits(i_tensioneTextField.getText()),
+                                (byte) HexFormat.fromHexDigits(i_profiloCaricaSwitchButton.isSelected() ? "0" : "1"),
+                                (byte) HexFormat.fromHexDigits(i_profiloCaricaSwitchButton.isSelected() ? "1" : "0"),
+                        };
+                System.out.println(i_coppiaTextField.getText());
+            }
+            break;
+            default:
+                System.err.println("Id errato");
+                break;
+        }
+        canBusController.sendCommand(HexFormat.fromHexDigits(id), data);
     }
     public void handleReceivedMessages(String id, String data) throws Exception {
 
         System.out.println(data);
 
         switch (id){
-            case "519": //207h
-                o_socGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(2,3)));
-            break;
-            case "187":
-                o_correnteCaricatoreGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(0,1)));
-                o_tensioneCaricatoreGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(2,5)));
+            case Charger_Battery:
+                o_socGauge.setValue(HexFormat.fromHexDigits(data.substring(2,4)));
                 break;
-            case "288":
-                o_temperaturaGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(2,3)));
-                o_correnteBatterieGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(5,6)));
-                o_tensioneBatterieGauge.setValue((byte) HexFormat.fromHexDigits(data.substring(7,8)));
+            case Charger:
+                o_correnteCaricatoreGauge.setValue(HexFormat.fromHexDigits(data.substring(0,2)));
+                o_tensioneCaricatoreGauge.setValue(HexFormat.fromHexDigits(data.substring(2,6)));
+                break;
+            case Inverter_Battery:
+                o_temperaturaGauge.setValue(HexFormat.fromHexDigits(data.substring(2,4)));
+                o_correnteBatterieGauge.setValue(HexFormat.fromHexDigits(data.substring(8,10)));
+                o_tensioneBatterieGauge.setValue(HexFormat.fromHexDigits(data.substring(10,12)));
+                break;
+            case ChargingMode:
+                if(HexFormat.fromHexDigits(data.substring(0,2))==0)
+                    o_modalitaCaricatoreStatusButton.setText("");
+                else if(HexFormat.fromHexDigits(data.substring(0,2))==1)
+                    o_modalitaCaricatoreStatusButton.setText("   GRID");
+                else if(HexFormat.fromHexDigits(data.substring(0,2))==2)
+                    o_modalitaCaricatoreStatusButton.setText("     RES");
+                break;
+            case Inverter:
+                o_velocitaMotoreGauge.setValue(HexFormat.fromHexDigits(data.substring(0,2)));
+                o_coppiaMotoreGauge.setValue(HexFormat.fromHexDigits(data.substring(2,4)));
+                if(HexFormat.fromHexDigits(data.substring(4,6))==0){
+                    o_statusButtonContattore1.getStyleClass().remove("status-bar-red");
+                    o_statusButtonContattore1.getStyleClass().add("status-bar-green");
+                }
+                else if(HexFormat.fromHexDigits(data.substring(4,6))==1){
+                    o_statusButtonContattore1.getStyleClass().remove("status-bar-green");
+                    o_statusButtonContattore1.getStyleClass().add("status-bar-red");
+                }
+
+                if(HexFormat.fromHexDigits(data.substring(6,8))==0) {
+                    o_statusButtonContattore2.getStyleClass().remove("status-bar-red");
+                    o_statusButtonContattore2.getStyleClass().add("status-bar-green");
+                }
+                else if(HexFormat.fromHexDigits(data.substring(6,8))==1){
+                    o_statusButtonContattore2.getStyleClass().remove("status-bar-green");
+                    o_statusButtonContattore2.getStyleClass().add("status-bar-red");
+                }
+
+                if(HexFormat.fromHexDigits(data.substring(8,10))==0)
+                    o_modalitaTrazioneStatusButton.setText("");
+                else if(HexFormat.fromHexDigits(data.substring(8,10))==1)
+                    o_modalitaTrazioneStatusButton.setText(" SPORT");
+                else if(HexFormat.fromHexDigits(data.substring(8,10))==2)
+                    o_modalitaTrazioneStatusButton.setText("  ECO");
                 break;
             default:
-            break;
+                break;
         }
     }
     private void fireAlarm(Alert.AlertType type, String title, String contentText){ //Genera una finestra di "allarme"
@@ -473,17 +516,19 @@ public class MainViewController implements Notifiable {
     @FXML
     public void EmercencyStopAction(){
         if (i_emergencyStopButton.getText().equals("STOP")) {
+            i_emergencyStopButton.getStyleClass().remove("button-red");
             i_emergencyStopButton.setText("RUN");
-            i_emergencyStopButton.setStyle("-fx-background-color: green;");
+            i_emergencyStopButton.getStyleClass().add("button-green");
             setDisableWidgets(true);
 
         } else {
+            i_emergencyStopButton.getStyleClass().remove("button-green");
             i_emergencyStopButton.setText("STOP");
-            i_emergencyStopButton.setStyle("-fx-background-color: red;");
+            i_emergencyStopButton.getStyleClass().add("button-red");
             setDisableWidgets(false);
         }
 
-        /*Timer timer = new Timer();
+        Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 try {
@@ -506,7 +551,7 @@ public class MainViewController implements Notifiable {
                     throw new RuntimeException(e);
                 }
             }
-        }, 0, 1000);*/
+        }, 0, 1000);
     }
 
     public void setDisableWidgets(boolean disable){
@@ -538,4 +583,37 @@ public class MainViewController implements Notifiable {
         i_velocitaLabel.setDisable(disable);
         i_tensioneLabel.setDisable(disable);
     }
+
+    @FXML
+    private void handleRadioButtonSportEco() {
+
+        RadioButton currentRadioButton = (RadioButton) sportEco.getSelectedToggle();
+
+        if (currentRadioButton == lastSelectedSportEco) {
+            // Se il RadioButton corrente è lo stesso di quello precedentemente selezionato, deseleziona
+            currentRadioButton.setSelected(false);
+            lastSelectedSportEco = null;  // Resetta l'ultimo RadioButton selezionato
+
+        } else {
+            // Seleziona il RadioButton corrente
+            lastSelectedSportEco = currentRadioButton;
+        }
+    }
+
+    @FXML
+    private void handleRadioButtonParkingCharging() {
+
+        RadioButton currentRadioButton = (RadioButton) sportEco.getSelectedToggle();
+
+        if (currentRadioButton == lastSelectedParkingCharging) {
+            // Se il RadioButton corrente è lo stesso di quello precedentemente selezionato, deseleziona
+            currentRadioButton.setSelected(false);
+            lastSelectedParkingCharging = null;  // Resetta l'ultimo RadioButton selezionato
+
+        } else {
+            // Seleziona il RadioButton corrente
+            lastSelectedParkingCharging = currentRadioButton;
+        }
+    }
 }
+

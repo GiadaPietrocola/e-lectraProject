@@ -19,7 +19,13 @@
 <?import org.controlsfx.control.StatusBar?>
 <?import org.controlsfx.control.ToggleSwitch?>
 
+
+<?import java.net.URL?>
+<?import javafx.scene.control.ToggleGroup?>
 <AnchorPane prefHeight="789.0" prefWidth="1160.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.electra.canbusdemo.MainViewController">
+    <stylesheets>
+        <URL value="@Styles.css" />
+    </stylesheets>
             <children>
                <GridPane prefHeight="780.0" prefWidth="1160.0">
                  <columnConstraints>
@@ -127,8 +133,11 @@
                                                                      <Insets bottom="10.0" />
                                                                   </padding>
                                                                </HBox>
-                                                               <RadioButton fx:id="i_sportRadioButton" mnemonicParsing="false" text="Sport" />
-                                                               <RadioButton fx:id="i_ecoRadioButton" mnemonicParsing="false" text="Eco" />
+                                                                <fx:define>
+                                                                    <ToggleGroup fx:id="sportEco" />
+                                                                </fx:define>
+                                                               <RadioButton fx:id="i_sportRadioButton" mnemonicParsing="false" text="Sport" toggleGroup="$sportEco" onMouseClicked="#handleRadioButtonSportEco" />
+                                                               <RadioButton fx:id="i_ecoRadioButton" mnemonicParsing="false" text="Eco" toggleGroup="$sportEco" onMouseClicked="#handleRadioButtonSportEco" />
                                                             </children>
                                                             <padding>
                                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -154,10 +163,10 @@
                                                 <content>
                                                    <VBox prefHeight="200.0" prefWidth="401.0">
                                                       <children>
-                                                         <RadioButton fx:id="i_parkingModeRadioButton" mnemonicParsing="false" text="Parking Mode" />
+                                                         <RadioButton fx:id="i_parkingModeRadioButton" mnemonicParsing="false" text="Parking Mode" onMouseClicked="#handleRadioButtonParkingCharging"/>
                                                          <HBox prefHeight="37.0" prefWidth="263.0">
                                                             <children>
-                                                               <RadioButton fx:id="i_chargingModeRadioButton" mnemonicParsing="false" text="Charging Mode" />
+                                                               <RadioButton fx:id="i_chargingModeRadioButton" mnemonicParsing="false" text="Charging Mode" onMouseClicked="#handleRadioButtonParkingCharging"/>
                                                                <HBox prefHeight="37.0" prefWidth="170.0">
                                                                   <children>
                                                                      <ToggleSwitch fx:id="i_gridResSwitchButton" prefHeight="20.0" prefWidth="81.0" text="Grid" />
@@ -230,7 +239,7 @@
                                                <content>
                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                       <children>
-                                                         <Button fx:id="i_emergencyStopButton" layoutX="92.0" layoutY="34.0" mnemonicParsing="false" onAction="#EmercencyStopAction" style="-fx-background-color: red;" text="STOP" textFill="WHITE" />
+                                                         <Button fx:id="i_emergencyStopButton" layoutX="92.0" layoutY="34.0" mnemonicParsing="false" onAction="#EmercencyStopAction" text="STOP" textFill="BLACK" />
                                                       </children>
                                                    </AnchorPane>
                                                </content>
@@ -292,10 +301,7 @@
                                                          <VBox prefHeight="176.0" prefWidth="139.0">
                                                             <children>
                                                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="139.0" text="SOC" textAlignment="CENTER" />
-                                     <Gauge fx:id="o_socGauge" barColor="#34c0eb" maxHeight="108.0" maxMeasuredValueVisible="false" maxWidth="Infinity" minMeasuredValueVisible="false" oldValueVisible="false" prefHeight="108.0" prefWidth="165.0" sectionsVisible="true" skinType="battery" translateX="10.0" translateY="15.0" unit="\%" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                                         <barBackgroundColor>
-                                                            <Color red="0.4736842215061188" green="0.47017544507980347" blue="0.47017544507980347" />
-                                                         </barBackgroundColor></Gauge>
+                                     <Gauge fx:id="o_socGauge" skinType="battery" barColor="#a1c3f7" barBackgroundColor="#8c9096" maxHeight="108.0" maxMeasuredValueVisible="false" maxWidth="Infinity" minMeasuredValueVisible="false" oldValueVisible="false" prefHeight="108.0" prefWidth="165.0" sectionsVisible="true"  translateX="10.0" translateY="15.0" unit="\%" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                                                             </children>
                                                          </VBox>
                                                       </children>
@@ -328,7 +334,7 @@
                                                          <VBox alignment="TOP_CENTER" prefHeight="176.0" prefWidth="106.0">
                                                             <children>
                                                                <Label alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="105.0" text="Modalità" />
-                                                      <StatusBar fx:id="o_modalitaCaricatoreStatusButton" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="60.0" text="    Grid" translateX="2.0" translateY="50.0" />
+                                                      <StatusBar fx:id="o_modalitaCaricatoreStatusButton" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="60.0" style="-fx-background-radius: 4;" text="" translateX="2.0" translateY="50.0" />
                                                             </children>
                                                          </VBox>
                                                       </children>
@@ -358,7 +364,7 @@
                                                          <VBox prefHeight="176.0" prefWidth="133.0">
                                                             <children>
                                                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="135.0" text="Temperatura" textAlignment="CENTER" />
-                                                               <Gauge fx:id="o_temperaturaGauge" barColor="#34c0eb" maxHeight="108.0" maxMeasuredValueVisible="false" maxValue="100.0" maxWidth="Infinity" minMeasuredValueVisible="false" oldValueVisible="false" prefHeight="108.0" prefWidth="165.0" skinType="dashboard" translateX="10.0" translateY="15.0" unit="°C" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                                               <Gauge fx:id="o_temperaturaGauge" skinType="dashboard" barColor="#a1c3f7" maxHeight="108.0" maxMeasuredValueVisible="false" maxValue="100.0" maxWidth="Infinity" minMeasuredValueVisible="false" oldValueVisible="false" prefHeight="108.0" prefWidth="165.0" translateX="10.0" translateY="15.0" unit="°C" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                                                             </children>
                                                          </VBox>
                                                       </children>
@@ -402,9 +408,18 @@
                                                             <children>
                                                                <HBox alignment="CENTER" layoutX="-3.0" layoutY="17.0" prefHeight="34.0" prefWidth="197.0">
                                                                   <children>
-                                                                     <StatusBar fx:id="o_statusButtonContattore1" prefHeight="63.0" prefWidth="40.0" text="   1." />
+                                                                     <StatusBar fx:id="o_statusButtonContattore1" prefHeight="63.0" prefWidth="40.0" style="-fx-background-radius: 4;" styleText="" text="1.">
+                                                               <HBox.margin>
+                                                                  <Insets />
+                                                               </HBox.margin>
+                                                               <padding>
+                                                                  <Insets left="15.0" />
+                                                               </padding></StatusBar>
                                                                      <Separator orientation="VERTICAL" prefHeight="33.0" prefWidth="44.0" />
-                                                                     <StatusBar fx:id="o_statusButtonContattore2" prefHeight="33.0" prefWidth="43.0" text="    2." />
+                                                                     <StatusBar fx:id="o_statusButtonContattore2" prefHeight="33.0" prefWidth="40.0" style="-fx-background-radius: 4;" text="2.">
+                                                               <padding>
+                                                                  <Insets left="15.0" />
+                                                               </padding></StatusBar>
                                                                   </children>
                                                                </HBox>
                                                             </children>
@@ -415,7 +430,10 @@
                                                      <content>
                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                             <children>
-                                                      <StatusBar fx:id="o_statusButtonEmergencyStop" layoutX="75.0" layoutY="18.0" prefHeight="33.0" prefWidth="43.0" text=" RUN" />
+                                                      <StatusBar fx:id="o_statusButtonEmergencyStop" layoutX="75.0" layoutY="18.0" prefHeight="33.0" prefWidth="43.0" style="-fx-background-radius: 4;" text="RUN">
+                                                         <padding>
+                                                            <Insets left="9.0" />
+                                                         </padding></StatusBar>
                                                             </children>
                                                          </AnchorPane>
                                                      </content>
@@ -424,7 +442,13 @@
                                             <content>
                                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                    <children>
-                                                      <StatusBar fx:id="o_modalitaTrazioneStatusButton" layoutX="70.0" layoutY="18.0" prefWidth="54.0" text="  Sport" />
+                                                      <StatusBar fx:id="o_modalitaTrazioneStatusButton" layoutX="70.0" layoutY="18.0" prefWidth="54.0" style="-fx-background-radius: 4;" text="">
+                                                         <opaqueInsets>
+                                                            <Insets />
+                                                         </opaqueInsets>
+                                                         <padding>
+                                                            <Insets left="6.0" />
+                                                         </padding></StatusBar>
                                                    </children>
                                                 </AnchorPane>
                                             </content>

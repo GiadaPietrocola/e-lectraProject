@@ -1,0 +1,45 @@
+.toggle-switch:selected .thumb-area {
+    -fx-background-color: #a1c3f7;
+}
+
+.status-bar-red {
+    -fx-background-color: #e74c3c; /* Colore di sfondo rosso */
+    -fx-border-color: #c0392b; /* Colore del bordo rosso */
+    -fx-border-width: 1; /* Larghezza del bordo */
+    -fx-border-radius: 5; /* Arrotondamento degli angoli del bordo */
+    -fx-background-radius: 5; /* Arrotondamento degli angoli dello sfondo */
+    -fx-effect: innershadow( three-pass-box, rgba(0,0,0,0.2), 5, 0.0, 0, 1); /* Effetto 3D */
+    -fx-opacity: 0.9;
+}
+
+.status-bar-green {
+    -fx-background-color: #2ecc71; /* Colore di sfondo verde */
+    -fx-border-color: #27ae60; /* Colore del bordo verde */
+    -fx-border-width: 1; /* Larghezza del bordo */
+    -fx-border-radius: 5; /* Arrotondamento degli angoli del bordo */
+    -fx-background-radius: 5; /* Arrotondamento degli angoli dello sfondo */
+    -fx-effect: innershadow( three-pass-box, rgba(0,0,0,0.2), 5, 0.0, 0, 1); /* Effetto 3D */
+    -fx-opacity: 0.9;
+}
+
+.button-red {
+    -fx-background-color: #e74c3c; /* Colore di sfondo rosso */
+    -fx-border-color: #c0392b; /* Colore del bordo rosso */
+    -fx-border-width: 1; /* Larghezza del bordo */
+    -fx-border-radius: 5; /* Arrotondamento degli angoli del bordo */
+    -fx-background-radius: 5; /* Arrotondamento degli angoli dello sfondo */
+    -fx-effect: innershadow( three-pass-box, rgba(0,0,0,0.2), 5, 0.0, 0, 1); /* Effetto 3D */
+    -fx-text-fill: black; /* Colore del testo bianco */
+    -fx-opacity: 0.9;
+}
+
+.button-green{
+    -fx-background-color: #2ecc71; /* Colore di sfondo rosso */
+    -fx-border-color: #27ae60; /* Colore del bordo rosso */
+    -fx-border-width: 1; /* Larghezza del bordo */
+    -fx-border-radius: 5; /* Arrotondamento degli angoli del bordo */
+    -fx-background-radius: 5; /* Arrotondamento degli angoli dello sfondo */
+    -fx-effect: innershadow( three-pass-box, rgba(0,0,0,0.2), 5, 0.0, 0, 1); /* Effetto 3D */
+    -fx-text-fill: black; /* Colore del testo bianco */
+    -fx-opacity: 0.9;
+}
