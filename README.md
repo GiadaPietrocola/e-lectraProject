@@ -133,6 +133,8 @@ In questa semplice sottosezione sarà possibile visualizzare lo stato della moda
 In questa sottosezione sarà possibile inserire il percorso per la creazione di un file di Log di alcuni dei principali elementi più significativi, con un annesso timestamp.
 ## Problemi Comuni
 Il principale messaggio di errore che può presentarsi riguarda la mancata connessione con un valido CAN bus, generando il seguente pop-up:
+
+
 ![Alt text](./readme/image-13.png)
 
 ## Supporto e Contatti
