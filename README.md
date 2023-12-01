@@ -14,7 +14,6 @@
       - [Contattori](#contattori)
       - [Emergency Stop](#emergency-stop)
    4. [OUTPUT](#output)
-4. [Risoluzione dei Problemi Comuni](#risoluzione-dei-problemi-comuni)
 5. [Supporto e Contatti](#supporto-e-contatti)
 
 ---
