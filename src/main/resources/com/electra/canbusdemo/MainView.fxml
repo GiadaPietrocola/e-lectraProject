@@ -69,7 +69,7 @@
                                                                         <Insets bottom="10.0" left="30.0" right="10.0" />
                                                                      </HBox.margin>
                                                                   </TextField>
-                                                                           <Label fx:id="i_nmLabel" prefHeight="31.0" prefWidth="20.0" text="\% Nm" />
+                                                                           <Label fx:id="i_nmLabel" prefHeight="31.0" prefWidth="70.0" text="\% Nm" />
                                                                         </children>
                                                                <opaqueInsets>
                                                                   <Insets />
@@ -83,7 +83,7 @@
                                                                         <Insets left="26.0" right="10.0" />
                                                                      </HBox.margin>
                                                                   </TextField>
-                                                                           <Label fx:id="i_kmLabel" prefHeight="18.0" prefWidth="60.0" text="\% km/h" />
+                                                                           <Label fx:id="i_kmLabel" prefHeight="18.0" prefWidth="70.0" text="\% km/h" />
                                                                         </children>
                                                                      </HBox>
                                                                   </children>
