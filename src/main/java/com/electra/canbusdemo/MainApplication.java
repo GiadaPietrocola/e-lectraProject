@@ -46,7 +46,9 @@ public class MainApplication extends Application {
         // Set properties for the main stage
         stage.setTitle("CANbus DEMO");
         stage.setScene(scene);
-        stage.setResizable(false);
+        stage.setResizable(true);
+        stage.setMinHeight(768);
+        stage.setMinWidth(1366);
         stage.show();
     }
 
