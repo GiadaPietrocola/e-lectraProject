@@ -284,6 +284,9 @@ public class MainViewController implements Notifiable {
         // Set up the emergency stop button style
         i_emergencyStopButton.getStyleClass().add("button-red");
 
+        // Set all input widgets as disabled
+        setDisableWidgets(true);
+
         /**
          * This method updates the CANbus device list when the deviceComboBox is clicked.
          *
@@ -602,6 +605,7 @@ public class MainViewController implements Notifiable {
         if (connectButton.getText().equals("Connect")){
             // Assign the selected device from the combo box
             canBusDevice = deviceComboBox.getValue();
+            setDisableWidgets(false);
 
             // If the device is not already connected
             if (!canBusController.isConnected()) {
