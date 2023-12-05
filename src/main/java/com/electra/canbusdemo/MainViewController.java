@@ -546,33 +546,33 @@ public class MainViewController implements Notifiable {
                 if (i_forwardReverseSwitchButton.isDisabled()){
                     // Construct data array for VCU_Velocity when forwardReverseSwitchButton is disabled
                     data = new byte[]{
-                            (byte) HexFormat.fromHexDigits("0"),
-                            (byte) HexFormat.fromHexDigits("0"),
-                            (byte) HexFormat.fromHexDigits("0"),
-                            (byte) HexFormat.fromHexDigits("0"),
-                            (byte) HexFormat.fromHexDigits(i_contattore1SwitchButton.isSelected() ? "1" : "0"),
-                            (byte) HexFormat.fromHexDigits("0"),
-                            (byte) HexFormat.fromHexDigits("0"),
-                            (byte) HexFormat.fromHexDigits("0")
+                            (byte) 0,
+                            (byte) 0,
+                            (byte) 0,
+                            (byte) 0,
+                            (byte) (i_contattore1SwitchButton.isSelected() ? 1 : 0),
+                            (byte) 0,
+                            (byte) 0,
+                            (byte) 0
                     };
                 } else {
                     // Construct data array for VCU_Velocity when forwardReverseSwitchButton is enabled
                     data = new byte[]{
-                            (byte) HexFormat.fromHexDigits(i_forwardReverseSwitchButton.isSelected() ? "0" : "1"),
-                            (byte) HexFormat.fromHexDigits(i_forwardReverseSwitchButton.isSelected() ? "0" : "1"),
-                            (byte) HexFormat.fromHexDigits(i_forwardReverseSwitchButton.isSelected() ? "1" : "0"),
+                            (byte) (i_forwardReverseSwitchButton.isSelected() ? 0 : 1),
+                            (byte) (i_forwardReverseSwitchButton.isSelected() ? 0 : 1),
+                            (byte) (i_forwardReverseSwitchButton.isSelected() ? 1 : 0),
                             (byte) HexFormat.fromHexDigits(i_velocitaTextField.getText()),
-                            (byte) HexFormat.fromHexDigits(i_contattore1SwitchButton.isSelected() ? "1" : "0"),
-                            (byte) HexFormat.fromHexDigits("0"),
-                            (byte) HexFormat.fromHexDigits("0"),
-                            (byte) HexFormat.fromHexDigits("0")
+                            (byte) (i_contattore1SwitchButton.isSelected() ? 1 : 0),
+                            (byte) 0,
+                            (byte) 0,
+                            (byte) 0
                     };
 
                     // Additional checks for valid inputs
-                    if (data[3]>(byte)100){
+                    if ((data[3]&0xFF)>100){
                         fireAlarm(Alert.AlertType.ERROR, "Warning", "Please insert a valid input for velocity.");
                         return;
-                    } else if (data[1]==(byte)1&&data[2]==(byte)1){
+                    } else if ((data[1]&0xFF)==1&&(data[2]&0xFF)==1){
                         fireAlarm(Alert.AlertType.ERROR, "Warning", "Forward and Reverse modes cannot be activated at the same time");
                         return;
                     }
@@ -585,36 +585,35 @@ public class MainViewController implements Notifiable {
                     // Construct data array for VCU_Pair when forwardReverseSwitchButton is disabled
                     data = new byte[]
                             {
-                                    (byte) HexFormat.fromHexDigits("0"),
-                                    (byte) HexFormat.fromHexDigits(i_contattore2SwitchButton.isSelected() ? "1" : "0"),
-                                    (byte) HexFormat.fromHexDigits(i_emergencyStopButton.getText().equals("STOP") ? "0" : "1"),
-                                    (byte) HexFormat.fromHexDigits("0"),
-                                    (byte) HexFormat.fromHexDigits("0"),
-                                    (byte) HexFormat.fromHexDigits("0"),
-                                    (byte) HexFormat.fromHexDigits("0"),
-                                    (byte) HexFormat.fromHexDigits("0")
+                                    (byte) 0,
+                                    (byte) (i_contattore2SwitchButton.isSelected() ? 1 : 0),
+                                    (byte) (i_emergencyStopButton.getText().equals("STOP") ? 0 : 1),
+                                    (byte) 0,
+                                    (byte) 0,
+                                    (byte) 0,
+                                    (byte) 0,
+                                    (byte) 0
                             };
                 } else {
                     // Construct data array for VCU_Pair when forwardReverseSwitchButton is enabled
                     data = new byte[]
                             {
-                                    (byte) HexFormat.fromHexDigits(i_coppiaTextField.getText()),
-                                    (byte) HexFormat.fromHexDigits(i_contattore2SwitchButton.isSelected() ? "1" : "0"),
-                                    (byte) HexFormat.fromHexDigits(i_emergencyStopButton.getText().equals("STOP") ? "0" : "1"),
-                                    (byte) HexFormat.fromHexDigits(i_sportRadioButton.isSelected() ? "1" : "0"),
-                                    (byte) HexFormat.fromHexDigits(i_ecoRadioButton.isSelected() ? "1" : "0"),
-                                    (byte) HexFormat.fromHexDigits("0"),
-                                    (byte) HexFormat.fromHexDigits("0"),
-                                    (byte) HexFormat.fromHexDigits("0")
+                                    (byte) parseInt(i_coppiaTextField.getText()),
+                                    (byte) (i_contattore2SwitchButton.isSelected() ? 1 : 0),
+                                    (byte) (i_emergencyStopButton.getText().equals("STOP") ? 0 : 1),
+                                    (byte) (i_sportRadioButton.isSelected() ? 1 : 0),
+                                    (byte) (i_ecoRadioButton.isSelected() ? 1 : 0),
+                                    (byte) 0,
+                                    (byte) 0,
+                                    (byte) 0
                             };
 
-                    System.out.println((data[0] & 0xFF));
                     // Additional checks for valid inputs
-                    if ((data[0])>100){
+                    if ((data[0]&0xFF)>100){
 
                         fireAlarm(Alert.AlertType.ERROR, "Warning", "Please insert a valid input for pair.");
                         return;
-                    } else if (data[3]==(byte)1&&data[4]==(byte)1){
+                    } else if ((data[3]&0xFF)==1&&(data[4]&0xFF)==1){
                         fireAlarm(Alert.AlertType.ERROR, "Warning", "Sport and Eco modes cannot be activated at the same time");
                         return;
                     }
@@ -627,37 +626,37 @@ public class MainViewController implements Notifiable {
                     // Construct data array for VCU_Charging when forwardReverseSwitchButton is disabled
                     data = new byte[]
                             {
-                                    (byte) HexFormat.fromHexDigits(i_parkingModeRadioButton.isSelected() ? "1" : "0"),
-                                    (byte) HexFormat.fromHexDigits(i_chargingModeRadioButton.isSelected() ? "1" : "0"),
-                                    (byte) HexFormat.fromHexDigits("0"),
-                                    (byte) HexFormat.fromHexDigits("0"),
-                                    (byte) HexFormat.fromHexDigits("0"),
-                                    (byte) HexFormat.fromHexDigits("0"),
-                                    (byte) HexFormat.fromHexDigits("0"),
-                                    (byte) HexFormat.fromHexDigits("0"),
+                                    (byte) (i_parkingModeRadioButton.isSelected() ? 1 : 0),
+                                    (byte) (i_chargingModeRadioButton.isSelected() ? 1 : 0),
+                                    (byte) 0,
+                                    (byte) 0,
+                                    (byte) 0,
+                                    (byte) 0,
+                                    (byte) 0,
+                                    (byte) 0
                             };
                 } else {
                     // Construct data array for VCU_Charging when forwardReverseSwitchButton is enabled
                     data = new byte[]
                             {
-                                    (byte) HexFormat.fromHexDigits(i_parkingModeRadioButton.isSelected() ? "1" : "0"),
-                                    (byte) HexFormat.fromHexDigits(i_chargingModeRadioButton.isSelected() ? "1" : "0"),
-                                    (byte) HexFormat.fromHexDigits(i_gridResSwitchButton.isSelected() ? "0" : "1"),
-                                    (byte) HexFormat.fromHexDigits(i_gridResSwitchButton.isSelected() ? "1" : "0"),
-                                    (byte) HexFormat.fromHexDigits(i_correnteTextField.getText()),
-                                    (byte) HexFormat.fromHexDigits(i_tensioneTextField.getText()),
-                                    (byte) HexFormat.fromHexDigits(i_profiloCaricaSwitchButton.isSelected() ? "0" : "1"),
-                                    (byte) HexFormat.fromHexDigits(i_profiloCaricaSwitchButton.isSelected() ? "1" : "0"),
+                                    (byte) (i_parkingModeRadioButton.isSelected() ? 1 : 0),
+                                    (byte) (i_chargingModeRadioButton.isSelected() ? 1 : 0),
+                                    (byte) (i_gridResSwitchButton.isSelected() ? 0 : 1),
+                                    (byte) (i_gridResSwitchButton.isSelected() ? 1 : 0),
+                                    (byte) parseInt(i_correnteTextField.getText()),
+                                    (byte) parseInt(i_tensioneTextField.getText()),
+                                    (byte) (i_profiloCaricaSwitchButton.isSelected() ? 0 : 1),
+                                    (byte) (i_profiloCaricaSwitchButton.isSelected() ? 1 : 0),
                             };
 
                     // Additional checks for valid inputs
-                    if (data[0]==(byte)1&&data[1]==(byte)1) {
+                    if ((data[0]&0xFF)==1&&(data[1]&0xFF)==1) {
                         fireAlarm(Alert.AlertType.ERROR, "Warning", "Parking and Charging modes cannot be activated at the same time");
                         return;
-                    } else if (data[2]==(byte)1&&data[3]==(byte)1) {
+                    } else if ((data[2]&0xFF)==1&&(data[3]&0xFF)==1) {
                         fireAlarm(Alert.AlertType.ERROR, "Warning", "Grid and Res modes cannot be activated at the same time");
                         return;
-                    } else if (data[6]==(byte)1&&data[7]==(byte)1) {
+                    } else if ((data[6]&0xFF)==1&&(data[7]&0xFF)==1) {
                         fireAlarm(Alert.AlertType.ERROR, "Warning", "Cost and Custom modes cannot be activated at the same time");
                         return;
                     }
