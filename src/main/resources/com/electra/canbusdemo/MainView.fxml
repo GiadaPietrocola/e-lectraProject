@@ -333,7 +333,7 @@
                                                         <VBox alignment="TOP_CENTER" prefHeight="176.0" prefWidth="106.0" HBox.hgrow="ALWAYS">
                                                             <children>
                                                                 <Label alignment="TOP_CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Modalità" />
-                                                                <StatusBar fx:id="o_modalitaCaricatoreStatusButton" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="60.0" text="    Grid" translateX="2.0" translateY="50.0" />
+                                                                <StatusBar fx:id="o_modalitaCaricatoreStatusButton" maxWidth="-Infinity" minHeight="40.0" minWidth="80.0" prefWidth="60.0" text="" translateX="2.0" translateY="50.0" />
                                                             </children>
                                                         </VBox>
                                                     </children>
@@ -396,7 +396,7 @@
                                                             <children>
                                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                     <children>
-                                                                        <StatusBar fx:id="o_statusButtonEmergencyStop" maxWidth="-Infinity" prefHeight="80.0" prefWidth="80.0" styleText="" text=" RUN" HBox.hgrow="ALWAYS">
+                                                                        <StatusBar fx:id="o_statusButtonEmergencyStop" maxWidth="-Infinity" maxHeight="40.0" prefHeight="80.0" prefWidth="80.0" styleText="" text=" RUN" HBox.hgrow="ALWAYS">
                                                          <padding>
                                                             <Insets left="23.0" right="20.0" />
                                                          </padding></StatusBar>
@@ -412,7 +412,7 @@
                                                             <children>
                                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                     <children>
-                                                                        <StatusBar fx:id="o_modalitaTrazioneStatusButton" maxWidth="-Infinity" prefHeight="80.0" prefWidth="80.0" text="  Sport" HBox.hgrow="ALWAYS">
+                                                                        <StatusBar fx:id="o_modalitaTrazioneStatusButton" maxWidth="-Infinity" maxHeight="40.0" prefHeight="80.0" prefWidth="80.0" text="" HBox.hgrow="ALWAYS">
                                                          <padding>
                                                             <Insets left="15.0" right="15.0" />
                                                          </padding></StatusBar>
