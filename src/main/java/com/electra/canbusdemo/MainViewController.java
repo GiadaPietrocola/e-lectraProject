@@ -463,6 +463,9 @@ public class MainViewController implements Notifiable {
                     fireAlarm(Alert.AlertType.ERROR, "Warning", "Please select a valid CAN bus adapter Device.");
                     return;
                 }
+                setDisableWidgets(true);
+                //  i_emergencyStopButton.setDisable(true);
+                o_saveButton.setDisable(true);
             }
 
             // Try to connect to the CAN bus device ("true" if connection is successful, "false" if connection fails)
@@ -923,24 +926,8 @@ public class MainViewController implements Notifiable {
             // Reset the last selected RadioButton
             lastSelectedParkingCharging = null;
 
-            // Abilitate various GUI components when i_parkingModeRadioButton is clicked
-            i_gridResSwitchButton.setDisable(false);
-            i_profiloCaricaSwitchButton.setDisable(false);
-            i_customLabel.setDisable(false);
-            i_resLabel.setDisable(false);
-            i_tensioneTextField.setDisable(false);
-            i_correnteTextField.setDisable(false);
-            i_ampereLabel.setDisable(false);
-            i_voltLabel.setDisable(false);
-            i_correnteLabel.setDisable(false);
-            i_tensioneLabel.setDisable(false);
-
-            // If it is not then select the current RadioButton
-        } else {
-            lastSelectedParkingCharging = currentRadioButton;
-
-            if(currentRadioButton==i_parkingModeRadioButton){
-                // Disable various GUI components when i_parkingModeRadioButton is clicked
+            if(currentRadioButton==i_chargingModeRadioButton) {
+                // Abilitate various GUI components when i_parkingModeRadioButton is clicked
                 i_gridResSwitchButton.setDisable(true);
                 i_profiloCaricaSwitchButton.setDisable(true);
                 i_customLabel.setDisable(true);
@@ -951,6 +938,35 @@ public class MainViewController implements Notifiable {
                 i_voltLabel.setDisable(true);
                 i_correnteLabel.setDisable(true);
                 i_tensioneLabel.setDisable(true);
+            }
+            // If it is not then select the current RadioButton
+        } else {
+            lastSelectedParkingCharging = currentRadioButton;
+
+            if(currentRadioButton==i_parkingModeRadioButton){
+                // Disable various GUI components when i_chargingModeRadioButton is disabled
+                i_gridResSwitchButton.setDisable(true);
+                i_profiloCaricaSwitchButton.setDisable(true);
+                i_customLabel.setDisable(true);
+                i_resLabel.setDisable(true);
+                i_tensioneTextField.setDisable(true);
+                i_correnteTextField.setDisable(true);
+                i_ampereLabel.setDisable(true);
+                i_voltLabel.setDisable(true);
+                i_correnteLabel.setDisable(true);
+                i_tensioneLabel.setDisable(true);
+            } else {
+                // Abilitate various GUI components when i_chargingModeRadioButton is clicked
+                i_gridResSwitchButton.setDisable(false);
+                i_profiloCaricaSwitchButton.setDisable(false);
+                i_customLabel.setDisable(false);
+                i_resLabel.setDisable(false);
+                i_tensioneTextField.setDisable(false);
+                i_correnteTextField.setDisable(false);
+                i_ampereLabel.setDisable(false);
+                i_voltLabel.setDisable(false);
+                i_correnteLabel.setDisable(false);
+                i_tensioneLabel.setDisable(false);
             }
         }
               try {
