@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+import java.math.BigInteger;
 import java.util.HexFormat;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -265,8 +266,7 @@ public class MainViewController implements Notifiable {
             }
 
             try {
-                //send(VCU_Velocity);
-                handleReceivedMessages(Inverter, "0000000001000000"); //per testing
+                send(VCU_Velocity);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -321,7 +321,35 @@ public class MainViewController implements Notifiable {
 
                 try {
                     send(VCU_Pair);
-                    System.out.println("a");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+                // Consume the event to prevent other handlers from receiving it
+                event.consume();
+            }
+        });
+
+        /**
+         * Event filter for key presses on the i_velocitaTextField.
+         *
+         * <p>
+         * This event filter is triggered when a key is pressed in the i_velocitaTextField.
+         * It specifically checks if the pressed key is the ENTER key.
+         * </p>
+         *
+         * @param event The KeyEvent representing the key press event on the i_velocitaTextField.
+         * @throws RuntimeException If an exception occurs while sending the command.
+         */
+        // Add an event filter for key presses on i_coppiaTextField
+        i_velocitaTextField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            // Check if the pressed key is ENTER
+            if (event.getCode() == KeyCode.ENTER) {
+                // Set the value of i_setVelocitaCoppiaGauge to the parsed integer value of i_coppiaTextField
+                i_setVelocitaCoppiaGauge.setValue(parseInt(i_coppiaTextField.getText()));
+
+                try {
+                    send(VCU_Pair);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -451,21 +479,17 @@ public class MainViewController implements Notifiable {
         if (connectButton.getText().equals("Connect")){
             // Assign the selected device from the combo box
             canBusDevice = deviceComboBox.getValue();
-            setDisableWidgets(false);
-            i_emergencyStopButton.setDisable(false);
-            o_saveButton.setDisable(false);
 
             // If the device is not already connected
             if (!canBusController.isConnected()) {
+
                 // Check if the selected device is null or an empty string
                 if (canBusDevice == null || canBusDevice.equals("")) {
                     // Display an error message if the device selection is invalid
                     fireAlarm(Alert.AlertType.ERROR, "Warning", "Please select a valid CAN bus adapter Device.");
                     return;
                 }
-                setDisableWidgets(true);
-                //  i_emergencyStopButton.setDisable(true);
-                o_saveButton.setDisable(true);
+
             }
 
             // Try to connect to the CAN bus device ("true" if connection is successful, "false" if connection fails)
@@ -483,6 +507,9 @@ public class MainViewController implements Notifiable {
 
             // Change the button text to "Disconnect"
             connectButton.setText("Disconnect");
+            setDisableWidgets(false);
+            i_emergencyStopButton.setDisable(false);
+            o_saveButton.setDisable(false);
 
             // If the button text is not "Connect" (it is "Disconnect")
         } else {
@@ -490,6 +517,9 @@ public class MainViewController implements Notifiable {
             canBusController.disconnect();
             // Change the button text back to "Connect"
             connectButton.setText("Connect");
+            setDisableWidgets(true);
+            //  i_emergencyStopButton.setDisable(true);
+            o_saveButton.setDisable(true);
         }
     }
 
@@ -578,8 +608,10 @@ public class MainViewController implements Notifiable {
                                     (byte) HexFormat.fromHexDigits("0")
                             };
 
+                    System.out.println((data[0] & 0xFF));
                     // Additional checks for valid inputs
-                    if (data[0]>(byte)100){
+                    if ((data[0])>100){
+
                         fireAlarm(Alert.AlertType.ERROR, "Warning", "Please insert a valid input for pair.");
                         return;
                     } else if (data[3]==(byte)1&&data[4]==(byte)1){
@@ -656,9 +688,8 @@ public class MainViewController implements Notifiable {
      * @throws Exception If an exception occurs during the message handling process.
      */
     public void handleReceivedMessages(String id, String data) throws Exception {
-        System.out.println(data);
 
-        switch (id) {
+               switch (id) {
             case Charger_Battery:
                 // Update State of Charge (SoC) Gauge based on received data
                 o_socGauge.setValue(HexFormat.fromHexDigits(data.substring(2,4)));
