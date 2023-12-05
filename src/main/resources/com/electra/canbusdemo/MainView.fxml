@@ -60,7 +60,7 @@
                                                             <children>
                                                                 <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                                                                     <children>
-                                                                        <ToggleSwitch fx:id="i_forwardReverseSwitchButton" text="Forward" HBox.hgrow="ALWAYS" />
+                                                                        <ToggleSwitch fx:id="i_forwardReverseSwitchButton" text="Forward" HBox.hgrow="ALWAYS"/>
                                                                         <Label fx:id="i_reverseLabel" text="    Reverse">
                                                                             <opaqueInsets>
                                                                                 <Insets />
@@ -172,7 +172,7 @@
                                                         <RadioButton fx:id="i_parkingModeRadioButton" mnemonicParsing="false" text="Parking Mode" toggleGroup="$parkingCharging" onMouseClicked="#handleRadioButtonParkingCharging"/>
                                                         <HBox prefHeight="37.0" prefWidth="263.0">
                                                             <children>
-                                                                <RadioButton fx:id="i_chargingModeRadioButton" mnemonicParsing="false" onMouseClicked="#handleRadioButtonParkingCharging" prefHeight="17.0" prefWidth="172.0" text="Charging Mode" toggleGroup="$parkingCharging" />
+                                                                <RadioButton fx:id="i_chargingModeRadioButton" prefHeight="17.0" prefWidth="172.0" mnemonicParsing="false" text="Charging Mode" toggleGroup="$parkingCharging" onMouseClicked="#handleRadioButtonParkingCharging"/>
                                                                 <HBox prefHeight="37.0" prefWidth="170.0">
                                                                     <children>
                                                                         <ToggleSwitch fx:id="i_gridResSwitchButton" maxWidth="1.7976931348623157E308" prefWidth="76.0" text="Grid" />
@@ -321,7 +321,7 @@
                                                         <VBox prefHeight="176.0" prefWidth="132.0" HBox.hgrow="ALWAYS">
                                                             <children>
                                                                 <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Tensione" textAlignment="CENTER" />
-                                                                <Gauge fx:id="o_tensioneCaricatoreGauge" prefWidth="119.0" />
+                                                                <Gauge fx:id="o_tensioneCaricatoreGauge"/>
                                                             </children>
                                                         </VBox>
                                                         <VBox prefHeight="176.0" prefWidth="133.0" HBox.hgrow="ALWAYS">
@@ -435,7 +435,7 @@
                                                         <VBox prefHeight="176.0" prefWidth="132.0" HBox.hgrow="ALWAYS">
                                                             <children>
                                                                 <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Velocità" textAlignment="CENTER" />
-                                                                <Gauge fx:id="o_velocitaMotoreGauge" prefWidth="119.0" />
+                                                                <Gauge fx:id="o_velocitaMotoreGauge"/>
                                                             </children>
                                                         </VBox>
                                                         <VBox prefHeight="176.0" prefWidth="133.0" HBox.hgrow="ALWAYS">

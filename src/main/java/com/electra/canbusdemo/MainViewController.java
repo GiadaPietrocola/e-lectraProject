@@ -4,25 +4,13 @@ import com.electra.canbusdemo.CANbus.CANbus_Controller;
 import com.electra.canbusdemo.CANbus.Notifiable;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
 
-import java.text.ChoiceFormat;
 import java.util.HexFormat;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -30,8 +18,6 @@ import java.util.TimerTask;
 import org.controlsfx.control.*;
 
 import eu.hansolo.medusa.Gauge;
-import eu.hansolo.medusa.GaugeBuilder;
-import eu.hansolo.medusa.Section;
 
 import static com.electra.canbusdemo.CANbus.CANbus_Controller.getCanBusController;
 import static com.electra.canbusdemo.DeviceId.*;
@@ -42,8 +28,7 @@ import static java.lang.Integer.parseInt;
  * It handles user interactions and updates the GUI components based on the CANbus data.
  */
 public class MainViewController implements Notifiable {
-    @FXML
-    private  TextField idTextField;
+
     @FXML
     private  Button connectButton;
     @FXML
@@ -68,12 +53,7 @@ public class MainViewController implements Notifiable {
     private  Label i_tensioneLabel;
     @FXML
     private  Label i_velocitaLabel;
-    @FXML
-    private  Button sendButton;
-    @FXML
-    private  TextArea receivedTextArea;
-    @FXML
-    private  TextArea sentTextArea;
+
 
     // INPUT WIDGETS -----------------------------------------------------------
 
@@ -100,8 +80,6 @@ public class MainViewController implements Notifiable {
     @FXML
     private  ToggleSwitch i_profiloCaricaSwitchButton;
     @FXML
-    private  ToggleSwitch i_caricaSwitchButton;
-    @FXML
     private  ToggleSwitch i_gridResSwitchButton;
     @FXML
     private  Label i_customLabel;
@@ -117,6 +95,7 @@ public class MainViewController implements Notifiable {
     private  ToggleGroup sportEco;
     @FXML
     private  ToggleGroup parkingCharging;
+
 
     // OUTPUT WIDGETS -----------------------------------------------------------
 
@@ -147,14 +126,9 @@ public class MainViewController implements Notifiable {
     @FXML
     private  StatusBar o_statusButtonContattore2;
     @FXML
-    private  Button o_emergencyStopButton;
-    @FXML
     private  Button o_saveButton;
     @FXML
     private  TextField o_pathFileTextFied;
-    @FXML
-    private  TextField data0TextField, data1TextField, data2TextField, data3TextField, data4TextField,
-            data5TextField, data6TextField, data7TextField;
     private  RadioButton lastSelectedSportEco;
     private  RadioButton lastSelectedParkingCharging;
     @FXML
@@ -164,32 +138,6 @@ public class MainViewController implements Notifiable {
     private  String canBusDevice;
     private final int  MAX_SHOW_MEX = 500;
     private int  sendID = 0, sendCycle = 0, receiveID = 0, receiveCycle = 0;
-
-    /**
-     * Checks and filters the input for a TextField based on specific criteria.
-     *
-     * <p>
-     * This method is designed to be used as an event handler for KeyEvent on a TextField.
-     * The method ensures that the entered character is among the allowed characters.
-     * </p>
-     *
-     * @param keyEvent The KeyEvent triggered by user input.
-     * @param textField The TextField for which the input is being checked.
-     */
-    private void checkTextFieldInput(KeyEvent keyEvent, TextField textField){
-        // Converts the input character to uppercase for consistency
-        String newChar = keyEvent.getCharacter().toUpperCase();
-
-        // String containing the allowed characters
-        String keyFilter = "0123456789ABCDEF";
-
-        // Verifies that the new character is among the allowed characters
-        // or checks that there are not more than two characters
-        if (!keyFilter.contains(newChar) || textField.getText().length() > 1) {
-            // If the character is not valid or the length exceeds 1, consume the event to discard the input
-            keyEvent.consume();
-        }
-    }
 
     /**
      * Checks and filters the input for a TextField intended for numeric values.
@@ -212,7 +160,7 @@ public class MainViewController implements Notifiable {
         // Verifies that the new character is among the allowed numeric characters
         // or checks that there are not more than two characters, except for the special case "10" followed by "0"
         if (!keyFilter.contains(newChar) || (textField.getText().length() > 1 && !(textField.getText().equals("10") && newChar.equals("0")))  ) {
-            // If the character is not valid or the length exceeds 1 (except for "10" followed by "0"), consume the event to discard the input
+            // Consume the event to discard the input
             keyEvent.consume();
         }
     }
@@ -228,8 +176,6 @@ public class MainViewController implements Notifiable {
      */
     @FXML
     public void initialize (){
-        // Disable the sendButton initially because the connection is not open
-        // sendButton.setDisable(true);
 
         // Populate the CANbus device list with the connected devices
         canBusDevice_List.addAll();
@@ -251,24 +197,6 @@ public class MainViewController implements Notifiable {
             checkNumberFieldInput(keyEvent, i_coppiaTextField);
         });
 
-        // Set up ToggleGroups for RadioButtons
-        i_sportRadioButton.setToggleGroup(sportEco);
-        i_ecoRadioButton.setToggleGroup(sportEco);
-
-        i_parkingModeRadioButton.setToggleGroup(parkingCharging);
-        i_chargingModeRadioButton.setToggleGroup(parkingCharging);
-
-        // Initialize input and output Gauges
-
-        // o_tensioneBatterieGauge = new Gauge();
-        // o_socGauge = new Gauge();
-        // o_coppiaMotoreGauge = new Gauge();
-        // o_temperaturaGauge = new Gauge();
-        // o_velocitaMotoreGauge = new Gauge();
-        // o_correnteCaricatoreGauge = new Gauge();
-        // o_tensioneCaricatoreGauge = new Gauge();
-
-        i_caricaSwitchButton = new ToggleSwitch();
 
         o_correnteBatterieGauge.setAnimated(true);
         o_tensioneBatterieGauge.setAnimated(true);
@@ -278,14 +206,15 @@ public class MainViewController implements Notifiable {
         o_velocitaMotoreGauge.setAnimated(true);
         o_correnteCaricatoreGauge.setAnimated(true);
         o_tensioneCaricatoreGauge.setAnimated(true);
-
         i_setVelocitaCoppiaGauge.setAnimated(true);
 
-        // Set up the emergency stop button style
+        // Set the emergency stop button style
         i_emergencyStopButton.getStyleClass().add("button-red");
 
-        // Set all input widgets as disabled
+        // Set all input widgets as disabled when the canBUS is not connected
         setDisableWidgets(true);
+      //  i_emergencyStopButton.setDisable(true);
+        o_saveButton.setDisable(true);
 
         /**
          * This method updates the CANbus device list when the deviceComboBox is clicked.
@@ -335,20 +264,12 @@ public class MainViewController implements Notifiable {
                 i_ecoRadioButton.setDisable(false);
             }
 
-            // if(connectButton.getText().equals("Connect")){
-            //     fireAlarm(Alert.AlertType.ERROR, "Warning", "Please select a valid CAN bus adapter Device.");
-            // }
-            // else{
-
             try {
                 //send(VCU_Velocity);
                 handleReceivedMessages(Inverter, "0000000001000000"); //per testing
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-
-            //}
-
         });
 
         /**
@@ -371,12 +292,10 @@ public class MainViewController implements Notifiable {
                 // If selected, set i_coppiaTextField to "0" and disable it
                 i_coppiaTextField.setText("0");
                 i_coppiaTextField.setDisable(true);
-
                 i_velocitaTextField.setDisable(false);
             } else {
                 // If not selected, enable i_coppiaTextField
                 i_coppiaTextField.setDisable(false);
-
                 i_velocitaTextField.setDisable(true);
                 i_velocitaTextField.setText("0");
             }
@@ -470,79 +389,6 @@ public class MainViewController implements Notifiable {
             }
         });
 
-        /**
-         * Event handler for the i_parkingModeRadioButton's mouse click event.
-         *
-         * <p>
-         * This method is triggered when the i_parkingModeRadioButton is clicked. It
-         * disables various GUI components associated with charging and vehicle velocity
-         * control when the parking mode is activated.
-         * </p>
-         *
-         * @param event The MouseEvent representing the click event on the
-         *              i_parkingModeRadioButton.
-         * @throws RuntimeException If an exception occurs while sending the commands.
-         */
-        // Set an event handler for mouse click on i_parkingModeRadioButton
-        i_parkingModeRadioButton.setOnMouseClicked(event -> {
-            // Disable various GUI components when i_parkingModeRadioButton is clicked
-            i_gridResSwitchButton.setDisable(true);
-            i_profiloCaricaSwitchButton.setDisable(true);
-            i_customLabel.setDisable(true);
-            i_resLabel.setDisable(true);
-            i_tensioneTextField.setDisable(true);
-            i_correnteTextField.setDisable(true);
-            i_ampereLabel.setDisable(true);
-            i_voltLabel.setDisable(true);
-            i_correnteLabel.setDisable(true);
-            i_tensioneLabel.setDisable(true);
-
-            try {
-                send(VCU_Charging);
-                send(VCU_Velocity);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-
-        });
-
-        /**
-         * Event handler for the i_chargingModeRadioButton's mouse click event.
-         *
-         * <p>
-         * This method is triggered when the i_chargingModeRadioButton is clicked. It
-         * enables various GUI components associated with charging and vehicle velocity
-         * control when the charging mode is activated.
-         * </p>
-         *
-         * @param event The MouseEvent representing the click event on the
-         *              i_chargingModeRadioButton.
-         * @throws RuntimeException If an exception occurs while sending the commands.
-         */
-        // Set an event handler for mouse click on i_chargingModeRadioButton
-        i_chargingModeRadioButton.setOnMouseClicked(event -> {
-            // Enable various UI components when i_chargingModeRadioButton is clicked
-            i_gridResSwitchButton.setDisable(false);
-            i_profiloCaricaSwitchButton.setDisable(false);
-            i_customLabel.setDisable(false);
-            i_resLabel.setDisable(false);
-            i_tensioneTextField.setDisable(false);
-            i_correnteTextField.setDisable(false);
-            i_ampereLabel.setDisable(false);
-            i_voltLabel.setDisable(false);
-            i_correnteLabel.setDisable(false);
-            i_tensioneLabel.setDisable(false);
-
-            try {
-                send(VCU_Charging);
-                send(VCU_Velocity);
-                System.out.println("a");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-
-        });
-
         i_gridResSwitchButton.setOnMouseClicked(event -> {
 
             try {
@@ -606,6 +452,8 @@ public class MainViewController implements Notifiable {
             // Assign the selected device from the combo box
             canBusDevice = deviceComboBox.getValue();
             setDisableWidgets(false);
+            i_emergencyStopButton.setDisable(false);
+            o_saveButton.setDisable(false);
 
             // If the device is not already connected
             if (!canBusController.isConnected()) {
@@ -630,9 +478,6 @@ public class MainViewController implements Notifiable {
                 return; // Exit the method
             }
 
-            // Enables the massage sendButton
-            // sendButton.setDisable(false);
-
             // Change the button text to "Disconnect"
             connectButton.setText("Disconnect");
 
@@ -640,49 +485,10 @@ public class MainViewController implements Notifiable {
         } else {
             // Disconnect the CAN bus device
             canBusController.disconnect();
-
-            // Enables the massage sendButton
-            // sendButton.setDisable(true);
-
             // Change the button text back to "Connect"
             connectButton.setText("Connect");
         }
     }
-
-    /*
-    @FXML
-    public void clearAllButtonAction(){ //Azione del pulsante clear all
-        receiveID = receiveCycle = sendID = sendCycle = 0; //reinizializza tutte le variabili
-        receivedTextArea.clear(); //pulisce le text area
-        sentTextArea.clear();
-    }
-    */
-
-    /*
-    @FXML
-    public void sendButtonAction() throws Exception {  // Può generare eccezioni se il parametro di fromHexDigits ha più di 8 byte o se contiene caratteri non esadecimali ma siamo sicuri che non è così quindi non serve il try catch
-        byte data[] =
-                {
-                        (byte) HexFormat.fromHexDigits(data0TextField.getText()), //i dati dalle textfield sono trasformati in byte dll'esadecimale
-                        (byte) HexFormat.fromHexDigits(data1TextField.getText()),
-                        (byte) HexFormat.fromHexDigits(data2TextField.getText()),
-                        (byte) HexFormat.fromHexDigits(data3TextField.getText()),
-                        (byte) HexFormat.fromHexDigits(data4TextField.getText()),
-                        (byte) HexFormat.fromHexDigits(data5TextField.getText()),
-                        (byte) HexFormat.fromHexDigits(data6TextField.getText()),
-                        (byte) HexFormat.fromHexDigits(data7TextField.getText())
-                };
-
-        canBusController.sendCommand(HexFormat.fromHexDigits(idTextField.getText()), data); //manda l'id in esadecimale e il dato
-        sendID++;
-        if(sendID-(sendCycle*MAX_SHOW_MEX) > MAX_SHOW_MEX){ //evita che troppe linee di testo vengano inviate alla text area di invio e la pulisce dpo un po'
-            sendCycle++;
-            sentTextArea.clear();
-        }
-       // sentTextArea.appendText("[" + sendID + "]: " + "ID: " + idTextField.getText().toUpperCase() + " data: " +   //il messaggio viene aggiunto alla text area
-       //         HexFormat.of().formatHex(data).toUpperCase() + "\n");
-    }
-    */
 
     /**
      * Sends a CANbus command based on the provided id and associated data.
@@ -779,7 +585,7 @@ public class MainViewController implements Notifiable {
                     }
                 }
             }
-            // Ci manca un break??
+            break;
 
             case VCU_Charging: {
                 if (i_gridResSwitchButton.isDisabled()){
@@ -891,7 +697,6 @@ public class MainViewController implements Notifiable {
                     o_statusButtonContattore1.getStyleClass().remove("status-bar-green");
                     o_statusButtonContattore1.getStyleClass().add("status-bar-red");
                 }
-
                 // Update Contactor 2 status based on received data
                 if (HexFormat.fromHexDigits(data.substring(6,8))==0) {
                     o_statusButtonContattore2.getStyleClass().remove("status-bar-red");
@@ -901,12 +706,21 @@ public class MainViewController implements Notifiable {
                     o_statusButtonContattore2.getStyleClass().add("status-bar-red");
                 }
 
+                // Update Emergency Stop status based on received data
+                if (HexFormat.fromHexDigits(data.substring(8,10))==0) {
+                    o_statusButtonEmergencyStop.getStyleClass().remove("status-bar-red");
+                    o_statusButtonEmergencyStop.getStyleClass().add("status-bar-green");
+                } else if (HexFormat.fromHexDigits(data.substring(8,10))==1) {
+                    o_statusButtonEmergencyStop.getStyleClass().remove("status-bar-green");
+                    o_statusButtonEmergencyStop.getStyleClass().add("status-bar-red");
+                }
+
                 // Update Traction Mode status based on received data
-                if (HexFormat.fromHexDigits(data.substring(8,10))==0)
+                if (HexFormat.fromHexDigits(data.substring(10,12))==0)
                     o_modalitaTrazioneStatusButton.setText("");
-                else if (HexFormat.fromHexDigits(data.substring(8,10))==1)
+                else if (HexFormat.fromHexDigits(data.substring(10,12))==1)
                     o_modalitaTrazioneStatusButton.setText(" SPORT");
-                else if (HexFormat.fromHexDigits(data.substring(8,10))==2)
+                else if (HexFormat.fromHexDigits(data.substring(10,12))==2)
                     o_modalitaTrazioneStatusButton.setText("  ECO");
                 break;
 
@@ -942,27 +756,30 @@ public class MainViewController implements Notifiable {
         alert.setTitle(title);
         alert.setContentText(contentText);
 
-        //alert.setX(owner.getX());
-
         // Display the alert and wait for the user's response (the window is blocked until the user closes the alert)
         alert.showAndWait();
     }
 
+    /**
+     * Notifies the application about received data and updates the user interface accordingly.
+     *
+     * <p>
+     * The {@code _notify} method is invoked when new data is received. It uses {@code Platform.runLater}
+     * to ensure that UI updates are performed on the JavaFX application thread. The method increments the
+     * receive ID for each received message and checks if it's time to clear the receivedTextArea based on
+     * the receiveID and MAX_SHOW_MEX. If the conditions are met, the receivedTextArea is cleared to avoid
+     * excessive content. The received data is then split into an array based on space (" ") as a delimiter,
+     * and the {@code handleReceivedMessages} method is called to process and update the UI based on the received data.
+     * </p>
+     *
+     * @param data The received data to be processed and displayed.
+     * @throws RuntimeException If an exception occurs during the handling of received messages.
+     */
     @Override
     public void _notify(String data) {
 
         // Using Platform.runLater to ensure that UI updates are performed on two different threads for sending and receiving.
         Platform.runLater(() -> {
-
-            receiveID++; // Increment the receive ID for each received message
-
-            // Check if it's time to clear the receivedTextArea based on the receiveID and MAX_SHOW_MEX
-            if (receiveID-(receiveCycle*MAX_SHOW_MEX) > MAX_SHOW_MEX){
-                receiveCycle++;
-                receivedTextArea.clear(); // Clear the receivedTextArea to avoid excessive content
-            }
-
-            // receivedTextArea.appendText("[" + receiveID + "]: " + data + "\n");
 
             // Split the received data into an array based on space (" ") as a delimiter
             String[] data1=data.split(" ");
@@ -972,7 +789,6 @@ public class MainViewController implements Notifiable {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-
         });
     }
 
@@ -1000,31 +816,6 @@ public class MainViewController implements Notifiable {
             i_emergencyStopButton.getStyleClass().add("button-red");
             setDisableWidgets(false);
         }
-
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            public void run() {
-                try {
-                    double randomArray [] = {0,0,0,0,0,0,0,0,0};
-                    for(int i = 0; i< 9;i++){
-                        randomArray[i]= 10 + (Math.random() * (100 - 10));
-                    }
-
-                    o_correnteBatterieGauge.setValue(randomArray[0]);
-                    o_tensioneBatterieGauge.setValue(randomArray[1]);
-                    o_socGauge.setValue(randomArray[2]);
-                    o_coppiaMotoreGauge.setValue(randomArray[3]);
-                    o_temperaturaGauge.setValue(randomArray[4]);
-                    o_velocitaMotoreGauge.setValue(randomArray[5]);
-                    o_correnteCaricatoreGauge.setValue(randomArray[6]);
-                    o_tensioneCaricatoreGauge.setValue(randomArray[7]);
-
-                    i_setVelocitaCoppiaGauge.setValue(randomArray[8]);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }, 0, 1000);
     }
 
     /**
@@ -1048,7 +839,7 @@ public class MainViewController implements Notifiable {
         i_sportRadioButton.setDisable(disable);
         i_correnteTextField.setDisable(disable);
         i_tensioneTextField.setDisable(disable);
-        i_caricaSwitchButton.setDisable(disable);
+        i_profiloCaricaSwitchButton.setDisable(disable);
         i_velocitaTextField.setDisable(disable);
         i_coppiaVelocitaSwitchButton.setDisable(disable);
         i_contattore1SwitchButton.setDisable(disable);
@@ -1107,21 +898,23 @@ public class MainViewController implements Notifiable {
     }
 
     /**
-     * Handles the selection and deselection of RadioButtons in the Parking/Charging group.
+     * Event handler for the i_parkingModeRadioButton and i_chargingModeRadioButton mouse click event.
      *
      * <p>
-     * This method is invoked when a RadioButton in the Parking/Charging group is selected or deselected.
+     * This method is triggered when the i_parkingModeRadioButton or the i_chargingModeRadioButton is clicked.
      * It keeps track of the last selected RadioButton to toggle its selection state upon the next click.
      * If the same RadioButton is clicked again, it is deselected; otherwise, the new RadioButton is selected.
+     * It disables various GUI components associated with charging and vehicle velocity
+     * control when the parking mode is activated.
      * </p>
      *
-     * @throws RuntimeException If an exception occurs during the command sending process.
+     * @throws RuntimeException If an exception occurs while sending the commands.
      */
     @FXML
     private void handleRadioButtonParkingCharging() {
 
         // Get the currently selected RadioButton in the Parking/Charging group
-        RadioButton currentRadioButton = (RadioButton) sportEco.getSelectedToggle();
+        RadioButton currentRadioButton = (RadioButton) parkingCharging.getSelectedToggle();
 
         // Check if the current RadioButton is the same as the previously selected one
         if (currentRadioButton == lastSelectedParkingCharging) {
@@ -1130,15 +923,41 @@ public class MainViewController implements Notifiable {
             // Reset the last selected RadioButton
             lastSelectedParkingCharging = null;
 
+            // Abilitate various GUI components when i_parkingModeRadioButton is clicked
+            i_gridResSwitchButton.setDisable(false);
+            i_profiloCaricaSwitchButton.setDisable(false);
+            i_customLabel.setDisable(false);
+            i_resLabel.setDisable(false);
+            i_tensioneTextField.setDisable(false);
+            i_correnteTextField.setDisable(false);
+            i_ampereLabel.setDisable(false);
+            i_voltLabel.setDisable(false);
+            i_correnteLabel.setDisable(false);
+            i_tensioneLabel.setDisable(false);
+
             // If it is not then select the current RadioButton
         } else {
             lastSelectedParkingCharging = currentRadioButton;
-        }
 
-        try {
-            send(VCU_Charging);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            if(currentRadioButton==i_parkingModeRadioButton){
+                // Disable various GUI components when i_parkingModeRadioButton is clicked
+                i_gridResSwitchButton.setDisable(true);
+                i_profiloCaricaSwitchButton.setDisable(true);
+                i_customLabel.setDisable(true);
+                i_resLabel.setDisable(true);
+                i_tensioneTextField.setDisable(true);
+                i_correnteTextField.setDisable(true);
+                i_ampereLabel.setDisable(true);
+                i_voltLabel.setDisable(true);
+                i_correnteLabel.setDisable(true);
+                i_tensioneLabel.setDisable(true);
+            }
         }
+              try {
+                send(VCU_Charging);
+                send(VCU_Velocity);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
     }
 }

@@ -4,7 +4,8 @@ module com.electra.canbusdemo {
     requires javafx.controls;
     requires peak.can.basic;
     requires org.controlsfx.controls;
-    requires Medusa;
+    requires medusa;
+
 
     //requires Medusa;
 
