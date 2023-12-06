@@ -11,7 +11,10 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+import java.io.FileNotFoundException;
 import java.math.BigInteger;
+import java.nio.file.FileSystemException;
+import java.nio.file.InvalidPathException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HexFormat;
@@ -215,14 +218,19 @@ public class MainViewController implements Notifiable {
         // Set the emergency stop button style
         i_emergencyStopButton.getStyleClass().add("button-red");
 
+        // Set default values
         i_velocitaTextField.setText("0");
         i_coppiaTextField.setText("0");
         i_tensioneTextField.setText("0");
         i_correnteTextField.setText("0");
+        i_contattore1SwitchButton.setSelected(false);
+        i_contattore2SwitchButton.setSelected(false);
+        i_forwardReverseSwitchButton.setSelected(false);
+        i_parkingModeRadioButton.setSelected(true);
         // Set all input widgets as disabled when the canBUS is not connected
         setDisableWidgets(true);
       //  i_emergencyStopButton.setDisable(true);
-        o_saveButton.setDisable(true);
+       // o_saveButton.setDisable(true);
 
         /**
          * This method updates the CANbus device list when the deviceComboBox is clicked.
@@ -812,6 +820,7 @@ public class MainViewController implements Notifiable {
      * the receiveID and MAX_SHOW_MEX. If the conditions are met, the receivedTextArea is cleared to avoid
      * excessive content. The received data is then split into an array based on space (" ") as a delimiter,
      * and the {@code handleReceivedMessages} method is called to process and update the UI based on the received data.
+     * It also adds the required output data recieved to an ArrayList with the corresponding TimeStamp
      * </p>
      *
      * @param data The received data to be processed and displayed.
@@ -1035,14 +1044,50 @@ public class MainViewController implements Notifiable {
                 throw new RuntimeException(e);
             }
     }
+
+    /**
+     * Saves the log data to a CSV file.
+     *
+     * <p>
+     * This method is called when the save button is pressed
+     * It takes the file path from the text field and writes the log data to a CSV file.
+     * </p>
+     *
+     * @throws Exception If an exception occurs during the log saving process.
+     */
     @FXML
     public void saveLog(){
 
-        try {
-            log_instance.Save(o_pathFileTextFied.getText());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if(o_pathFileTextFied.getText().isEmpty()){
+            fireAlarm(Alert.AlertType.ERROR, "Error", "Choose a file path.");
+        } else {
+            try {
+                log_instance.Save(o_pathFileTextFied.getText());
+                fireAlarm(Alert.AlertType.INFORMATION, "File Log Saved", "The file log has been saved correctly.");
+            } catch (IncorrectFileNameException e) {
+
+                fireAlarm(Alert.AlertType.ERROR, "Error", "Choose a valid file path.");
+
+                e.printStackTrace();
+            } catch (FileNotFoundException e){
+
+                String mex = "File saving failed\n";
+                mex += "Possible causes:\n";
+                mex += "  - the selected file path is not valid;\n" +
+                        "  - the file should be closed before saving;\n\n";
+                fireAlarm(Alert.AlertType.ERROR, "Error", mex);
+
+                e.printStackTrace();
+            } catch (IncorrectFileExtensionException e) {
+                fireAlarm(Alert.AlertType.ERROR, "Error", "The file extension must be csv.");
+
+                e.printStackTrace();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
         }
+
     }
 }
 
