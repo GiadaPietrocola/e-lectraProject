@@ -49,7 +49,7 @@ public final class DeviceId {
      * ID: 187
      * -
      * Position:
-     * 0 Valore corrente charger;
+     * 0-1 Valore corrente charger;
      * 2-3 Valore tensione charger;
      */
     public static final String Charger = "187";
@@ -57,25 +57,25 @@ public final class DeviceId {
      * ID: 207
      * -
      * Position:
-     * 2 Betteria SoC;
+     * 1 Betteria SoC;
      */
     public static final String Charger_Battery = "207";
+    /**
+     * ID: 288
+     * -
+     * Position:
+     * 2 Temperatura del motore;
+     * 5 Valore corrente batteria;
+     * 6 Valore tensione batteria;
+     */
+    public static final String Inverter_Battery = "288";
     /**
      * ID: 208
      * -
      * Position:
      * 0 Modalità Charging;
      */
-    public static final String Inverter_Battery = "208";
-    /**
-     * ID: 210
-     * -
-     * Position:
-     * 2 Temperatura del motore;
-     * 5 Valore corrente batteria;
-     * 6 Valore tensione matteria;
-     */
-    public static final String ChargingMode = "210";
+    public static final String ChargingMode = "208";
     /**
      * ID: 290
      * -

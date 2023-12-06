@@ -12,6 +12,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HexFormat;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -137,6 +139,7 @@ public class MainViewController implements Notifiable {
     private  ObservableList<String> canBusDevice_List = FXCollections.observableArrayList(); //Observable = c'è un osservatore che sa quando viene modificata
     private  CANbus_Controller canBusController;
     private  String canBusDevice;
+    Log log_instance = Log.getInstance();
     private final int  MAX_SHOW_MEX = 500;
     private int  sendID = 0, sendCycle = 0, receiveID = 0, receiveCycle = 0;
 
@@ -212,6 +215,10 @@ public class MainViewController implements Notifiable {
         // Set the emergency stop button style
         i_emergencyStopButton.getStyleClass().add("button-red");
 
+        i_velocitaTextField.setText("0");
+        i_coppiaTextField.setText("0");
+        i_tensioneTextField.setText("0");
+        i_correnteTextField.setText("0");
         // Set all input widgets as disabled when the canBUS is not connected
         setDisableWidgets(true);
       //  i_emergencyStopButton.setDisable(true);
@@ -349,7 +356,7 @@ public class MainViewController implements Notifiable {
                 i_setVelocitaCoppiaGauge.setValue(parseInt(i_coppiaTextField.getText()));
 
                 try {
-                    send(VCU_Pair);
+                    send(VCU_Velocity);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -561,7 +568,7 @@ public class MainViewController implements Notifiable {
                             (byte) (i_forwardReverseSwitchButton.isSelected() ? 0 : 1),
                             (byte) (i_forwardReverseSwitchButton.isSelected() ? 0 : 1),
                             (byte) (i_forwardReverseSwitchButton.isSelected() ? 1 : 0),
-                            (byte) HexFormat.fromHexDigits(i_velocitaTextField.getText()),
+                            (byte) parseInt(i_velocitaTextField.getText()),
                             (byte) (i_contattore1SwitchButton.isSelected() ? 1 : 0),
                             (byte) 0,
                             (byte) 0,
@@ -696,15 +703,15 @@ public class MainViewController implements Notifiable {
 
             case Charger:
                 // Update Charger Current and Voltage Gauges based on received data
-                o_correnteCaricatoreGauge.setValue(HexFormat.fromHexDigits(data.substring(0,2)));
-                o_tensioneCaricatoreGauge.setValue(HexFormat.fromHexDigits(data.substring(2,6)));
+                o_correnteCaricatoreGauge.setValue(HexFormat.fromHexDigits(data.substring(0,4)));
+                o_tensioneCaricatoreGauge.setValue(HexFormat.fromHexDigits(data.substring(4,6)));
                 break;
 
             case Inverter_Battery:
                 // Update Inverter Temperature, Battery Current, and Battery Voltage Gauges based on received data
-                o_temperaturaGauge.setValue(HexFormat.fromHexDigits(data.substring(2,4)));
-                o_correnteBatterieGauge.setValue(HexFormat.fromHexDigits(data.substring(8,10)));
-                o_tensioneBatterieGauge.setValue(HexFormat.fromHexDigits(data.substring(10,12)));
+                o_temperaturaGauge.setValue(HexFormat.fromHexDigits(data.substring(4,6)));
+                o_correnteBatterieGauge.setValue(HexFormat.fromHexDigits(data.substring(10,12)));
+                o_tensioneBatterieGauge.setValue(HexFormat.fromHexDigits(data.substring(12,14)));
                 break;
 
             case ChargingMode:
@@ -712,9 +719,11 @@ public class MainViewController implements Notifiable {
                 if (HexFormat.fromHexDigits(data.substring(0,2))==0)
                     o_modalitaCaricatoreStatusButton.setText("");
                 else if (HexFormat.fromHexDigits(data.substring(0,2))==1)
-                    o_modalitaCaricatoreStatusButton.setText("   GRID");
+                    o_modalitaCaricatoreStatusButton.setText("       GRID");
                 else if (HexFormat.fromHexDigits(data.substring(0,2))==2)
-                    o_modalitaCaricatoreStatusButton.setText("     RES");
+                    o_modalitaCaricatoreStatusButton.setText("        RES");
+
+                System.out.println(HexFormat.fromHexDigits(data.substring(0,2)));
                 break;
 
             case Inverter:
@@ -822,7 +831,25 @@ public class MainViewController implements Notifiable {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+
+            try {
+                Date date = new Date();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                String timestampString = dateFormat.format(date);
+
+                String built_string[] = {Double.toString(o_tensioneBatterieGauge.getValue()),
+                        Double.toString(o_correnteBatterieGauge.getValue()),
+                        Double.toString(o_temperaturaGauge.getValue()),
+                        i_coppiaVelocitaSwitchButton.isSelected()?"Coppia":"Velocità",
+                        timestampString};
+
+                log_instance.array_log.add(built_string);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         });
+
+
     }
 
     // Funzione di esempio, triggerata dall'emergency stop, per verificare l'animazione delle gauge
@@ -834,6 +861,8 @@ public class MainViewController implements Notifiable {
             i_emergencyStopButton.getStyleClass().add("button-green");
             i_contattore1SwitchButton.setSelected(false);
             i_contattore2SwitchButton.setSelected(false);
+            i_parkingModeRadioButton.setSelected(false);
+            i_chargingModeRadioButton.setSelected(false);
             setDisableWidgets(true);
             try{
                 send(VCU_Pair);
@@ -906,7 +935,7 @@ public class MainViewController implements Notifiable {
      * @throws RuntimeException If an exception occurs during the command sending process.
      */
     @FXML
-    private void handleRadioButtonSportEco() {
+    public void handleRadioButtonSportEco() {
 
         // Get the currently selected RadioButton in the Sport/Eco group
         RadioButton currentRadioButton = (RadioButton) sportEco.getSelectedToggle();
@@ -944,7 +973,7 @@ public class MainViewController implements Notifiable {
      * @throws RuntimeException If an exception occurs while sending the commands.
      */
     @FXML
-    private void handleRadioButtonParkingCharging() {
+    public void handleRadioButtonParkingCharging() {
 
         // Get the currently selected RadioButton in the Parking/Charging group
         RadioButton currentRadioButton = (RadioButton) parkingCharging.getSelectedToggle();
@@ -1006,4 +1035,14 @@ public class MainViewController implements Notifiable {
                 throw new RuntimeException(e);
             }
     }
+    @FXML
+    public void saveLog(){
+
+        try {
+            log_instance.Save(o_pathFileTextFied.getText());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
+
