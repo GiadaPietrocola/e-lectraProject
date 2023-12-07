@@ -88,4 +88,19 @@ public final class DeviceId {
      * 6 Modalità trazione;
      */
     public static final String Inverter = "290";
+    /**
+     * ID: 188
+     * -
+     * Position:
+     * 0 Frequenza RPM;
+     * 7 Valore Corrente reale;
+     */
+    public static final String Inverter_log = "188";
+    /**
+     * ID: 80
+     * -
+     * Fault dispositivi
+     */
+    public static final String Fault_dispositivi = "80";
+
 }

@@ -137,6 +137,10 @@ public class MainViewController implements Notifiable {
     private  TextField o_pathFileTextFied;
     private  RadioButton lastSelectedSportEco;
     private  RadioButton lastSelectedParkingCharging;
+    private  String o_frequenzaRPM;
+    private  String o_correnteReale;
+    private  String o_faultDispositivi;
+    private  String o_temperaturaInverter;
     @FXML
     private  ComboBox<String> deviceComboBox;
     private  ObservableList<String> canBusDevice_List = FXCollections.observableArrayList(); //Observable = c'è un osservatore che sa quando viene modificata
@@ -229,8 +233,8 @@ public class MainViewController implements Notifiable {
         i_parkingModeRadioButton.setSelected(true);
         // Set all input widgets as disabled when the canBUS is not connected
         setDisableWidgets(true);
-      //  i_emergencyStopButton.setDisable(true);
-       // o_saveButton.setDisable(true);
+        i_emergencyStopButton.setDisable(true);
+        o_saveButton.setDisable(true);
 
         /**
          * This method updates the CANbus device list when the deviceComboBox is clicked.
@@ -704,78 +708,85 @@ public class MainViewController implements Notifiable {
     public void handleReceivedMessages(String id, String data) throws Exception {
 
                switch (id) {
-            case Charger_Battery:
-                // Update State of Charge (SoC) Gauge based on received data
-                o_socGauge.setValue(HexFormat.fromHexDigits(data.substring(2,4)));
-                break;
+                   case Charger_Battery:
+                       // Update State of Charge (SoC) Gauge based on received data
+                       o_socGauge.setValue(HexFormat.fromHexDigits(data.substring(2, 4)));
+                       break;
 
-            case Charger:
-                // Update Charger Current and Voltage Gauges based on received data
-                o_correnteCaricatoreGauge.setValue(HexFormat.fromHexDigits(data.substring(0,4)));
-                o_tensioneCaricatoreGauge.setValue(HexFormat.fromHexDigits(data.substring(4,6)));
-                break;
+                   case Charger:
+                       // Update Charger Current and Voltage Gauges based on received data
+                       o_correnteCaricatoreGauge.setValue(HexFormat.fromHexDigits(data.substring(0, 4)));
+                       o_tensioneCaricatoreGauge.setValue(HexFormat.fromHexDigits(data.substring(4, 6)));
+                       break;
 
-            case Inverter_Battery:
-                // Update Inverter Temperature, Battery Current, and Battery Voltage Gauges based on received data
-                o_temperaturaGauge.setValue(HexFormat.fromHexDigits(data.substring(4,6)));
-                o_correnteBatterieGauge.setValue(HexFormat.fromHexDigits(data.substring(10,12)));
-                o_tensioneBatterieGauge.setValue(HexFormat.fromHexDigits(data.substring(12,14)));
-                break;
+                   case Inverter_Battery:
+                       // Update Inverter Temperature, Battery Current, and Battery Voltage Gauges based on received data
+                       o_temperaturaGauge.setValue(HexFormat.fromHexDigits(data.substring(4, 6)));
+                       o_temperaturaInverter=Integer.toString(HexFormat.fromHexDigits(data.substring(6, 8)));
+                       o_correnteBatterieGauge.setValue(HexFormat.fromHexDigits(data.substring(10, 12)));
+                       o_tensioneBatterieGauge.setValue(HexFormat.fromHexDigits(data.substring(12, 14)));
+                       break;
 
-            case ChargingMode:
-                // Update Charging Mode status based on received data
-                if (HexFormat.fromHexDigits(data.substring(0,2))==0)
-                    o_modalitaCaricatoreStatusButton.setText("");
-                else if (HexFormat.fromHexDigits(data.substring(0,2))==1)
-                    o_modalitaCaricatoreStatusButton.setText("       GRID");
-                else if (HexFormat.fromHexDigits(data.substring(0,2))==2)
-                    o_modalitaCaricatoreStatusButton.setText("        RES");
+                   case ChargingMode:
+                       // Update Charging Mode status based on received data
+                       if (HexFormat.fromHexDigits(data.substring(0, 2)) == 0)
+                           o_modalitaCaricatoreStatusButton.setText("");
+                       else if (HexFormat.fromHexDigits(data.substring(0, 2)) == 1)
+                           o_modalitaCaricatoreStatusButton.setText("       GRID");
+                       else if (HexFormat.fromHexDigits(data.substring(0, 2)) == 2)
+                           o_modalitaCaricatoreStatusButton.setText("        RES");
+                       break;
 
-                System.out.println(HexFormat.fromHexDigits(data.substring(0,2)));
-                break;
+                   case Inverter:
+                       // Update Inverter Speed, Torque, and Contactor Status based on received data
+                       o_velocitaMotoreGauge.setValue(HexFormat.fromHexDigits(data.substring(0, 2)));
+                       o_coppiaMotoreGauge.setValue(HexFormat.fromHexDigits(data.substring(2, 4)));
 
-            case Inverter:
-                // Update Inverter Speed, Torque, and Contactor Status based on received data
-                o_velocitaMotoreGauge.setValue(HexFormat.fromHexDigits(data.substring(0,2)));
-                o_coppiaMotoreGauge.setValue(HexFormat.fromHexDigits(data.substring(2,4)));
+                       // Update Contactor 1 status based on received data
+                       if (HexFormat.fromHexDigits(data.substring(4, 6)) == 0) {
+                           o_statusButtonContattore1.getStyleClass().remove("status-bar-red");
+                           o_statusButtonContattore1.getStyleClass().add("status-bar-green");
+                       } else if (HexFormat.fromHexDigits(data.substring(4, 6)) == 1) {
+                           o_statusButtonContattore1.getStyleClass().remove("status-bar-green");
+                           o_statusButtonContattore1.getStyleClass().add("status-bar-red");
+                       }
+                       // Update Contactor 2 status based on received data
+                       if (HexFormat.fromHexDigits(data.substring(6, 8)) == 0) {
+                           o_statusButtonContattore2.getStyleClass().remove("status-bar-red");
+                           o_statusButtonContattore2.getStyleClass().add("status-bar-green");
+                       } else if (HexFormat.fromHexDigits(data.substring(6, 8)) == 1) {
+                           o_statusButtonContattore2.getStyleClass().remove("status-bar-green");
+                           o_statusButtonContattore2.getStyleClass().add("status-bar-red");
+                       }
 
-                // Update Contactor 1 status based on received data
-                if (HexFormat.fromHexDigits(data.substring(4,6))==0) {
-                    o_statusButtonContattore1.getStyleClass().remove("status-bar-red");
-                    o_statusButtonContattore1.getStyleClass().add("status-bar-green");
-                } else if (HexFormat.fromHexDigits(data.substring(4,6))==1) {
-                    o_statusButtonContattore1.getStyleClass().remove("status-bar-green");
-                    o_statusButtonContattore1.getStyleClass().add("status-bar-red");
-                }
-                // Update Contactor 2 status based on received data
-                if (HexFormat.fromHexDigits(data.substring(6,8))==0) {
-                    o_statusButtonContattore2.getStyleClass().remove("status-bar-red");
-                    o_statusButtonContattore2.getStyleClass().add("status-bar-green");
-                } else if (HexFormat.fromHexDigits(data.substring(6,8))==1) {
-                    o_statusButtonContattore2.getStyleClass().remove("status-bar-green");
-                    o_statusButtonContattore2.getStyleClass().add("status-bar-red");
-                }
+                       // Update Emergency Stop status based on received data
+                       if (HexFormat.fromHexDigits(data.substring(8, 10)) == 0) {
+                           o_statusButtonEmergencyStop.getStyleClass().remove("status-bar-red");
+                           o_statusButtonEmergencyStop.getStyleClass().add("status-bar-green");
+                       } else if (HexFormat.fromHexDigits(data.substring(8, 10)) == 1) {
+                           o_statusButtonEmergencyStop.getStyleClass().remove("status-bar-green");
+                           o_statusButtonEmergencyStop.getStyleClass().add("status-bar-red");
+                       }
 
-                // Update Emergency Stop status based on received data
-                if (HexFormat.fromHexDigits(data.substring(8,10))==0) {
-                    o_statusButtonEmergencyStop.getStyleClass().remove("status-bar-red");
-                    o_statusButtonEmergencyStop.getStyleClass().add("status-bar-green");
-                } else if (HexFormat.fromHexDigits(data.substring(8,10))==1) {
-                    o_statusButtonEmergencyStop.getStyleClass().remove("status-bar-green");
-                    o_statusButtonEmergencyStop.getStyleClass().add("status-bar-red");
-                }
+                       // Update Traction Mode status based on received data
+                       if (HexFormat.fromHexDigits(data.substring(10, 12)) == 0)
+                           o_modalitaTrazioneStatusButton.setText("");
+                       else if (HexFormat.fromHexDigits(data.substring(10, 12)) == 1)
+                           o_modalitaTrazioneStatusButton.setText(" SPORT");
+                       else if (HexFormat.fromHexDigits(data.substring(10, 12)) == 2)
+                           o_modalitaTrazioneStatusButton.setText("  ECO");
+                     break;
 
-                // Update Traction Mode status based on received data
-                if (HexFormat.fromHexDigits(data.substring(10,12))==0)
-                    o_modalitaTrazioneStatusButton.setText("");
-                else if (HexFormat.fromHexDigits(data.substring(10,12))==1)
-                    o_modalitaTrazioneStatusButton.setText(" SPORT");
-                else if (HexFormat.fromHexDigits(data.substring(10,12))==2)
-                    o_modalitaTrazioneStatusButton.setText("  ECO");
-                break;
+                   case Inverter_log:
+                         // Update RPM frequency and real current based on received data
+                         o_frequenzaRPM=Integer.toString(HexFormat.fromHexDigits(data.substring(0,2)));
+                         o_correnteReale=Integer.toString(HexFormat.fromHexDigits(data.substring(12,14)));
+                     break;
 
-            default:
-                break;
+                   case Fault_dispositivi:
+                       // Update Devices fault based on received data
+                       o_faultDispositivi=Byte.toString((byte) HexFormat.fromHexDigits(data));
+                       break;
         }
     }
 
@@ -846,11 +857,16 @@ public class MainViewController implements Notifiable {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 String timestampString = dateFormat.format(date);
 
-                String built_string[] = {Double.toString(o_tensioneBatterieGauge.getValue()),
+                String built_string[] = {
+                        o_frequenzaRPM,
+                        o_correnteReale,
+                        o_temperaturaInverter,
+                        Double.toString(o_tensioneBatterieGauge.getValue()),
                         Double.toString(o_correnteBatterieGauge.getValue()),
                         Double.toString(o_temperaturaGauge.getValue()),
                         i_coppiaVelocitaSwitchButton.isSelected()?"Coppia":"Velocità",
-                        timestampString};
+                        timestampString,
+                        o_faultDispositivi};
 
                 log_instance.array_log.add(built_string);
             } catch (Exception e) {
@@ -1079,6 +1095,7 @@ public class MainViewController implements Notifiable {
 
                 e.printStackTrace();
             } catch (IncorrectFileExtensionException e) {
+                fireAlarm(Alert.AlertType.ERROR, "Error", "The file extension must be csv.");
                 fireAlarm(Alert.AlertType.ERROR, "Error", "The file extension must be csv.");
 
                 e.printStackTrace();
