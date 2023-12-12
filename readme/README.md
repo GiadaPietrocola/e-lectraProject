@@ -70,9 +70,13 @@ Per una più intuitiva comprensione del valore inserito, sarà possibile visuali
 
 
 #### Parking e Charging Mode
-> immagine parking e charging mode
+![Alt text](image-17.png)
 
-Per ora salto
+In questa sottosezione sarà possibile scegliere tra la modalità Parking e la modalità Charging.
+
+Nel caso in cui venga scelta la Charging mode, sarà possibile accedere ad un'ulteriore scelta tra modalità Grid e modalità Res.
+
+Infine sarà possibile scegliere dei valori di soglia rispettivamente per la corrente e la tensione di Charging.
 
 #### Profilo di Carica
 ![Alt text](image-2.png)
@@ -139,8 +143,8 @@ Il principale messaggio di errore che può presentarsi riguarda la mancata conne
 
 Per domande o problemi, contattaci a:
 - [Achille Cannavale](mailto:achille.cannavale@studentmail.unicas.it)
-- [Giada Pietrocola](mailto:giada.pietrocola@studentmail.unicas.it).
-- [Paolo Simeone](mailto:paolo.simeone@studentmail.unicas.it).
+- [Giada Pietrocola](mailto:giada.pietrocola@studentmail.unicas.it)
+- [Paolo Simeone](mailto:paolo.simeone@studentmail.unicas.it)
 
 
 
