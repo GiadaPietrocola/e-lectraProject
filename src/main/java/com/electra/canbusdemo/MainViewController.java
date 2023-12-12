@@ -21,6 +21,7 @@ import java.util.HexFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javafx.scene.input.MouseEvent;
 import org.controlsfx.control.*;
 
 import eu.hansolo.medusa.Gauge;
@@ -137,10 +138,10 @@ public class MainViewController implements Notifiable {
     private  TextField o_pathFileTextFied;
     private  RadioButton lastSelectedSportEco;
     private  RadioButton lastSelectedParkingCharging;
-    private  String o_frequenzaRPM;
-    private  String o_correnteReale;
-    private  String o_faultDispositivi;
-    private  String o_temperaturaInverter;
+    private  String o_frequenzaRPM = "0.0";
+    private  String o_correnteReale = "0.0";
+    private  String o_faultDispositivi = "0000000000000000";
+    private  String o_temperaturaInverter = "0.0";
     @FXML
     private  ComboBox<String> deviceComboBox;
     private  ObservableList<String> canBusDevice_List = FXCollections.observableArrayList(); //Observable = c'è un osservatore che sa quando viene modificata
@@ -340,6 +341,7 @@ public class MainViewController implements Notifiable {
 
                 try {
                     send(VCU_Pair);
+                    send(VCU_Velocity);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -365,10 +367,11 @@ public class MainViewController implements Notifiable {
             // Check if the pressed key is ENTER
             if (event.getCode() == KeyCode.ENTER) {
                 // Set the value of i_setVelocitaCoppiaGauge to the parsed integer value of i_coppiaTextField
-                i_setVelocitaCoppiaGauge.setValue(parseInt(i_coppiaTextField.getText()));
+                i_setVelocitaCoppiaGauge.setValue(parseInt(i_velocitaTextField.getText()));
 
                 try {
                     send(VCU_Velocity);
+                    send(VCU_Pair);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -529,6 +532,13 @@ public class MainViewController implements Notifiable {
             setDisableWidgets(false);
             i_emergencyStopButton.setDisable(false);
             o_saveButton.setDisable(false);
+            if(i_parkingModeRadioButton.isSelected()){
+                MouseEvent mouseEvent = new MouseEvent(
+                        MouseEvent.MOUSE_CLICKED,
+                        0.0, 0.0, 0.0, 0.0, null, 0, false, false, false, false, false, false, false, false, false, false, null
+                );
+                i_parkingModeRadioButton.fireEvent(mouseEvent);
+            }
 
             // If the button text is not "Connect" (it is "Disconnect")
         } else {
@@ -716,7 +726,7 @@ public class MainViewController implements Notifiable {
                    case Charger:
                        // Update Charger Current and Voltage Gauges based on received data
                        o_correnteCaricatoreGauge.setValue(HexFormat.fromHexDigits(data.substring(0, 4)));
-                       o_tensioneCaricatoreGauge.setValue(HexFormat.fromHexDigits(data.substring(4, 6)));
+                       o_tensioneCaricatoreGauge.setValue(HexFormat.fromHexDigits(data.substring(4, 8)));
                        break;
 
                    case Inverter_Battery:
@@ -785,7 +795,7 @@ public class MainViewController implements Notifiable {
 
                    case Fault_dispositivi:
                        // Update Devices fault based on received data
-                       o_faultDispositivi=Byte.toString((byte) HexFormat.fromHexDigits(data));
+                       o_faultDispositivi=data;
                        break;
         }
     }
@@ -864,9 +874,17 @@ public class MainViewController implements Notifiable {
                         Double.toString(o_tensioneBatterieGauge.getValue()),
                         Double.toString(o_correnteBatterieGauge.getValue()),
                         Double.toString(o_temperaturaGauge.getValue()),
-                        i_coppiaVelocitaSwitchButton.isSelected()?"Coppia":"Velocità",
+                        i_coppiaVelocitaSwitchButton.isSelected() ? "Coppia" : "Velocità",
                         timestampString,
-                        o_faultDispositivi};
+                        o_faultDispositivi.substring(0, 2),
+                        o_faultDispositivi.substring(2, 4),
+                        o_faultDispositivi.substring(4, 6),
+                        o_faultDispositivi.substring(6, 8),
+                        o_faultDispositivi.substring(8, 10),
+                        o_faultDispositivi.substring(10, 12),
+                        o_faultDispositivi.substring(12, 14),
+                        o_faultDispositivi.substring(14, 16)
+                };
 
                 log_instance.array_log.add(built_string);
             } catch (Exception e) {
@@ -1011,7 +1029,7 @@ public class MainViewController implements Notifiable {
             lastSelectedParkingCharging = null;
 
             if(currentRadioButton==i_chargingModeRadioButton) {
-                // Abilitate various GUI components when i_parkingModeRadioButton is clicked
+                // Disabilitate various GUI components when i_charkingModeRadioButton is clicked
                 i_gridResSwitchButton.setDisable(true);
                 i_profiloCaricaSwitchButton.setDisable(true);
                 i_customLabel.setDisable(true);
@@ -1023,6 +1041,19 @@ public class MainViewController implements Notifiable {
                 i_correnteLabel.setDisable(true);
                 i_tensioneLabel.setDisable(true);
             }
+
+            i_forwardReverseSwitchButton.setDisable(false);
+            i_ecoRadioButton.setDisable(false);
+            i_sportRadioButton.setDisable(false);
+            i_coppiaVelocitaSwitchButton.setDisable(false);
+            i_velocitaTextField.setDisable(false);
+            i_coppiaTextField.setDisable(false);
+            i_reverseLabel.setDisable(false);
+            i_coppiaDesiderataLabel.setDisable(false);
+            i_velocitaDesiderataLabel.setDisable(false);
+            i_kmLabel.setDisable(false);
+            i_nmLabel.setDisable(false);
+            i_velocitaLabel.setDisable(false);
             // If it is not then select the current RadioButton
         } else {
             lastSelectedParkingCharging = currentRadioButton;
@@ -1052,6 +1083,22 @@ public class MainViewController implements Notifiable {
                 i_correnteLabel.setDisable(false);
                 i_tensioneLabel.setDisable(false);
             }
+
+            i_forwardReverseSwitchButton.setDisable(true);
+            i_ecoRadioButton.setDisable(true);
+            i_sportRadioButton.setDisable(true);
+            i_coppiaVelocitaSwitchButton.setDisable(true);
+            i_velocitaTextField.setDisable(true);
+            i_coppiaTextField.setDisable(true);
+            i_reverseLabel.setDisable(true);
+            i_coppiaDesiderataLabel.setDisable(true);
+            i_velocitaDesiderataLabel.setDisable(true);
+            i_kmLabel.setDisable(true);
+            i_nmLabel.setDisable(true);
+            i_velocitaLabel.setDisable(true);
+            i_coppiaTextField.setText("0");
+            i_velocitaTextField.setText("0");
+            i_setVelocitaCoppiaGauge.setValue(0);
         }
               try {
                 send(VCU_Charging);
