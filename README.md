@@ -130,7 +130,7 @@ Infine sarà possibile scegliere dei valori di soglia rispettivamente per la cor
 #### File Log
 ![Alt text](./readme/image-12.png)
 
->In questa sottosezione sarà possibile inserire il percorso per la creazione di un file di Log di alcuni dei principali elementi più significativi, con un annesso timestamp.
+>In questa sottosezione apparirà il percorso del file di log, che verrà creato all'avvio di ogni sessione.
 ## Problemi Comuni
 >Il principale messaggio di errore che può presentarsi riguarda la mancata connessione con un valido CAN bus, generando il seguente pop-up:
 

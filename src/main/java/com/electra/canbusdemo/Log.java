@@ -21,6 +21,10 @@ public class Log{
     public static ArrayList<String[]> array_log;
     static private File csvFile;
 
+    public String getFilePath(){
+        return csvFile.getAbsolutePath().toString();
+    }
+
     private Log() {}
 
     /**
@@ -44,6 +48,7 @@ public class Log{
             timestampString=timestampString.replace("-","_");
 
             System.out.println(timestampString);
+
             csvFile = new File(timestampString+".csv");
         }
 

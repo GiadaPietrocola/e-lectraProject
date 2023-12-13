@@ -133,9 +133,7 @@ public class MainViewController implements Notifiable {
     @FXML
     private StatusBar o_statusButtonContattore2;
     @FXML
-    private Button o_saveButton;
-    @FXML
-    private TextField o_pathFileTextFied;
+    private Label o_fileLogPathLabel;
     private RadioButton lastSelectedSportEco;
     private RadioButton lastSelectedParkingCharging;
     private String o_frequenzaRPM = "0.0";
@@ -148,6 +146,7 @@ public class MainViewController implements Notifiable {
     private CANbus_Controller canBusController;
     private String canBusDevice;
     Log log_instance = Log.getInstance();
+
     private final int MAX_SHOW_MEX = 500;
     private int sendID = 0, sendCycle = 0, receiveID = 0, receiveCycle = 0;
 
@@ -188,6 +187,7 @@ public class MainViewController implements Notifiable {
     @FXML
     public void initialize() {
 
+        o_fileLogPathLabel.setText(log_instance.getFilePath());
         // Populate the CANbus device list with the connected devices
         canBusDevice_List.addAll();
 
@@ -234,7 +234,7 @@ public class MainViewController implements Notifiable {
         // Set all input widgets as disabled when the canBUS is not connected
         setDisableWidgets(true);
         i_emergencyStopButton.setDisable(true);
-        o_saveButton.setDisable(true);
+        //o_saveButton.setDisable(true);
 
         /**
          * This method updates the CANbus device list when the deviceComboBox is clicked.
@@ -529,7 +529,7 @@ public class MainViewController implements Notifiable {
             connectButton.setText("Disconnect");
             setDisableWidgets(false);
             i_emergencyStopButton.setDisable(false);
-            o_saveButton.setDisable(false);
+            //o_saveButton.setDisable(false);
             if (i_parkingModeRadioButton.isSelected()) {
                 MouseEvent mouseEvent = new MouseEvent(
                         MouseEvent.MOUSE_CLICKED,
@@ -546,7 +546,7 @@ public class MainViewController implements Notifiable {
             connectButton.setText("Connect");
             setDisableWidgets(true);
             //  i_emergencyStopButton.setDisable(true);
-            o_saveButton.setDisable(true);
+            //o_saveButton.setDisable(true);
         }
     }
 
