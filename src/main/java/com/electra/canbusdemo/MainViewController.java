@@ -938,32 +938,32 @@ public class MainViewController implements Notifiable {
     public void setDisableWidgets(boolean disable){
         // Set the 'disable' property for each widget
         i_coppiaTextField.setDisable(disable);
-        //i_ecoRadioButton.setDisable(disable);
-        //i_chargingModeRadioButton.setDisable(disable);
-        //i_parkingModeRadioButton.setDisable(disable);
+        i_ecoRadioButton.setDisable(disable);
+        i_chargingModeRadioButton.setDisable(disable);
+        i_parkingModeRadioButton.setDisable(disable);
         i_sportRadioButton.setDisable(disable);
-        //i_correnteTextField.setDisable(disable);
-        //i_tensioneTextField.setDisable(disable);
+        i_correnteTextField.setDisable(disable);
+        i_tensioneTextField.setDisable(disable);
         i_profiloCaricaSwitchButton.setDisable(disable);
         i_velocitaTextField.setDisable(disable);
         i_coppiaVelocitaSwitchButton.setDisable(disable);
         i_contattore1SwitchButton.setDisable(disable);
         i_contattore2SwitchButton.setDisable(disable);
         i_forwardReverseSwitchButton.setDisable(disable);
-        //i_gridResSwitchButton.setDisable(disable);
+        i_gridResSwitchButton.setDisable(disable);
         i_profiloCaricaSwitchButton.setDisable(disable);
         i_customLabel.setDisable(disable);
-        //i_resLabel.setDisable(disable);
+        i_resLabel.setDisable(disable);
         i_reverseLabel.setDisable(disable);
         i_coppiaDesiderataLabel.setDisable(disable);
         i_velocitaDesiderataLabel.setDisable(disable);
         i_nmLabel.setDisable(disable);
         i_kmLabel.setDisable(disable);
-        //i_ampereLabel.setDisable(disable);
-        //i_voltLabel.setDisable(disable);
-        //i_correnteLabel.setDisable(disable);
+        i_ampereLabel.setDisable(disable);
+        i_voltLabel.setDisable(disable);
+        i_correnteLabel.setDisable(disable);
         i_velocitaLabel.setDisable(disable);
-        //i_tensioneLabel.setDisable(disable);
+        i_tensioneLabel.setDisable(disable);
     }
 
     /**
