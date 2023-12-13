@@ -67,7 +67,7 @@ Per una più intuitiva comprensione del valore inserito, sarà possibile visuali
 
 
 #### Parking e Charging Mode
-![Alt text](./readne/image-17.png)
+![Alt text](./readme/image-17.png)
 
 >In questa sottosezione sarà possibile scegliere tra la modalità Parking e la modalità Charging.
 Nel caso in cui venga scelta la Charging mode, sarà possibile accedere ad un'ulteriore scelta tra modalità Grid e modalità Res.
