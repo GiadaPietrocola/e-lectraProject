@@ -1,20 +1,30 @@
 # Documentazione Utente
 ---
 # Indice
+
 1. [Introduzione](#introduzione)
 2. [Installazione](#installazione)
 3. [Funzionalità Principali](#funzionalità-principali)
-   1. [Dashboard](#dashboard)
-   2. [Connessione](#connessione)
-   3. [INPUT](#input)
+   - [Dashboard](#dashboard)
+   - [Connessione](#connessione)
+   - [INPUT](#input)
       - [Modalità Trazione](#modalità-trazione)
       - [Simulatore](#simulatore)
       - [Parking e Charging Mode](#parking-e-charging-mode)
       - [Profilo di Carica](#profilo-di-carica)
       - [Contattori](#contattori)
       - [Emergency Stop](#emergency-stop)
-   4. [OUTPUT](#output)
+   - [OUTPUT](#output)
+      - [Pacco Batterie](#pacco-batterie)
+      - [Caricatore](#caricatore)
+      - [Stato Motore](#stato-motore)
+      - [Stato Contattori](#stato-contattori)
+      - [Stato Emergency Stop](#stato-emergency-stop)
+      - [Modalità di Trazione](#modalità-di-trazione)
+      - [File Log](#file-log)
+4. [Problemi Comuni](#problemi-comuni)
 5. [Supporto e Contatti](#supporto-e-contatti)
+
 
 ---
 ## Introduzione
@@ -141,8 +151,8 @@ Infine sarà possibile scegliere dei valori di soglia rispettivamente per la cor
 
 >Per domande o problemi, contattaci a:
 - [Achille Cannavale](mailto:achille.cannavale@studentmail.unicas.it)
-- [Giada Pietrocola](mailto:giada.pietrocola@studentmail.unicas.it).
-- [Paolo Simeone](mailto:paolo.simeone@studentmail.unicas.it).
+- [Giada Pietrocola](mailto:giada.pietrocola@studentmail.unicas.it)
+- [Paolo Simeone](mailto:paolo.simeone@studentmail.unicas.it)
 
 
 
