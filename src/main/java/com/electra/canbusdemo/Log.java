@@ -2,7 +2,10 @@ package com.electra.canbusdemo;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Singleton class for managing and saving log data.
@@ -16,6 +19,8 @@ import java.util.ArrayList;
 public class Log{
     private static Log instance = null;
     public static ArrayList<String[]> array_log;
+    static private File csvFile;
+
     private Log() {}
 
     /**
@@ -23,10 +28,23 @@ public class Log{
      *
      * @return The singleton instance of the Log class.
      */
-    public static Log getInstance() {
+    public static Log getInstance(){
         if (instance == null){
             instance = new Log();
             array_log = new ArrayList<String[]>();
+
+            Date date = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            String timestampString = dateFormat.format(date);
+            System.out.println(timestampString);
+
+            timestampString=timestampString.replace(" ","_");
+            timestampString=timestampString.replace(":","_");
+            timestampString=timestampString.replace(".","_");
+            timestampString=timestampString.replace("-","_");
+
+            System.out.println(timestampString);
+            csvFile = new File(timestampString+".csv");
         }
 
         return instance;
@@ -36,23 +54,24 @@ public class Log{
      * Saves the log data to a CSV file.
      *
      * <p>
-     * This method takes a file path as input and writes the log data to a CSV file.
+     * This method writes the log data to a CSV file.
      * It handles the necessary CSV formatting, including quoting and escaping.
      * </p>
      *
-     * @param file_path The file path where the log data should be saved.
      * @throws Exception If an exception occurs during the log saving process.
      */
-    public void Save(String file_path)throws Exception{
-        File csvFile = new File(file_path);
-        FileWriter fileWriter = new FileWriter(csvFile);
+    public void Save()throws Exception{
 
+        /*
        if(csvFile.getParent()==null || !(new File(csvFile.getParent()).exists()))
            throw new IncorrectFileNameException("Incorrect filename");
 
 
        if(!csvFile.getName().endsWith("csv"))
            throw new IncorrectFileExtensionException("Incorrect exception");
+        */
+
+            FileWriter fileWriter = new FileWriter(csvFile);
 
         for (String[] data : array_log) { StringBuilder line = new StringBuilder();
             for (int i = 0; i < data.length; i++) { line.append("\""); line.append(data[i].replaceAll("\"","\"\"")); line.append("\""); if (i != data.length - 1) { line.append(';'); } } line.append("\n"); fileWriter.write(line.toString()); } fileWriter.close();
