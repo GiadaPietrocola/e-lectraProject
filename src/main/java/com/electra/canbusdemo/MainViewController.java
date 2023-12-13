@@ -37,119 +37,119 @@ import static java.lang.Integer.parseInt;
 public class MainViewController implements Notifiable {
 
     @FXML
-    private  Button connectButton;
+    private Button connectButton;
     @FXML
-    private  Button i_emergencyStopButton;
+    private Button i_emergencyStopButton;
     @FXML
-    private  Label i_reverseLabel;
+    private Label i_reverseLabel;
     @FXML
-    private  Label i_velocitaDesiderataLabel;
+    private Label i_velocitaDesiderataLabel;
     @FXML
-    private  Label i_coppiaDesiderataLabel;
+    private Label i_coppiaDesiderataLabel;
     @FXML
-    private  Label i_nmLabel;
+    private Label i_nmLabel;
     @FXML
-    private  Label i_ampereLabel;
+    private Label i_ampereLabel;
     @FXML
-    private  Label i_voltLabel;
+    private Label i_voltLabel;
     @FXML
-    private  Label i_kmLabel;
+    private Label i_kmLabel;
     @FXML
-    private  Label i_correnteLabel;
+    private Label i_correnteLabel;
     @FXML
-    private  Label i_tensioneLabel;
+    private Label i_tensioneLabel;
     @FXML
-    private  Label i_velocitaLabel;
+    private Label i_velocitaLabel;
 
 
     // INPUT WIDGETS -----------------------------------------------------------
 
     @FXML
-    private  ToggleSwitch i_forwardReverseSwitchButton;
+    private ToggleSwitch i_forwardReverseSwitchButton;
     @FXML
-    private  ToggleSwitch i_coppiaVelocitaSwitchButton;
+    private ToggleSwitch i_coppiaVelocitaSwitchButton;
     @FXML
-    private  TextField i_coppiaTextField;
+    private TextField i_coppiaTextField;
     @FXML
-    private  TextField i_velocitaTextField;
+    private TextField i_velocitaTextField;
     @FXML
-    private  RadioButton i_sportRadioButton;
+    private RadioButton i_sportRadioButton;
     @FXML
-    private  RadioButton i_ecoRadioButton;
+    private RadioButton i_ecoRadioButton;
     @FXML
-    private  RadioButton i_parkingModeRadioButton;
+    private RadioButton i_parkingModeRadioButton;
     @FXML
-    private  RadioButton i_chargingModeRadioButton;
+    private RadioButton i_chargingModeRadioButton;
     @FXML
-    private  TextField i_correnteTextField;
+    private TextField i_correnteTextField;
     @FXML
-    private  TextField i_tensioneTextField;
+    private TextField i_tensioneTextField;
     @FXML
-    private  ToggleSwitch i_profiloCaricaSwitchButton;
+    private ToggleSwitch i_profiloCaricaSwitchButton;
     @FXML
-    private  ToggleSwitch i_gridResSwitchButton;
+    private ToggleSwitch i_gridResSwitchButton;
     @FXML
-    private  Label i_customLabel;
+    private Label i_customLabel;
     @FXML
-    private  Label i_resLabel;
+    private Label i_resLabel;
     @FXML
-    private  ToggleSwitch i_contattore1SwitchButton;
+    private ToggleSwitch i_contattore1SwitchButton;
     @FXML
-    private  ToggleSwitch i_contattore2SwitchButton;
+    private ToggleSwitch i_contattore2SwitchButton;
     @FXML
-    private  Gauge i_setVelocitaCoppiaGauge;
+    private Gauge i_setVelocitaCoppiaGauge;
     @FXML
-    private  ToggleGroup sportEco;
+    private ToggleGroup sportEco;
     @FXML
-    private  ToggleGroup parkingCharging;
+    private ToggleGroup parkingCharging;
 
 
     // OUTPUT WIDGETS -----------------------------------------------------------
 
     @FXML
-    private  Gauge o_tensioneBatterieGauge;
+    private Gauge o_tensioneBatterieGauge;
     @FXML
-    private  Gauge o_correnteBatterieGauge;
+    private Gauge o_correnteBatterieGauge;
     @FXML
-    private  Gauge o_socGauge;
+    private Gauge o_socGauge;
     @FXML
-    private  Gauge o_tensioneCaricatoreGauge;
+    private Gauge o_tensioneCaricatoreGauge;
     @FXML
-    private  Gauge o_correnteCaricatoreGauge;
+    private Gauge o_correnteCaricatoreGauge;
     @FXML
-    private  Gauge o_velocitaMotoreGauge;
+    private Gauge o_velocitaMotoreGauge;
     @FXML
-    private  Gauge o_coppiaMotoreGauge;
+    private Gauge o_coppiaMotoreGauge;
     @FXML
-    private  Gauge o_temperaturaGauge;
+    private Gauge o_temperaturaGauge;
     @FXML
-    private  StatusBar o_modalitaCaricatoreStatusButton;
+    private StatusBar o_modalitaCaricatoreStatusButton;
     @FXML
-    private  StatusBar o_modalitaTrazioneStatusButton;
+    private StatusBar o_modalitaTrazioneStatusButton;
     @FXML
-    private  StatusBar o_statusButtonEmergencyStop;
+    private StatusBar o_statusButtonEmergencyStop;
     @FXML
-    private  StatusBar o_statusButtonContattore1;
+    private StatusBar o_statusButtonContattore1;
     @FXML
-    private  StatusBar o_statusButtonContattore2;
+    private StatusBar o_statusButtonContattore2;
     @FXML
-    private  Button o_saveButton;
+    private Button o_saveButton;
     @FXML
-    private  TextField o_pathFileTextFied;
-    private  RadioButton lastSelectedSportEco;
-    private  RadioButton lastSelectedParkingCharging;
-    private  String o_frequenzaRPM = "0.0";
-    private  String o_correnteReale = "0.0";
-    private  String o_faultDispositivi = "0000000000000000";
-    private  String o_temperaturaInverter = "0.0";
+    private TextField o_pathFileTextFied;
+    private RadioButton lastSelectedSportEco;
+    private RadioButton lastSelectedParkingCharging;
+    private String o_frequenzaRPM = "0.0";
+    private String o_correnteReale = "0.0";
+    private String o_faultDispositivi = "0000000000000000";
+    private String o_temperaturaInverter = "0.0";
     @FXML
-    private  ComboBox<String> deviceComboBox;
-    private  ObservableList<String> canBusDevice_List = FXCollections.observableArrayList(); //Observable = c'è un osservatore che sa quando viene modificata
-    private  CANbus_Controller canBusController;
-    private  String canBusDevice;
+    private ComboBox<String> deviceComboBox;
+    private ObservableList<String> canBusDevice_List = FXCollections.observableArrayList(); //Observable = c'è un osservatore che sa quando viene modificata
+    private CANbus_Controller canBusController;
+    private String canBusDevice;
     Log log_instance = Log.getInstance();
-    private final int  MAX_SHOW_MEX = 500;
-    private int  sendID = 0, sendCycle = 0, receiveID = 0, receiveCycle = 0;
+    private final int MAX_SHOW_MEX = 500;
+    private int sendID = 0, sendCycle = 0, receiveID = 0, receiveCycle = 0;
 
     /**
      * Checks and filters the input for a TextField intended for numeric values.
@@ -159,10 +159,10 @@ public class MainViewController implements Notifiable {
      * The method ensures that the entered numeric character is among the allowed characters.
      * </p>
      *
-     * @param keyEvent The KeyEvent triggered by user input.
+     * @param keyEvent  The KeyEvent triggered by user input.
      * @param textField The TextField for which the input is being checked.
      */
-    private void checkNumberFieldInput(KeyEvent keyEvent, TextField textField){
+    private void checkNumberFieldInput(KeyEvent keyEvent, TextField textField) {
         // Converts the input character to uppercase for consistency
         String newChar = keyEvent.getCharacter().toUpperCase();
 
@@ -171,7 +171,7 @@ public class MainViewController implements Notifiable {
 
         // Verifies that the new character is among the allowed numeric characters
         // or checks that there are not more than two characters, except for the special case "10" followed by "0"
-        if (!keyFilter.contains(newChar) || (textField.getText().length() > 1 && !(textField.getText().equals("10") && newChar.equals("0")))  ) {
+        if (!keyFilter.contains(newChar) || (textField.getText().length() > 1 && !(textField.getText().equals("10") && newChar.equals("0")))) {
             // Consume the event to discard the input
             keyEvent.consume();
         }
@@ -184,10 +184,9 @@ public class MainViewController implements Notifiable {
      * This method is called automatically by the JavaFX framework
      * when the FXML file is loaded.
      * </p>
-     *
      */
     @FXML
-    public void initialize (){
+    public void initialize() {
 
         // Populate the CANbus device list with the connected devices
         canBusDevice_List.addAll();
@@ -275,7 +274,7 @@ public class MainViewController implements Notifiable {
         // Set an event handler for mouse click on i_forwardReverseSwitchButton
         i_forwardReverseSwitchButton.setOnMouseClicked(event -> {
             // Check if i_forwardReverseSwitchButton is selected
-            if (i_forwardReverseSwitchButton.isSelected()){
+            if (i_forwardReverseSwitchButton.isSelected()) {
                 // Disable i_sportRadioButton and i_ecoRadioButton if i_forwardReverseSwitchButton is selected
                 i_sportRadioButton.setDisable(true);
                 i_ecoRadioButton.setDisable(true);
@@ -308,7 +307,7 @@ public class MainViewController implements Notifiable {
         // Set an event handler for mouse click on i_coppiaVelocitaSwitchButton
         i_coppiaVelocitaSwitchButton.setOnMouseClicked(event -> {
             // Check if i_coppiaVelocitaSwitchButton is selected
-            if(i_coppiaVelocitaSwitchButton.isSelected()){
+            if (i_coppiaVelocitaSwitchButton.isSelected()) {
                 // If selected, set i_coppiaTextField to "0" and disable it
                 i_coppiaTextField.setText("0");
                 i_coppiaTextField.setDisable(true);
@@ -493,12 +492,11 @@ public class MainViewController implements Notifiable {
      * If there are issues during the connection attempt or disconnection, it displays
      * relevant error messages using the fireAlarm() method.
      * </p>
-     *
      */
     @FXML
     void connectButtonAction() {
         // Check if the button text is "Connect"
-        if (connectButton.getText().equals("Connect")){
+        if (connectButton.getText().equals("Connect")) {
             // Assign the selected device from the combo box
             canBusDevice = deviceComboBox.getValue();
 
@@ -532,7 +530,7 @@ public class MainViewController implements Notifiable {
             setDisableWidgets(false);
             i_emergencyStopButton.setDisable(false);
             o_saveButton.setDisable(false);
-            if(i_parkingModeRadioButton.isSelected()){
+            if (i_parkingModeRadioButton.isSelected()) {
                 MouseEvent mouseEvent = new MouseEvent(
                         MouseEvent.MOUSE_CLICKED,
                         0.0, 0.0, 0.0, 0.0, null, 0, false, false, false, false, false, false, false, false, false, false, null
@@ -568,11 +566,11 @@ public class MainViewController implements Notifiable {
      */
     public void send(String id) throws Exception {
         // Initialize an empty byte array for data
-        byte[] data={};
+        byte[] data = {};
 
         switch (id) {
             case VCU_Velocity: {
-                if (i_forwardReverseSwitchButton.isDisabled()){
+                if (i_forwardReverseSwitchButton.isDisabled()) {
                     // Construct data array for VCU_Velocity when forwardReverseSwitchButton is disabled
                     data = new byte[]{
                             (byte) 0,
@@ -598,10 +596,10 @@ public class MainViewController implements Notifiable {
                     };
 
                     // Additional checks for valid inputs
-                    if ((data[3]&0xFF)>100){
+                    if ((data[3] & 0xFF) > 100) {
                         fireAlarm(Alert.AlertType.ERROR, "Warning", "Please insert a valid input for velocity.");
                         return;
-                    } else if ((data[1]&0xFF)==1&&(data[2]&0xFF)==1){
+                    } else if ((data[1] & 0xFF) == 1 && (data[2] & 0xFF) == 1) {
                         fireAlarm(Alert.AlertType.ERROR, "Warning", "Forward and Reverse modes cannot be activated at the same time");
                         return;
                     }
@@ -610,7 +608,7 @@ public class MainViewController implements Notifiable {
             break;
 
             case VCU_Pair: {
-                if (i_forwardReverseSwitchButton.isDisabled()){
+                if (i_forwardReverseSwitchButton.isDisabled()) {
                     // Construct data array for VCU_Pair when forwardReverseSwitchButton is disabled
                     data = new byte[]
                             {
@@ -638,11 +636,11 @@ public class MainViewController implements Notifiable {
                             };
 
                     // Additional checks for valid inputs
-                    if ((data[0]&0xFF)>100){
+                    if ((data[0] & 0xFF) > 100) {
 
                         fireAlarm(Alert.AlertType.ERROR, "Warning", "Please insert a valid input for pair.");
                         return;
-                    } else if ((data[3]&0xFF)==1&&(data[4]&0xFF)==1){
+                    } else if ((data[3] & 0xFF) == 1 && (data[4] & 0xFF) == 1) {
                         fireAlarm(Alert.AlertType.ERROR, "Warning", "Sport and Eco modes cannot be activated at the same time");
                         return;
                     }
@@ -651,7 +649,7 @@ public class MainViewController implements Notifiable {
             break;
 
             case VCU_Charging: {
-                if (i_gridResSwitchButton.isDisabled()){
+                if (i_gridResSwitchButton.isDisabled()) {
                     // Construct data array for VCU_Charging when forwardReverseSwitchButton is disabled
                     data = new byte[]
                             {
@@ -679,13 +677,13 @@ public class MainViewController implements Notifiable {
                             };
 
                     // Additional checks for valid inputs
-                    if ((data[0]&0xFF)==1&&(data[1]&0xFF)==1) {
+                    if ((data[0] & 0xFF) == 1 && (data[1] & 0xFF) == 1) {
                         fireAlarm(Alert.AlertType.ERROR, "Warning", "Parking and Charging modes cannot be activated at the same time");
                         return;
-                    } else if ((data[2]&0xFF)==1&&(data[3]&0xFF)==1) {
+                    } else if ((data[2] & 0xFF) == 1 && (data[3] & 0xFF) == 1) {
                         fireAlarm(Alert.AlertType.ERROR, "Warning", "Grid and Res modes cannot be activated at the same time");
                         return;
-                    } else if ((data[6]&0xFF)==1&&(data[7]&0xFF)==1) {
+                    } else if ((data[6] & 0xFF) == 1 && (data[7] & 0xFF) == 1) {
                         fireAlarm(Alert.AlertType.ERROR, "Warning", "Cost and Custom modes cannot be activated at the same time");
                         return;
                     }
@@ -717,86 +715,86 @@ public class MainViewController implements Notifiable {
      */
     public void handleReceivedMessages(String id, String data) throws Exception {
 
-               switch (id) {
-                   case Charger_Battery:
-                       // Update State of Charge (SoC) Gauge based on received data
-                       o_socGauge.setValue(HexFormat.fromHexDigits(data.substring(2, 4)));
-                       break;
+        switch (id) {
+            case Charger_Battery:
+                // Update State of Charge (SoC) Gauge based on received data
+                o_socGauge.setValue(HexFormat.fromHexDigits(data.substring(2, 4)));
+                break;
 
-                   case Charger:
-                       // Update Charger Current and Voltage Gauges based on received data
-                       o_correnteCaricatoreGauge.setValue(HexFormat.fromHexDigits(data.substring(0, 4)));
-                       o_tensioneCaricatoreGauge.setValue(HexFormat.fromHexDigits(data.substring(4, 8)));
-                       break;
+            case Charger:
+                // Update Charger Current and Voltage Gauges based on received data
+                o_correnteCaricatoreGauge.setValue(HexFormat.fromHexDigits(data.substring(0, 4)));
+                o_tensioneCaricatoreGauge.setValue(HexFormat.fromHexDigits(data.substring(4, 8)));
+                break;
 
-                   case Inverter_Battery:
-                       // Update Inverter Temperature, Battery Current, and Battery Voltage Gauges based on received data
-                       o_temperaturaGauge.setValue(HexFormat.fromHexDigits(data.substring(4, 6)));
-                       o_temperaturaInverter=Integer.toString(HexFormat.fromHexDigits(data.substring(6, 8)));
-                       o_correnteBatterieGauge.setValue(HexFormat.fromHexDigits(data.substring(10, 12)));
-                       o_tensioneBatterieGauge.setValue(HexFormat.fromHexDigits(data.substring(12, 14)));
-                       break;
+            case Inverter_Battery:
+                // Update Inverter Temperature, Battery Current, and Battery Voltage Gauges based on received data
+                o_temperaturaGauge.setValue(HexFormat.fromHexDigits(data.substring(4, 6)));
+                o_temperaturaInverter = Integer.toString(HexFormat.fromHexDigits(data.substring(6, 8)));
+                o_correnteBatterieGauge.setValue(HexFormat.fromHexDigits(data.substring(10, 12)));
+                o_tensioneBatterieGauge.setValue(HexFormat.fromHexDigits(data.substring(12, 14)));
+                break;
 
-                   case ChargingMode:
-                       // Update Charging Mode status based on received data
-                       if (HexFormat.fromHexDigits(data.substring(0, 2)) == 0)
-                           o_modalitaCaricatoreStatusButton.setText("");
-                       else if (HexFormat.fromHexDigits(data.substring(0, 2)) == 1)
-                           o_modalitaCaricatoreStatusButton.setText("       GRID");
-                       else if (HexFormat.fromHexDigits(data.substring(0, 2)) == 2)
-                           o_modalitaCaricatoreStatusButton.setText("        RES");
-                       break;
+            case ChargingMode:
+                // Update Charging Mode status based on received data
+                if (HexFormat.fromHexDigits(data.substring(0, 2)) == 0)
+                    o_modalitaCaricatoreStatusButton.setText("");
+                else if (HexFormat.fromHexDigits(data.substring(0, 2)) == 1)
+                    o_modalitaCaricatoreStatusButton.setText("       GRID");
+                else if (HexFormat.fromHexDigits(data.substring(0, 2)) == 2)
+                    o_modalitaCaricatoreStatusButton.setText("        RES");
+                break;
 
-                   case Inverter:
-                       // Update Inverter Speed, Torque, and Contactor Status based on received data
-                       o_velocitaMotoreGauge.setValue(HexFormat.fromHexDigits(data.substring(0, 2)));
-                       o_coppiaMotoreGauge.setValue(HexFormat.fromHexDigits(data.substring(2, 4)));
+            case Inverter:
+                // Update Inverter Speed, Torque, and Contactor Status based on received data
+                o_velocitaMotoreGauge.setValue(HexFormat.fromHexDigits(data.substring(0, 2)));
+                o_coppiaMotoreGauge.setValue(HexFormat.fromHexDigits(data.substring(2, 4)));
 
-                       // Update Contactor 1 status based on received data
-                       if (HexFormat.fromHexDigits(data.substring(4, 6)) == 0) {
-                           o_statusButtonContattore1.getStyleClass().remove("status-bar-red");
-                           o_statusButtonContattore1.getStyleClass().add("status-bar-green");
-                       } else if (HexFormat.fromHexDigits(data.substring(4, 6)) == 1) {
-                           o_statusButtonContattore1.getStyleClass().remove("status-bar-green");
-                           o_statusButtonContattore1.getStyleClass().add("status-bar-red");
-                       }
-                       // Update Contactor 2 status based on received data
-                       if (HexFormat.fromHexDigits(data.substring(6, 8)) == 0) {
-                           o_statusButtonContattore2.getStyleClass().remove("status-bar-red");
-                           o_statusButtonContattore2.getStyleClass().add("status-bar-green");
-                       } else if (HexFormat.fromHexDigits(data.substring(6, 8)) == 1) {
-                           o_statusButtonContattore2.getStyleClass().remove("status-bar-green");
-                           o_statusButtonContattore2.getStyleClass().add("status-bar-red");
-                       }
+                // Update Contactor 1 status based on received data
+                if (HexFormat.fromHexDigits(data.substring(4, 6)) == 0) {
+                    o_statusButtonContattore1.getStyleClass().remove("status-bar-red");
+                    o_statusButtonContattore1.getStyleClass().add("status-bar-green");
+                } else if (HexFormat.fromHexDigits(data.substring(4, 6)) == 1) {
+                    o_statusButtonContattore1.getStyleClass().remove("status-bar-green");
+                    o_statusButtonContattore1.getStyleClass().add("status-bar-red");
+                }
+                // Update Contactor 2 status based on received data
+                if (HexFormat.fromHexDigits(data.substring(6, 8)) == 0) {
+                    o_statusButtonContattore2.getStyleClass().remove("status-bar-red");
+                    o_statusButtonContattore2.getStyleClass().add("status-bar-green");
+                } else if (HexFormat.fromHexDigits(data.substring(6, 8)) == 1) {
+                    o_statusButtonContattore2.getStyleClass().remove("status-bar-green");
+                    o_statusButtonContattore2.getStyleClass().add("status-bar-red");
+                }
 
-                       // Update Emergency Stop status based on received data
-                       if (HexFormat.fromHexDigits(data.substring(8, 10)) == 0) {
-                           o_statusButtonEmergencyStop.getStyleClass().remove("status-bar-red");
-                           o_statusButtonEmergencyStop.getStyleClass().add("status-bar-green");
-                       } else if (HexFormat.fromHexDigits(data.substring(8, 10)) == 1) {
-                           o_statusButtonEmergencyStop.getStyleClass().remove("status-bar-green");
-                           o_statusButtonEmergencyStop.getStyleClass().add("status-bar-red");
-                       }
+                // Update Emergency Stop status based on received data
+                if (HexFormat.fromHexDigits(data.substring(8, 10)) == 0) {
+                    o_statusButtonEmergencyStop.getStyleClass().remove("status-bar-red");
+                    o_statusButtonEmergencyStop.getStyleClass().add("status-bar-green");
+                } else if (HexFormat.fromHexDigits(data.substring(8, 10)) == 1) {
+                    o_statusButtonEmergencyStop.getStyleClass().remove("status-bar-green");
+                    o_statusButtonEmergencyStop.getStyleClass().add("status-bar-red");
+                }
 
-                       // Update Traction Mode status based on received data
-                       if (HexFormat.fromHexDigits(data.substring(10, 12)) == 0)
-                           o_modalitaTrazioneStatusButton.setText("");
-                       else if (HexFormat.fromHexDigits(data.substring(10, 12)) == 1)
-                           o_modalitaTrazioneStatusButton.setText(" SPORT");
-                       else if (HexFormat.fromHexDigits(data.substring(10, 12)) == 2)
-                           o_modalitaTrazioneStatusButton.setText("  ECO");
-                     break;
+                // Update Traction Mode status based on received data
+                if (HexFormat.fromHexDigits(data.substring(10, 12)) == 0)
+                    o_modalitaTrazioneStatusButton.setText("");
+                else if (HexFormat.fromHexDigits(data.substring(10, 12)) == 1)
+                    o_modalitaTrazioneStatusButton.setText(" SPORT");
+                else if (HexFormat.fromHexDigits(data.substring(10, 12)) == 2)
+                    o_modalitaTrazioneStatusButton.setText("  ECO");
+                break;
 
-                   case Inverter_log:
-                         // Update RPM frequency and real current based on received data
-                         o_frequenzaRPM=Integer.toString(HexFormat.fromHexDigits(data.substring(0,2)));
-                         o_correnteReale=Integer.toString(HexFormat.fromHexDigits(data.substring(12,14)));
-                     break;
+            case Inverter_log:
+                // Update RPM frequency and real current based on received data
+                o_frequenzaRPM = Integer.toString(HexFormat.fromHexDigits(data.substring(0, 2)));
+                o_correnteReale = Integer.toString(HexFormat.fromHexDigits(data.substring(12, 14)));
+                break;
 
-                   case Fault_dispositivi:
-                       // Update Devices fault based on received data
-                       o_faultDispositivi=data;
-                       break;
+            case Fault_dispositivi:
+                // Update Devices fault based on received data
+                o_faultDispositivi = data;
+                break;
         }
     }
 
@@ -811,11 +809,11 @@ public class MainViewController implements Notifiable {
      * it, waiting for the user's response before continuing.
      * </p>
      *
-     * @param type         The type of the alert (e.g., INFORMATION, WARNING, ERROR).
-     * @param title        The title of the alert window.
-     * @param contentText  The content text or message displayed in the alert.
+     * @param type        The type of the alert (e.g., INFORMATION, WARNING, ERROR).
+     * @param title       The title of the alert window.
+     * @param contentText The content text or message displayed in the alert.
      */
-    private void fireAlarm(Alert.AlertType type, String title, String contentText){
+    private void fireAlarm(Alert.AlertType type, String title, String contentText) {
         // Create a new Alert with the specified type (determines the icon), title, and content text
         Alert alert = new Alert(type);
 
@@ -854,7 +852,7 @@ public class MainViewController implements Notifiable {
         Platform.runLater(() -> {
 
             // Split the received data into an array based on space (" ") as a delimiter
-            String[] data1=data.split(" ");
+            String[] data1 = data.split(" ");
 
             try {
                 handleReceivedMessages(data1[1], data1[3]);
@@ -887,6 +885,7 @@ public class MainViewController implements Notifiable {
                 };
 
                 log_instance.array_log.add(built_string);
+                log_instance.Save();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -897,7 +896,7 @@ public class MainViewController implements Notifiable {
 
     // Funzione di esempio, triggerata dall'emergency stop, per verificare l'animazione delle gauge
     @FXML
-    public void EmercencyStopAction(){
+    public void EmercencyStopAction() {
         if (i_emergencyStopButton.getText().equals("STOP")) {
             i_emergencyStopButton.getStyleClass().remove("button-red");
             i_emergencyStopButton.setText("RUN");
@@ -907,7 +906,7 @@ public class MainViewController implements Notifiable {
             i_parkingModeRadioButton.setSelected(false);
             i_chargingModeRadioButton.setSelected(false);
             setDisableWidgets(true);
-            try{
+            try {
                 send(VCU_Pair);
                 send(VCU_Velocity);
                 send(VCU_Charging);
@@ -935,7 +934,7 @@ public class MainViewController implements Notifiable {
      * @param disable If true, sets the 'disable' property to true for all widgets; if false, sets
      *                the 'disable' property to false for all widgets.
      */
-    public void setDisableWidgets(boolean disable){
+    public void setDisableWidgets(boolean disable) {
         // Set the 'disable' property for each widget
         i_coppiaTextField.setDisable(disable);
         i_ecoRadioButton.setDisable(disable);
@@ -1028,7 +1027,7 @@ public class MainViewController implements Notifiable {
             // Reset the last selected RadioButton
             lastSelectedParkingCharging = null;
 
-            if(currentRadioButton==i_chargingModeRadioButton) {
+            if (currentRadioButton == i_chargingModeRadioButton) {
                 // Disabilitate various GUI components when i_charkingModeRadioButton is clicked
                 i_gridResSwitchButton.setDisable(true);
                 i_profiloCaricaSwitchButton.setDisable(true);
@@ -1058,7 +1057,7 @@ public class MainViewController implements Notifiable {
         } else {
             lastSelectedParkingCharging = currentRadioButton;
 
-            if(currentRadioButton==i_parkingModeRadioButton){
+            if (currentRadioButton == i_parkingModeRadioButton) {
                 // Disable various GUI components when i_chargingModeRadioButton is disabled
                 i_gridResSwitchButton.setDisable(true);
                 i_profiloCaricaSwitchButton.setDisable(true);
@@ -1100,14 +1099,16 @@ public class MainViewController implements Notifiable {
             i_velocitaTextField.setText("0");
             i_setVelocitaCoppiaGauge.setValue(0);
         }
-              try {
-                send(VCU_Charging);
-                send(VCU_Velocity);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            send(VCU_Charging);
+            send(VCU_Velocity);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
+}
 
+    /*
     /**
      * Saves the log data to a CSV file.
      *
@@ -1118,6 +1119,7 @@ public class MainViewController implements Notifiable {
      *
      * @throws Exception If an exception occurs during the log saving process.
      */
+    /*
     @FXML
     public void saveLog(){
 
@@ -1154,4 +1156,5 @@ public class MainViewController implements Notifiable {
 
     }
 }
+*/
 
