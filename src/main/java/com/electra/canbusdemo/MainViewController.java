@@ -36,6 +36,7 @@ import static java.lang.Integer.parseInt;
  */
 public class MainViewController implements Notifiable {
 
+    int maxInputValue = 100;
     @FXML
     private Button connectButton;
     @FXML
@@ -596,7 +597,7 @@ public class MainViewController implements Notifiable {
                     };
 
                     // Additional checks for valid inputs
-                    if ((data[3] & 0xFF) > 100) {
+                    if ((data[3] & 0xFF) > maxInputValue) {
                         fireAlarm(Alert.AlertType.ERROR, "Warning", "Please insert a valid input for velocity.");
                         return;
                     } else if ((data[1] & 0xFF) == 1 && (data[2] & 0xFF) == 1) {
@@ -636,7 +637,7 @@ public class MainViewController implements Notifiable {
                             };
 
                     // Additional checks for valid inputs
-                    if ((data[0] & 0xFF) > 100) {
+                    if ((data[0] & 0xFF) > maxInputValue) {
 
                         fireAlarm(Alert.AlertType.ERROR, "Warning", "Please insert a valid input for pair.");
                         return;
